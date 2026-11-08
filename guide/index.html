@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-CN" data-starting><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Assembly Assistant</title>
+<style>html[data-starting] .phone{visibility:hidden}</style>
+<link rel="stylesheet" href="mobile.css"><link rel="stylesheet" href="guide.css">
+<main class="phone">
+ <svg id="workSurface" aria-hidden="true" focusable="false"><path fill-rule="evenodd"/></svg>
+ <header class="top" aria-label="装配导航"><button id="homeButton" aria-label="返回项目"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button><span id="topContext" aria-hidden="true"></span><button id="progressButton" aria-label="装配进度"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></button></header>
+ <div class="body">
+  <section id="home"><h1 data-static-copy>五层隔板架</h1><p id="nextText" data-static-copy class="subtitle">从零件到整架，一步一步来。</p><strong id="nextTitle" hidden></strong><div id="taskList" hidden></div></section>
+  <section id="work"><h1 id="headline"></h1><div class="subtitle-row"><p id="workSubtitle" class="subtitle" role="status"></p></div></section>
+  <div class="visual" id="visual"><div id="cameraWash"></div><div id="modelGround" aria-hidden="true"></div><span id="insetActionTitle" aria-hidden="true" hidden></span><canvas id="cv" aria-label="零件三维模型，可拖动查看"></canvas><svg id="installHeading" aria-hidden="true" hidden><defs><marker id="headingTip" viewBox="0 0 10 10" markerWidth="3" markerHeight="3" refX="8" refY="5" orient="auto"><path d="M1 0L10 5 1 10Z" fill="#ad480b"/></marker></defs><path class="hinge"/><path class="heading-stroke"/><path class="heading-ink" marker-end="url(#headingTip)"/><text class="heading-name" text-anchor="middle"></text></svg><div id="slotTargets" aria-hidden="true"></div><button id="cameraFraming" data-static-copy aria-label="切换取景" hidden>主摄</button><button id="guideViewToggle" data-static-copy hidden>看装配动画</button><button id="guidePermission" data-static-copy hidden>开启相机</button><div id="guideDirection" aria-hidden="true" hidden><svg width="66" height="66" viewBox="0 0 66 66" fill="none"><path d="M15 48A23 23 0 1 1 55 25" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="m44 20 11 5 4-11" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="flip-board" aria-hidden="true"><i></i><b>↷</b></div><span id="guidePart"></span></div></div>
+  <section id="homeSummary"><div class="mini-progress"><div id="homeBar"></div></div><p id="homeProgress"></p><button id="continue" data-static-copy class="primary">继续装配</button><button id="startOver" data-static-copy hidden>从头开始</button></section>
+  <div id="below" hidden><div id="guideText"></div><div id="inlineChecks"></div><div id="feedback" role="status"></div></div>
+ </div>
+ <footer id="footer" class="foot">
+  <div id="pickupSummary" hidden><span id="pickupSlots" aria-hidden="true"></span><span id="pickupCount" class="sr-only"></span></div>
+  <button id="dockToggle" aria-label="展开完成按钮" aria-expanded="true" aria-controls="dockActions"><span class="dock-track"><i id="dockProgress"></i></span><span id="dockCount" class="sr-only"></span></button>
+  <div id="dockActions"><button id="primary" class="primary"></button></div>
+  <button id="aiAssist" aria-label="拍照让 AI 看这一步" hidden><svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M13 4c1.3 6.8 3.2 8.7 10 10-6.8 1.3-8.7 3.2-10 10C11.7 17.2 9.8 15.3 3 14c6.8-1.3 8.7-3.2 10-10Z"/><path d="M25 2c.5 3.1 1.4 4 4.5 4.5C26.4 7 25.5 7.9 25 11c-.5-3.1-1.4-4-4.5-4.5C23.6 6 24.5 5.1 25 2ZM24 20c.5 2.7 1.3 3.5 4 4-2.7.5-3.5 1.3-4 4-.5-2.7-1.3-3.5-4-4 2.7-.5 3.5-1.3 4-4Z"/></svg><span class="sr-only">AI</span></button>
+ </footer>
+ <section id="overlay" class="overlay" role="dialog" aria-modal="true" aria-label="当前步骤选项"></section>
+</main>
+<div hidden id="compatibility"><div id="workContext"></div><span id="count"></span><span id="targetName"></span><span id="stepFind"></span><span id="stepGuide"></span><span id="stepReview"></span><div id="camera"><span id="target"></span></div><div id="finder"></div><div id="modelTools"></div><button id="play"></button><button id="slow"></button><button id="orient"></button><button id="secondary"></button><button id="helpButton"></button><div class="bottom-help"></div><button id="simulateFind"></button><button id="simulateRepeat"></button><button id="simulateOther"></button><button id="simulateLost"></button><button id="demoPurple"></button><button id="reset"></button></div>
+<script src="../workshop/data.js"></script>
+<script src="task-details.js"></script>
+<script src="../workshop/scene.js"></script>
+<script src="text-resources.js"></script>
+<script src="../workshop/renderer.js"></script>
+<script src="motion-cycle.js"></script>
+<script src="row-lesson.js"></script>
+<script src="work-controls.js"></script>
+<script src="workflow.js"></script>
+<script src="work-surface.js"></script>
+<script src="pieces.js"></script><script src="guide.js"></script>
+</html>

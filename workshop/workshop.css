@@ -48,16 +48,3 @@ footer { display:flex; align-items:center; gap:8px; flex:none; }
 .primary { flex:1; font-weight:600; background:#282d24; color:white; }
 .previous:disabled { opacity:.30; }
 @media(max-height:590px) { main { gap:5px; } .stage {height:32vh;min-height:115px;} .caption {top:6px;} }
-
-:root{--paper:#f7f6f0;--ink:#25362e;--green:#d9e7d7;font-family:Inter,system-ui,sans-serif}
-main{max-width:1580px;padding:max(10px,env(safe-area-inset-top)) clamp(12px,3vw,48px) max(12px,env(safe-area-inset-bottom));gap:12px}
-header{min-height:52px} .brand{margin-right:auto}.brand small,.caption small{font:650 11px/1.5 ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase}
-#guide,#language{font-size:13px;font-weight:600;text-decoration:none;padding:9px 7px;cursor:pointer}
-.stage{background-color:#e9ede4;background-image:linear-gradient(#566e5c0c 1px,transparent 1px),linear-gradient(90deg,#566e5c0c 1px,transparent 1px);background-size:28px 28px;border-radius:16px}
-.caption{padding:14px 16px;background:none}.caption h2{font-weight:650}
-#rack-view{width:auto;padding:0 12px;display:flex;gap:6px;top:12px;right:12px;border-radius:18px;background:#fafbf6eb;height:34px;font-size:12px;font-weight:650}
-#rack-view::before{display:none}#hint{position:absolute;bottom:12px;left:16px;pointer-events:none;font-size:12px;color:#516154}
-.group{background:#f0f0e8}.row{min-height:46px}.primary,#dismiss{background:#304e42}
-dialog{color:var(--ink);border:1px solid var(--line);border-radius:18px;width:min(420px,92vw);max-height:90dvh;padding:20px;background:var(--paper)}dialog::backdrop{background:#1d302aa6}dialog img{width:100%;height:clamp(125px,33vh,260px);object-fit:contain;background:#e7e8df;border-radius:8px}dialog small{display:block;margin:6px 0 18px}dialog p{margin:10px 0 18px;line-height:1.5}#dismiss{border-radius:10px;color:white;padding:10px 16px}
-@media(min-width:760px){main{display:grid;grid-template-columns:minmax(0,1fr) clamp(290px,29vw,410px);grid-template-rows:72px auto minmax(0,1fr) auto;gap:15px 22px;padding-bottom:24px}header{grid-column:1/-1;border-bottom:1px solid var(--line)}h1{font-size:26px}.stage{grid-column:1;grid-row:2/5;height:100%}.caption{padding:24px}.caption h2{font-size:32px}#modes,#list,footer{grid-column:2}#list{align-self:stretch}.row{min-height:48px}}
-@media(max-width:380px){header{gap:4px}.brand h1{font-size:17px}#guide,#language{padding:6px 3px}}

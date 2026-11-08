@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file:; connect-src 'none'; img-src 'none'; base-uri 'none'">
+<title>Virtual assembly</title><link rel="stylesheet" href="workshop.css">
+</head><body hidden>
+<main>
+  <header><a href="../" class="round" id="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg></a><h1 id="page-title"></h1>
+  </header>
+  <section class="stage">
+    <div class="caption"><small id="kicker"></small><h2 id="subject" aria-live="polite"></h2></div>
+    <canvas id="cv"></canvas>
+    <button id="rack-view" type="button"><svg viewBox="0 0 24 24" aria-hidden="true">
+      <path class="layers" d="m3 7 9-4.5L21 7l-9 4.5zM3 12l9 4.5 9-4.5M3 17l9 4.5 9-4.5"/>
+      <path class="cube" d="m3.5 7 8.5-4.5L20.5 7v10L12 21.5 3.5 17zM3.5 7l8.5 4.5L20.5 7M12 11.5v10"/>
+    </svg></button>
+  </section>
+  <nav id="modes"><button id="steps"></button><button id="parts"></button></nav>
+  <div id="list"></div>
+  <footer><button class="previous" id="previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6"/></svg></button><button class="primary" id="next"></button></footer>
+</main>
+<script src="scene.js"></script><script src="data.js"></script><script src="renderer.js"></script><script src="workshop-stage.js"></script><script src="workshop.js"></script>
+</body></html>

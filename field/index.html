@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self'; media-src 'self' blob:; connect-src 'self'; object-src 'none'; form-action 'none'">
+<title>Blue shelf · Assembly Assistant</title><link rel="stylesheet" href="field.css"></head><body>
+<header><button id="back" aria-label="Back">‹</button><b id="head"></b><button id="mode"></button></header>
+<main><section id="examples">
+<h1 id="title"></h1><p id="intro"></p><nav id="choices"></nav>
+<figure id="viewer"><img id="photo" src="blue-row.webp" alt=""><svg id="boxes" aria-hidden="true"></svg><div id="drawing"></div><figcaption id="source"></figcaption></figure>
+<h2 id="verdict"></h2><p id="instruction" aria-live="polite"></p>
+<div class="controls"><button id="explain"></button><button id="detect"></button></div><p id="tags-found" role="status"></p></section>
+<section id="scanner" hidden><h1 id="scan-title"></h1><p id="scan-intro"></p><figure class="lens"><video playsinline muted autoplay id="video"></video><svg id="outlines" aria-hidden="true"></svg></figure>
+<h2 id="reading" aria-live="polite"></h2><p id="cam-status"></p><div class="controls"><button id="power"></button><button id="marker"></button></div></section></main>
+<dialog id="practice"><img src="practice.png" alt="ArUco 018"><h2 id="marker-title"></h2><p id="marker-help"></p><button id="close-marker"></button></dialog>
+<script src="field.js"></script></body></html>

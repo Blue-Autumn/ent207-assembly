@@ -18,13 +18,13 @@
   const pieceName = id => names[groupOf(id)] + tr(' · half ', ' · 半件 ') + id.slice(-1);
   const phaseName = phase => phase === 'prepare' ? tr('Join the halves', '拼好组件') : tr('Assemble the rack', '总装');
   const list = el('list');
-  let tab = 'steps', step = route.length, part = parts[0];
+  let tab = 'steps', step = -1, part = parts[0];
   let activeScroll = 0;
 
   document.documentElement.dataset.motion=reduce?'reduce':'auto';
   document.documentElement.lang = chinese ? 'zh-CN' : 'en';
-  document.title = el('page-title').textContent = tr('Assembly Assistant', '装配助手');
-  el('back').ariaLabel = tr('Return to shelf', '返回整架');
+  document.title = el('page-title').textContent = tr('Virtual assembly', '虚拟试拼');
+  el('back').ariaLabel = tr('Back to project', '返回作品');
   el('cv').setAttribute('role','img');
   el('previous').ariaLabel = tr('Previous', '上一个');
   el('steps').textContent = tr('Assembly steps', '安装步骤');
@@ -86,8 +86,6 @@
     const isExploded = !isPart && step < 0;
     el('rack-view').dataset.action = isExploded ? 'assemble' : 'explode';
     el('rack-view').setAttribute('aria-label', isExploded ? tr('Assemble rack','合拢整架') : tr('Explode rack','展开整架'));
-    el('rack-label').textContent = isExploded ? tr('Assemble','合拢') : tr('Explode','展开');
-    el('back').hidden = tab === 'steps' && step === route.length;
     const partIndex = parts.indexOf(part);
     el('kicker').textContent = isPart ? tr('Part ', '零件 ') + (partIndex+1) + ' / ' + parts.length :
       task ? phaseName(task.kind) + ' · ' + (step+1) + ' / ' + route.length : tr('Five-tier shelf', '五层隔板架');
@@ -96,7 +94,7 @@
     el('cv').ariaLabel = el('subject').textContent + tr('. Drag to rotate.', '，拖动旋转。');
     el('previous').disabled = isPart ? partIndex === 0 : step < 0;
     el('next').textContent = isPart ? (partIndex + 1 < parts.length ? tr('Next part','下一个零件') : tr('Back to steps','返回步骤')) :
-      step < 0 ? tr('Start rehearsal', '开始试拼') : step === route.length ? tr('Start rehearsal','开始试拼') :
+      step < 0 ? tr('Start rehearsal', '开始试拼') : step === route.length ? tr('Start again','重新试拼') :
       step === route.length - 1 ? tr('View finished rack','看完整架子') : tr('Next step','下一步');
     let selected;
     for (const node of list.querySelectorAll('[data-step]')) {
@@ -178,21 +176,10 @@
     list.scrollTop=0;
     update(false);
   };
-  const language = el('language');
-  language.href = chinese ? '?lang=en' : '?lang=zh';
-  language.textContent = chinese ? 'English' : '中文';
-  function returnToRack() {
-    if (tab === 'parts') { changeTab('steps'); return; }
-    step = route.length; list.scrollTop = 0; update(false);
-  }
-  el('back').onclick = returnToRack;
-  el('guide').onclick = () => el('field').showModal();
-  el('dismiss').onclick = () => el('field').close();
-  el('guide').textContent = tr('Field guide', '现场指南');
-  el('field-title').textContent = tr('At the workbench', '现场如何装配');
-  el('field-copy').textContent = tr('Point the Android camera at the ArUco markers to find the matching halves. The app highlights their orientation and the target slots. Voice cues guide each move, and you can take a photo for an AI check.', '用安卓相机扫描板件上的 ArUco 码，找齐配对的半件。应用提示朝向和目标孔排，语音引导动作，也可拍照进行 AI 复核。');
-  el('field-note').textContent = tr('Purple shelf half with two physical markers.', '贴有两枚实物标记的紫色层板半件。');
-  el('hint').textContent = tr('Drag to rotate', '拖动旋转');
-  el('dismiss').textContent = tr('Back to model', '返回模型');
+  el('back').onclick = event => {
+    if (window.parent === window) return;
+    event.preventDefault();
+    window.parent.postMessage({type:'ent207-close'},location.origin);
+  };
   document.body.hidden = false; buildList(); update(false);
 })();
