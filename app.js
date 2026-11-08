@@ -295,7 +295,7 @@
   }
   function embed(path,title,args={}) {
     frame=node('iframe','module');
-    if(path==='field/index.html')frame.allow="camera 'self'";
+    if(path==='field/index.html'||path==='guide/index.html')frame.allow="camera 'self'";
     const url=new URL(path,document.baseURI);url.search=new URLSearchParams({lang,profile:owner(),...args}).toString();
     frame.title=title;frame.src=url.href;$('content').append(frame);
   }

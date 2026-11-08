@@ -39,3 +39,13 @@ html,body{background:#fbfbf6}
 @media(max-height:620px){#work,#home{min-height:80px}.foot{min-height:88px;height:88px;flex-basis:88px;max-height:88px}.scan-choice img{max-height:96%}}
 @media(max-height:440px){#work,#home{min-height:52px}.top{height:40px;flex-basis:40px}.foot{min-height:70px;height:70px;flex-basis:70px;max-height:70px}.foot #pickupSummary{display:none}#workSubtitle{font-size:12px}h1{font-size:21px!important}.field-photo{min-height:0}}
 .field-entry{position:absolute;z-index:3;top:10px;left:12px;min-height:38px;padding:6px 12px;background:#fbfcf5ed;border:1px solid #d5d9cc;color:#425342;border-radius:24px;font-size:12px;font-weight:600}
+
+.live-scan-toggle{position:absolute;top:10px;right:12px;z-index:3;min-height:38px;padding:6px 12px;border:1px solid #d5d9cc;background:#fbfcf5ed;color:#425342;font-weight:600;font-size:12px;border-radius:24px}
+.live-scan-toggle[aria-pressed=true]{background:#fff}
+.pickup-lens{position:absolute;inset:0;z-index:2;overflow:hidden;background:#202921}
+.pickup-lens video,.pickup-lens svg{width:100%;height:100%;position:absolute;inset:0;object-fit:contain}
+.pickup-lens svg{pointer-events:none}
+.pickup-lens polygon{stroke-width:3;vector-effect:non-scaling-stroke;fill-opacity:.15}
+.pickup-lens polygon.target{stroke:#7ff6a5;fill:#6fde9a}
+.pickup-lens polygon.other{stroke:#f3b760;fill:#f4a956}
+.frame-review iframe{display:block;border:0;width:100%;height:calc(100% - 72px);min-height:300px;background:#faf9f3}

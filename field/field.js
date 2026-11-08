@@ -14,6 +14,7 @@
  $('marker').textContent = tr('Show practice tag','查看练习标签');
  $('marker-title').textContent = tr('Blue shelf · half 1','蓝色层板 · 半件 1');
  $('marker-help').textContent = tr('Display this tag on a second screen, then scan it with your phone. It identifies face A of this half.','在另一块屏幕上显示这枚标签，用手机扫描，即可识别这个半件的 A 面。');
+ $('frame-tags').textContent = tr('Open both tags for the first assembly step','查看装配第一步的两枚练习标签');
  $('close-marker').textContent = tr('Close','关闭');
  const states = {
    wrong: [tr('Wrong row','错排'),tr('Lift the shelf and move to row 2.','提起蓝板，移到第 2 排。'),tr('The notch points the right way. In this photo the Android check found row 1. The target is row 2.','缺口朝向正确。这张照片的安卓判定为第 1 排，目标是第 2 排。')],
@@ -97,13 +98,21 @@
    try{
      await Promise.all([loadRegistry(),$('photo').decode()]);if(ticket!==session)return;
      worker=new Worker('reader.js');worker.onerror=()=>showError(true);
+     const img=$('photo'), w=img.naturalWidth, h=img.naturalHeight;
+     const scales=[1,.65,.5], found=new Map();
+     function readScale(){scanPixels(img,w,h,Math.max(w,h)*scales.shift())}
      worker.onmessage=({data})=>{
        if(ticket!==session)return;
-       const matched=data.markers.filter(m=>registry[m.id]);highlight($('boxes'),matched,data.width,data.height);
+       for(const {id,corners} of data.markers){
+         if(!registry[id] || found.has(id))continue;
+         found.set(id,{id,corners:corners.map(p=>({x:p.x*w/data.width,y:p.y*h/data.height}))});
+       }
+       if(scales.length){readScale();return}
+       const matched=[...found.values()];highlight($('boxes'),matched,w,h);
        $('tags-found').textContent=tr('Read on this device: ','本次浏览器识别：')+matched.length+tr(' registered tags. The row judgement above is the saved Android result.',' 枚已登记标签。上方孔排判定来自已保存的安卓结果。');
        worker.terminate();worker=null;$('detect').disabled=false;
      };
-     const img=$('photo');scanPixels(img,img.naturalWidth,img.naturalHeight,900);
+     readScale();
    }catch{if(ticket===session)showError(true)}
  };
  function idleCamera(){
@@ -117,7 +126,11 @@
      if(!navigator.mediaDevices?.getUserMedia)throw new Error('No camera');
      const tracks=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
      if(ticket!==session){tracks.getTracks().forEach(t=>t.stop());return}
-     stream=tracks;const video=$('video');video.srcObject=stream;await video.play();await loadRegistry();if(ticket!==session)return;
+     stream=tracks;
+     for(const track of stream.getVideoTracks()){
+       track.addEventListener('ended',()=>{if(ticket===session)showError(false)},{once:true});
+     }
+     const video=$('video');video.srcObject=stream;await video.play();await loadRegistry();if(ticket!==session)return;
      worker=new Worker('reader.js');worker.onerror=()=>showError(false);
      function capture(){if(ticket!==session)return;if(video.readyState>=2)scanPixels(video,video.videoWidth,video.videoHeight,850);else timer=setTimeout(capture,100)}
      worker.onmessage=({data})=>{
