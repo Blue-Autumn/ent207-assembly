@@ -1,3 +1,4 @@
+import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './community/studio-store.js';
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
@@ -99,7 +100,13 @@
     ['plantstand','Plant stand','窗边花架','#e9ebdf'],['organizer','Desk organizer','分格收纳架','#eee5dd']
   ];
   const builtIns=new Map(conceptInfo.map(([id,titleEn,titleZh,surface])=>[id,{id,titleEn,titleZh,surface}]));
-  let catalog=[],posts=new Map(builtIns);
+  let baseCatalog=[],catalog=[],posts=new Map(builtIns);
+  function refreshCatalog(){
+    const studio=loadStudio(owner());
+    catalog=mergeCatalog(baseCatalog,studio);
+    posts=new Map([...builtIns,...catalog.map(p=>[p.id,p])]);
+    for(const key of Object.keys(studio.hidden))posts.delete(key);
+  }
   const activityKey=()=> 'ent207.community.v1.'+owner();
   function activity() {
     const raw=readJSON(activityKey(),{});
@@ -122,7 +129,7 @@
 
   const home='projects', scrolls=new Map();
   let route='',scroll=null,frame=null,childPost=null,restorePost=false,parkedGuide=null;
-  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field'];
+  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field','studio','tools','review','voice'];
   const collections=['favorites','liked','history','comments'];
   function parse() {
     const hash=location.hash.slice(1);
@@ -193,7 +200,7 @@
       const p=(savedProjects && builtIns.get(id)) || posts.get(id);if(!p) return;
       const title=tr(p.titleEn,p.titleZh);
       const b=button('','tile'+(i%3===0?' high':''),()=>navigate('post/'+id));b.style.backgroundColor=p.surface || '#e5e9df';
-      b.append(picture(builtIns.has(id)?'concepts/'+id+'-poster.png':'community/thumbs/'+id+'.png'),node('span','',title));cols[i%2].append(b);
+      b.append(picture(builtIns.has(id)?'concepts/'+id+'-poster.png':thumbnail(p)),node('span','',title));cols[i%2].append(b);
     });
     return grid;
   }
@@ -250,7 +257,7 @@
       node('p','',account?tr('Your assembly progress is saved in this browser.','你的装配进度保存在此浏览器中。'):tr('Guest progress stays in this browser. Sign in for a separate profile.','访客进度保存在此浏览器。登录后可单独记录。')),
       button(account?tr('Account','账号管理'):tr('Sign in or register','登录 / 注册'),'primary',()=>navigate('account')));
     body.append(card);
-    const stats=node('div','shortcuts'),social=activity();
+    const stats=node('div','shortcuts'),social=visibleActivity(activity(),loadStudio(owner()),posts);
     for (const [view,key,symbol,en,zh] of [
       ['favorites','saved','saved','Saved','收藏'],['liked','liked','heart','Likes','喜欢'],['history','history','history','History','浏览'],['comments','comments','comments','Comments','评论']
     ]) {
@@ -263,27 +270,11 @@
     body.append(resume,node('h2','group-label',tr('Preferences','偏好设置')));
     const settings=node('div','settings');
     settings.append(settingsRow('language',tr('Language','语言'),()=>openSetting('lang')),
-      settingsRow('voice',tr('Voice','语音'),()=>openSetting('voice')),
-      settingsRow('community',tr('Content studio','内容工作室'),()=>openResources(true)),
-      settingsRow('tools',tr('Tools and earlier demos','工具与旧演示'),()=>openResources(false)));
+      settingsRow('voice',tr('Voice','语音'),()=>navigate('voice')),
+      settingsRow('community',tr('Content studio','内容工作室'),()=>navigate('studio')),
+      settingsRow('tools',tr('Tools and earlier demos','工具与旧演示'),()=>navigate('tools')));
     body.append(settings);const ideas=node('section');ideas.id='recommended';body.append(ideas);if(catalog.length) populateIdeas(ideas);
     showTabs('profile');
-  }
-  function openResources(studio) {
-    const dialog=$('setting'),box=$('setting-body'),choices=node('div','choices');
-    const title=node('h2','',studio?tr('Content studio','内容工作室'):tr('Tools and earlier demos','工具与旧演示'));
-    title.id='setting-title';dialog.setAttribute('aria-labelledby',title.id);
-    const description=studio ? tr('Browse the prepared design studies and sample discussions.','浏览已载入的设计习作和示例讨论。') :
-      tr('Marker scans and camera diagnostics run on the Android demonstration phone.','标记扫描和相机诊断可在安卓展示机上使用。');
-    box.replaceChildren(title,node('p','sub',description));
-    if(studio) {
-      if(catalog.length)box.append(node('p','sub',tr(catalog.length+' designs in the collection','共 '+catalog.length+' 件作品')));
-      choices.append(button(tr('Explore community','浏览社区'),'choice',()=>{dialog.close();navigate('community');}));
-    } else {
-      choices.append(button(tr('Virtual assembly','虚拟试拼'),'choice',()=>navigate('workshop')),
-        button(tr('Guided assembly','装配指导'),'choice',()=>navigate('guide')));
-    }
-    box.append(choices,button(tr('Close','关闭'),'secondary',()=>dialog.close()));dialog.showModal();
   }
   function openSetting(type) {
     const dialog=$('setting'),box=$('setting-body'),isLang=type==='lang', choices=node('div','choices');
@@ -331,12 +322,13 @@
   }
   function embed(path,title,args={}) {
     frame=node('iframe','module');
-    if(path==='field/index.html'||path==='guide/index.html')frame.allow="camera 'self'";
+    if(['field/index.html','guide/index.html','review/index.html','tools/index.html'].includes(path))frame.allow="camera 'self'";
     const url=new URL(path,document.baseURI);url.search=new URLSearchParams({lang,profile:owner(),...args}).toString();
     frame.title=title;frame.src=url.href;$('content').append(frame);
   }
   function render() {
     if(!languageChosen)return;
+    refreshCatalog();
     if($('setting').open)$('setting').close();
     const next=parse();
     if(next==='field' && (route==='guide'||route==='progress') && frame) {
@@ -361,6 +353,12 @@
       case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
       case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
+      case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
+      case 'tools':case 'voice':embed('tools/index.html',tr('Tools and earlier demos','工具与旧演示'),route==='voice'?{view:'voice'}:{});break;
+      case 'review':{
+        const active=readJSON('ent207.guide.v2:'+owner(),{})?.active;
+        embed('review/index.html',tr('Photo review','照片复核'),{task:typeof active==='string'?active:'prepare:左侧板'});break;
+      }
       case 'community':embed('community/index.html',tr('Community','社区'));showTabs(route);break;
       default:{
         const [type,id]=route.split('/');
@@ -375,7 +373,10 @@
       case 'ent207-close':back();break;
       case 'ent207-open-shelf':navigate('shelf');break;
       case 'ent207-field':navigate('field');break;
-      case 'ent207-studio':openResources(true);break;
+      case 'ent207-studio':navigate('studio');break;
+      case 'ent207-review-close':back();break;
+      case 'ent207-tools-open':if(['field','guide','workshop','studio','review'].includes(event.data.target))navigate(event.data.target);break;
+      case 'ent207-studio-change':refreshCatalog();break;
       case 'ent207-community-nav': {
         if(!communityList())break;
         childPost=event.data.detail && typeof event.data.post==='string' ? event.data.post : null;
@@ -397,15 +398,14 @@
   });
   addEventListener('storage',event=>{
     if(!event.key || [profilesKey,activeKey].includes(event.key) ||
-      (['profile',home,'shelf'].includes(route) && [activityKey(),'ent207.guide.v2:'+owner()].includes(event.key))) {
+      (['profile',home,'shelf'].includes(route) && [activityKey(),studioKey(owner()),'ent207.guide.v2:'+owner()].includes(event.key))) {
       rememberScroll();render();
     }
   });
   updateEdition();
   fetch('community/catalog.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json();}).then(data=>{
     if(!Array.isArray(data))return;
-    catalog=data.filter(p=>p && /^[a-zA-Z0-9_-]{1,90}$/.test(p.id));
-    posts=new Map([...builtIns,...catalog.map(p=>[p.id,p])]);
+    baseCatalog=data.filter(p=>p && /^[a-zA-Z0-9_-]{1,90}$/.test(p.id));refreshCatalog();
     if($('recommended'))populateIdeas($('recommended'));
     if($('saved-projects'))renderSaved($('saved-projects'));
   }).catch(()=>{});

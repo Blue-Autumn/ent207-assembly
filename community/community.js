@@ -1,4 +1,6 @@
 import {showModel} from './model.js';
+import {studioKey,loadStudio,editStudio,mergeCatalog,thumbnail,visibleActivity,samplesFor,mark} from './studio-store.js';
+import {cloudReady,serviceAvailable,generateReplies} from '../studio/generation.js';
 
 const get=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
@@ -13,17 +15,16 @@ const initial=params.get('post');
 const conceptIds=['stool','lamp','recordplayer','bridge','bookstand','tray','xylophone','drawers','plantstand','organizer'];
 const title=p=>zh?p.titleZh:p.titleEn;
 const body=p=>zh?p.bodyZh:p.bodyEn;
-const listTitles=()=>({
+const strings=()=>({
   feed:tr('Community','社区'),favorites:tr('Saved','收藏'),liked:tr('Likes','点赞'),
   history:tr('History','足迹'),comments:tr('Comments','评论')
 });
-const listHints=()=>({
+const emptyText=()=>({
   favorites:tr('Tap the bookmark on a design to save it here.','在作品中点按收藏，即可在这里找到。'),
   liked:tr('Designs you like will appear here.','你点赞的作品会出现在这里。'),
   history:tr('Open a project to start your history.','打开一件作品，开始留下足迹。'),
   comments:tr('Your comments on designs will appear here.','你写下的作品评论会出现在这里。')
 });
-let strings=listTitles(),emptyText=listHints();
 const shelf={id:'shelf',titleEn:'Five-tier shelf', titleZh:'五层隔板架',surface:'#e3ebe2'};
 const header=get('header'),scroll=get('scroll'),content=get('content');
 let date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});
@@ -33,8 +34,11 @@ const icons={
  delete:'M4 6h16M9 6V3h6v3M7 6l1 15h8l1-15M10 10v7m4-7v7',
  right:'m9 5 7 7-7 7',tools:'M4 7h6m4 0h6M4 17h10m4 0h2M10 4v6m6 4v6'
 };
+let baseCatalog=[],studio=loadStudio(profile);
 let catalog=[],byId=new Map(),studiesPromise=null,activePost=null,entryDirect=false;
 let order=[],offset=0,feedScroll=0,cleanup=null,observer=null,noticeTimer=0;
+let replyJob=null, displayedDetail=null,refreshReplies=null;
+let hideRequest=null;
 let pendingCommand=undefined,ready=false;
 function node(tag,cls='',text){
  const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;
@@ -75,19 +79,26 @@ function profileName(){
  const profiles=readValue('ent207.profiles.v2');
  return (Array.isArray(profiles)?profiles.find(p=>p.id===profile)?.name:'')||tr('Guest','访客');
 }
+function syncCatalog(){
+ studio=loadStudio(profile);catalog=mergeCatalog(baseCatalog,studio);
+ byId=new Map(catalog.map(p=>[p.id,p]));
+}
 function back(){
  if(activePost && !entryDirect){activePost=null;showList();return;}
  if(parent!==window){emit('ent207-close');return;}
  activePost=null;entryDirect=false;showList();
 }
 function nav(){emit('ent207-community-nav',{detail:!!activePost,post:activePost});}
-function clearSurface(){
+function clearSurface(preserveReply=false){
+ if(replyJob && !preserveReply){replyJob.abort();replyJob=null;}
+ displayedDetail=null;refreshReplies=null;
+ if(get('moderate').open)get('moderate').close();
  cleanup?.();cleanup=null;observer?.disconnect();observer=null;
  if(get('compose').open)get('compose').close();
  header.replaceChildren();content.replaceChildren();scroll.scrollTop=0;
 }
 function photo(p,lazy=true){
- const img=node('img');img.alt='';img.src=p.id==='shelf'?'../concepts/rack-poster.png':'thumbs/'+p.id+'.png';
+ const img=node('img');img.alt='';img.src=p.id==='shelf'?'../concepts/rack-poster.png':thumbnail(p,'');
  if(lazy)img.loading='lazy';
  return img;
 }
@@ -101,23 +112,23 @@ function item(id){return id==='shelf'?shelf:byId.get(id);}
 function showList(){
  clearSurface();const bar=node('div','headrow');
  if(view!=='feed')bar.append(icon('back',tr('Back','返回'),back));
- bar.append(node('h1','',strings[view]));
+ bar.append(node('h1','',strings()[view]));
  if(view==='feed'){
   bar.append(icon('refresh',tr('Refresh feed','换一批'),()=>{
-   offset=(offset+7)%catalog.length;feedScroll=0;showList();
+   offset=catalog.length?(offset+7)%catalog.length:0;feedScroll=0;showList();
   }));
   if(parent!==window)bar.append(icon('tools',tr('Content studio','内容工作室'),()=>emit('ent207-studio')));
   header.append(bar,node('p','minor sub',tr('Furniture studies · includes sample activity','家居设计习作 · 含示例互动')));
   order=catalog.slice(offset).concat(catalog.slice(0,offset));renderCards();
  } else {
-  header.append(bar);const s=state();
+  header.append(bar);const s=visibleActivity(state(),studio,byId);
   if(view==='comments'){
    for(const c of s.comments){const p=byId.get(c.postId);if(p)content.append(entry(p,c.text));}
   }else{
    const key=view==='favorites'?'saved':view;
    for(const id of s[key]){const p=item(id);if(p)content.append(entry(p));}
   }
-  if(!content.children.length)content.append(node('p','empty',emptyText[view]));
+  if(!content.children.length)content.append(node('p','empty',emptyText()[view]));
  }
  scroll.scrollTop=feedScroll;nav();
 }
@@ -133,7 +144,9 @@ function renderCards(){
     card.style.setProperty('--art',tall?'142px':'108px');card.style.background=p.surface;
     const likes=p.likes+Number(activity.liked.includes(p.id));
     card.append(photo(p,start>=4),node('strong','',title(p)),node('small','',tr(likes+' likes',likes+' 个赞')));
-    col.append(card);
+    if(studio.settings.debug){
+    const wrap=node('div','tile-wrap');wrap.append(card,markButtons(p,null,()=>{syncCatalog();feedScroll=scroll.scrollTop;showList();}));col.append(wrap);
+   }else col.append(card);
    }spread.append(col);
   }content.append(spread);
  }
@@ -158,14 +171,14 @@ function reactions(box,p,original,discussion){
 }
 let composeTarget=null,onPosted=null;
 const compose=get('compose');
-function formLabels(){
+function composeLabels(){
 get('compose-title').textContent=tr('Add comment','写评论');
 get('comment-input').placeholder=tr('What would you use or change?','你会怎样使用或改动这个设计？');
 get('comment-input').setAttribute('aria-label',tr('Comment','评论'));
 get('comment-note').textContent=tr('Saved in this browser for this profile.','保存在本浏览器的当前个人空间。');
 get('send').textContent=tr('Post to this device','发布到本机社区');get('cancel').textContent=tr('Cancel','取消');
-}
-formLabels();
+};
+composeLabels();
 get('cancel').onclick=()=>compose.close();
 get('comment-form').onsubmit=e=>{
  e.preventDefault();const text=get('comment-input').value.trim();
@@ -182,30 +195,92 @@ function commentRow(author,text,at,mine,remove){
  if(remove){const b=icon('delete',tr('Delete your comment','删除这条评论'),remove);b.classList.add('delete');row.append(b);}
  return row;
 }
+function markButtons(p,sample,after){
+ const k=sample?p.id+'/'+sample.key:p.id,kept=!!studio.kept[k];
+ const bar=node('div','marks');
+ const keep=button(kept?'✓':'＋','mark',async()=>{
+  try{await editStudio(profile,s=>mark(s,p,sample,kept?'release':'keep'));studio=loadStudio(profile);after();}
+  catch{notification(tr('Could not save this change.','保存未成功。'));}
+ });
+ keep.setAttribute('aria-pressed',String(kept));keep.setAttribute('aria-label',kept?tr('Release kept item','取消保留'):tr('Keep item','保留条目'));
+ const hide=button('×','mark hide',()=>{
+  hideRequest={p,sample,after};get('reason').value='';moderationLabels();get('moderate').showModal();
+ });
+ hide.setAttribute('aria-label',sample?tr('Hide sample comment','隐藏示例评论'):tr('Hide this design','隐藏这件作品'));bar.append(keep,hide);return bar;
+}
+function moderationLabels(){
+ const sample=!!hideRequest?.sample;
+ get('hide-title').textContent=sample?tr('Hide sample comment','隐藏示例评论'):tr('Hide this design','隐藏这件作品');
+ get('reason').placeholder=tr('Reason for review (optional)','改进原因（可选）');
+ get('reason').setAttribute('aria-label',get('reason').placeholder);
+ get('cancel-hide').textContent=tr('Cancel','取消');get('confirm-hide').textContent=tr('Hide','隐藏');
+}
+get('cancel-hide').onclick=()=>get('moderate').close();
+get('confirm-hide').onclick=async()=>{
+ if(!hideRequest)return;const {p,sample,after}=hideRequest;
+ try{await editStudio(profile,s=>mark(s,p,sample,'hide',get('reason').value.trim().slice(0,180)));studio=loadStudio(profile);
+  get('moderate').close();hideRequest=null;
+  if(!sample && activePost===p.id){syncCatalog();back();}
+  else if(sample && activePost===p.id){const at=scroll.scrollTop;await openDetail(p.id,entryDirect,false);scroll.scrollTop=at;}
+  else after();
+ }catch{notification(tr('Could not save this change.','保存未成功。'));}
+};
 function renderDiscussion(frame,p,model){
  const h=node('div','comment-head');const count=node('p','counts');const notes=node('div'),rows=node('div');
  const repaint=()=>{
   const s=state(),own=s.comments.filter(c=>c.postId===p.id);
-  const likes=p.likes+Number(s.liked.includes(p.id)), total=own.length+model.samples.length;
+  const samples=samplesFor(p,model,studio);
+  const likes=p.likes+Number(s.liked.includes(p.id)), total=own.length+samples.length;
   count.textContent=tr(likes+' likes · '+total+' comments',likes+' 个赞 · '+total+' 条评论');
   rows.replaceChildren();
   const authors=profileName();
   for(const c of own){rows.append(commentRow(authors,c.text,c.at,true,()=>{
    if(window.confirm(tr('Delete your comment?','删除这条评论？')) && update(v=>{v.comments=v.comments.filter(x=>x.id!==c.id);}))repaint();
   }));}
-  for(const c of model.samples)rows.append(commentRow(c.author,zh?c.zh:c.en,c.at,false));
+  for(const c of samples){
+    const row=commentRow(c.author,zh?c.zh:c.en,c.at,false);if(studio.settings.debug)row.append(markButtons(p,c,repaint));rows.append(row);
+  }
  };
  h.append(node('h2','',tr('Discussion','讨论')),button(tr('Add comment','写评论'),'soft',()=>{
   composeTarget=p.id;onPosted=repaint;get('comment-input').value='';compose.showModal();get('comment-input').focus();
  }));
  notes.append(node('p','note',tr('Sample comments and starting likes are illustrative. Your activity is saved on this device.','示例评论与初始赞数用于展示。你的互动保存在本机。')));
- frame.append(h,count,notes,rows);repaint();return repaint;
+ const generate=button(tr('Generate more sample replies · DeepSeek','生成更多示例评论 · DeepSeek'),'soft more',async()=>{
+  if(replyJob)return;
+  if(!cloudReady())return;
+  const settings=studio.settings,epoch=studio.generation,ctrl=new AbortController();replyJob=ctrl;
+  generate.disabled=true;generate.textContent=tr('Generating…','正在生成…');
+  try{
+   const extra=await generateReplies(p,samplesFor(p,model,studio),settings,ctrl.signal);
+   if(ctrl.signal.aborted || activePost!==p.id)return;
+   await editStudio(profile,s=>{
+    if(ctrl.signal.aborted||s.generation!==epoch||s.hidden[p.id])throw Error('changed');
+    const seen=new Set(samplesFor(p,model,s,true).map(row=>row.en.toLowerCase()));
+    const fresh=extra.filter(row=>!seen.has(row.en.toLowerCase()));
+    if(!fresh.length)throw Error('format');
+    s.extra[p.id]=[...(s.extra[p.id]||[]),...fresh];
+   });
+   studio=loadStudio(profile);refreshReplies?.();
+  }catch(e){if(!ctrl.signal.aborted)notification(tr('Could not add replies. Try again later.','未添加评论，可稍后重试。'));}
+  finally{
+   if(replyJob===ctrl)replyJob=null;
+   const current=content.querySelector('[data-reply-request]');
+   if(current && !replyJob){current.disabled=false;current.textContent=tr('Generate more sample replies · DeepSeek','生成更多示例评论 · DeepSeek');}
+  }
+ });
+ generate.dataset.replyRequest='true';
+ if(replyJob){generate.disabled=true;generate.textContent=tr('Generating…','正在生成…');}
+ frame.append(h,count,notes,rows);
+ if(cloudReady())frame.append(generate);
+ else serviceAvailable().then(ok=>{if(ok && frame.isConnected)frame.append(generate);});
+ if(studio.settings.debug)frame.append(markButtons(p,null,()=>{const pos=scroll.scrollTop;openDetail(p.id,entryDirect,false).then(()=>{scroll.scrollTop=pos;});}));
+ refreshReplies=repaint;repaint();return repaint;
 }
 async function openDetail(id,direct=false,record=true){
  const p=byId.get(id);
  if(!p){notification(tr('Design unavailable','作品暂不可用'));return;}
  if(!activePost)feedScroll=scroll.scrollTop;
- activePost=id;entryDirect=direct;clearSurface();
+ const sameDetail=activePost===id;activePost=id;entryDirect=direct;clearSurface(sameDetail);
  const original=!!p.template && direct;
  const bar=node('div','headrow');bar.append(icon('back',tr('Back','返回'),back),node('h2','',original?tr('Project preview','作品预览'):tr('Design detail','作品详情')));header.append(bar);nav();
  if(record)update(s=>{s.history=[id,...s.history.filter(k=>k!==id)].slice(0,300);});
@@ -224,12 +299,13 @@ async function openDetail(id,direct=false,record=true){
   const frame=node('iframe');frame.title=title(p);frame.src='../concepts/index.html?id='+encodeURIComponent(p.template);art.replaceChildren(frame);
  }
  try{
-  const model=(await studies())[id];
+  const model=p.parts?p:(await studies())[id];
   if(activePost!==id || !art.isConnected)return;
   if(!p.template){
    const canvas=node('canvas');canvas.tabIndex=0;canvas.setAttribute('role','img');
    canvas.setAttribute('aria-label',title(p)+tr('. Drag to rotate.','. 拖动旋转。'));art.replaceChildren(canvas);cleanup=showModel(canvas,model.parts);
   }
+  displayedDetail={p,model};
   const repaint=renderDiscussion(discuss,p,model);
   reactions(actions,p,original,repaint);
  }catch{
@@ -247,20 +323,39 @@ window.addEventListener('message',e=>{
 });
 async function start(){
  try{
-  catalog=await fetchJSON('catalog.json');byId=new Map(catalog.map(p=>[p.id,p]));ready=true;
+  baseCatalog=await fetchJSON('catalog.json');syncCatalog();ready=true;
   const wanted=pendingCommand===undefined?initial:pendingCommand;
   if(wanted && byId.has(wanted))openDetail(wanted,!!initial);
+  else if(initial && wanted)showMissing();
   else showList();
  }catch{
   content.replaceChildren(button(tr('Reload community','重新加载社区'),'soft',start));
  }
 }
-window.ent207SetLanguage=async value=>{
- zh=value==='zh';document.documentElement.lang=zh?'zh-CN':'en';
- strings=listTitles();emptyText=listHints();date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});formLabels();
+function showMissing(){
+ clearSurface();entryDirect=true;activePost=null;
+ const bar=node('div','headrow');bar.append(icon('back',tr('Back','返回'),back),node('h2','',tr('Design detail','作品详情')));header.append(bar);
+ content.append(node('p','empty',tr('This design is no longer in the feed.','作品当前未在社区展示。')));
+ nav();
+}
+window.ent207SetLanguage=async lang=>{
+ zh=String(lang).startsWith('zh');document.documentElement.lang=zh?'zh-CN':'en';
+ date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});composeLabels();moderationLabels();
  if(!ready)return;
- const top=scroll.scrollTop,draft=get('comment-input').value,composing=get('compose').open;
- if(activePost)await openDetail(activePost,entryDirect,false);else showList();
- scroll.scrollTop=top;if(composing){get('comment-input').value=draft;get('compose').showModal();}
+ if(entryDirect && !activePost && initial && !byId.has(initial)){showMissing();return;}
+ const scrollAt=scroll.scrollTop,composing=compose.open,text=get('comment-input').value;
+ const moderating=get('moderate').open,req=hideRequest,reason=get('reason').value;
+ if(activePost)await openDetail(activePost,entryDirect,false);else {feedScroll=scrollAt;showList();}
+ scroll.scrollTop=scrollAt;
+ if(composing && displayedDetail){content.querySelector('.comment-head button')?.click();get('comment-input').value=text;}
+ if(moderating && req){hideRequest=req;get('reason').value=reason;moderationLabels();get('moderate').showModal();}
 };
+addEventListener('storage',e=>{
+ if(e.key!==studioKey(profile)||!ready)return;
+ syncCatalog();if(get('compose').open || get('moderate').open)return;
+ if(activePost && !byId.has(activePost)){back();return;}
+ const at=scroll.scrollTop;
+ if(activePost)openDetail(activePost,entryDirect,false).then(()=>{scroll.scrollTop=at;});
+ else{feedScroll=at;showList();}
+});
 start();

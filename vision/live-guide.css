@@ -1,0 +1,24 @@
+.alignment-camera{position:absolute;inset:0;z-index:4;background:#1d231f;display:grid;place-items:center;overflow:hidden}
+.alignment-camera[hidden],.alignment-camera [hidden]{display:none!important}
+.align-stage{position:relative;width:100%;height:100%;overflow:hidden}
+.align-stage video,.align-graphics,.align-teaching,.align-teaching>svg{position:absolute;inset:0;width:100%;height:100%}
+.align-graphics,.align-teaching{pointer-events:none}
+.align-marker,.align-slot,.align-inferred,.align-shape,.align-vector{vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.align-marker{fill:none;stroke:#f9fff3bc;stroke-width:1.5}
+.align-slot,.align-inferred{fill:#ffe5671a;stroke:#ffe86d;stroke-width:3.5;filter:drop-shadow(0 0 2px #353000)}
+.align-inferred{stroke:#fff8b9;stroke-dasharray:4 3}
+.align-vector{fill:none;stroke:#ffba45;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 1px 1px #341600)}
+.align-shape{fill:#7fe48640;stroke:#c9ffc4;stroke-width:2}
+.align-controls{position:absolute;bottom:10px;left:12px;right:12px;display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.align-controls button{font:600 12px/1.2 system-ui;min-height:40px;border-radius:22px;padding:6px 12px;background:#f9fbf3ed;color:#3b483b;border:1px solid #dce4d5}
+.align-opening,.align-legend,.align-teaching span{position:absolute;background:#f9fbf2e8;color:#374739;border-radius:12px;font:600 12px/1.4 system-ui;padding:4px 9px;pointer-events:none}
+.align-legend{top:10px;left:12px}.align-teaching span{transform:translate(-50%,-50%);white-space:nowrap}
+.align-teaching .board-cue-footprint{fill:#efb446;fill-rule:evenodd}
+.align-teaching .board-cue-ghost{fill:#f2c76e;stroke:#7c460f;stroke-width:2.2;stroke-linejoin:round}
+.align-teaching .board-cue-ghost[data-face=back]{fill:#ddb166}
+.align-teaching .board-cue-ghost path{fill-rule:evenodd;vector-effect:non-scaling-stroke}
+.align-teaching .board-cue-axis{fill:none;stroke:white;stroke-width:3;stroke-dasharray:9 6;stroke-linecap:round}
+.align-teaching .board-cue-ribbon{fill:#a94e0c;stroke:white;stroke-width:1.6;stroke-linejoin:round;paint-order:stroke fill}
+.align-controls{flex-wrap:wrap}
+.align-quality{position:absolute;top:10px;right:12px;max-width:calc(100% - 24px);color:#28382b;background:#f9fbf2ed;padding:4px 9px;border-radius:12px;font:600 12px/1.4 system-ui;pointer-events:none}
+.align-legend:not([hidden])~.align-quality{top:38px}

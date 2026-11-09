@@ -1,5 +1,5 @@
 /* Same six primitives, lighting, pitch and explosion distances as CommunityRaster. */
-export function showModel(canvas, parts) {
+export function showModel(canvas, parts, poster = false) {
   const ctx = canvas.getContext('2d');
   const extents = [0,1,2].map((axis) => {
     const bottom = axis === 1;
@@ -124,6 +124,12 @@ export function showModel(canvas, parts) {
     if(e.key!=='ArrowLeft' && e.key!=='ArrowRight')return;
     e.preventDefault();yaw+=e.key==='ArrowLeft'?-.18:.18;schedule();
   };
+  if (poster) {
+    width=canvas.width=260;h=canvas.height=180;
+    frame=ctx.createImageData(width,h);
+    pixels=new Uint32Array(frame.data.buffer);depth=new Float32Array(width*h);
+    paint(0);return canvas.toDataURL('image/png');
+  }
   const onVisible = () => schedule();
   const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;schedule();});
   observer.observe(canvas);

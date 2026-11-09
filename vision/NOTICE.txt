@@ -1,0 +1,7 @@
+This directory includes compiled Kotlin standard library components (JetBrains and contributors)
+and OpenCV 4.13.0 (OpenCV team and contributors). Their Apache 2.0 license is included separately.
+OpenCV upstream source and third-party notices: https://github.com/opencv/opencv/tree/4.13.0
+Official JavaScript release: https://docs.opencv.org/4.13.0/opencv.js
+The JavaScript loader here has its embedded base64 WebAssembly payload separated into opencv-4.13.wasm.
+The original distribution SHA-256 was 63366510248adf3a7eddf3e793dd825404efb7df3749f4d6f8557c7fa4ca8aa0.
+Kotlin standard library version: 2.2.10. https://github.com/JetBrains/kotlin/tree/v2.2.10/libraries/stdlib

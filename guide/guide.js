@@ -16,6 +16,55 @@ const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
 },()=>{
  cameraError=true;candidate=null;wrongChoice='';observed=false;render();
 });
+const testLog=makeTestLog(demoProfile);
+let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null;
+const alignButton=button('',toggleAlignment,'align-start');
+const recordedRowButton=button('',showObservedRow,'align-row-demo');
+const alignment=createAlignmentCamera(visual,{
+ getTask:()=>current(),getLanguage:()=>AssemblyText.locale,
+ onReading:check=>{
+   if(phase!=='guide'||screen!=='work'||check.taskId!==active)return;
+   liveCheck=check;paintLiveReading();testLog.add({...check,phase,source:'alignment'});
+ },
+ onClose:reason=>{
+   liveCheck=null;liveProblem=['denied','reader-error','unavailable','ended'].includes(reason)?reason:'';
+   render();
+ }
+});
+function stopAlignment(){
+ alignment.stop();liveCheck=null;liveProblem='';recordedRowButton.hidden=true;
+}
+function toggleAlignment(){
+ if(alignment.active){stopAlignment();render();return;}
+ leaveRealScan();RowLesson.stop();correctionFromCamera=false;liveCheck=null;liveProblem='';
+ alignment.start();render();
+}
+function paintLiveReading(){
+ if(!alignment.active)return;
+ const check=liveCheck;
+ const title=check?.headline||tr('Show the current parts','拍清当前板件');
+ const body=check?.instruction||tr('Keep the target and reference tags in the same view.','让目标板件和参照标签一起入镜。');
+ $('headline').textContent=title;$('workSubtitle').textContent=body;
+ delete $('headline').dataset.mark;
+ if(check?.stable){
+   const aligned=['direction_ok','install_base_ready','install_row_ok','install_oriented'].includes(check.status)&&!check.placement;
+   $('headline').dataset.mark=aligned?'ok':'adjust';
+   say(title+'. '+body);
+ }
+ const row=check?.stable && check.status==='install_wrong_row' && check.observedRow && check.targetRow;
+ recordedRowButton.hidden=!row;
+ if(row)recordedRowButton.textContent=tr('Show row ','演示换排 ')+check.observedRow+' → '+check.targetRow;
+}
+function showObservedRow(){
+ const saved=liveCheck;
+ if(!saved?.stable||saved.status!=='install_wrong_row'||saved.taskId!==active)return;
+ stopAlignment();
+ if(RowLesson.start(current(),saved.observedRow,saved.targetRow)){
+   correctionFromCamera=true;animationStart=performance.now();
+   if(motion.matches)RowLesson.draw(0,true);
+ }
+ render();
+}
 const speechButton=button('',toggleVoice,'');
 const fieldButton=button(tr('Field guidance','现场引导'),openField,'field-entry');
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -30,7 +79,8 @@ cameraTable.setAttribute('aria-label',tr('Practice scan with photographed parts'
 speechButton.id='speakStep';
 speechButton.innerHTML='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg>';
 $('progressButton').before(speechButton);
-visual.append(cameraTable,photoMode,fieldButton,realScan);
+visual.append(cameraTable,photoMode,fieldButton,realScan,alignButton,recordedRowButton);
+recordedRowButton.hidden=true;
 $('taskList').replaceChildren();
 cv.setAttribute('aria-label',tr('Part model. Drag to rotate.','板件模型，可拖动旋转。'));
 const sourceLabels=[...document.querySelectorAll('[aria-label]')].map(e=>[e,e.getAttribute('aria-label')]);
@@ -60,7 +110,7 @@ function toggleRealScan(){
  render();
 }
 function exitGuide(){
- leaveRealScan();
+ stopAlignment();leaveRealScan();
  window.speechSynthesis?.cancel();
  cancelAnimationFrame(loop);
  if(parent!==window)parent.postMessage({type:'ent207-close'},location.origin);
@@ -73,6 +123,11 @@ function say(text){
  synth.cancel();
  const line=new SpeechSynthesisUtterance(text);
  line.lang=AssemblyText.english?'en-US':'zh-CN';
+ try{
+   const wanted=localStorage.getItem('ent207.tts.voice.v1.'+(AssemblyText.english?'en':'zh'));
+   const selected=synth.getVoices().find(v=>v.localService && v.voiceURI===wanted && v.lang.toLowerCase().startsWith(line.lang.slice(0,2)));
+   if(selected)line.voice=selected;
+ }catch{}
  synth.speak(line);
 }
 function toggleVoice(){
@@ -94,7 +149,7 @@ function halfName(id){
 }
 function animate(){
  cancelAnimationFrame(loop);loop=0;
- if(document.hidden||sheet.classList.contains('open')||screen!=='work'||phase!=='guide'||!ready(active))return;
+ if(document.hidden||alignment.active||sheet.classList.contains('open')||screen!=='work'||phase!=='guide'||!ready(active))return;
  if(motion.matches){amount=1;paintScene();return}
  const initial=animationStart;
  let previous=0;
@@ -103,7 +158,10 @@ function animate(){
   if(now-previous<33)return;
   previous=now;
   if(RowLesson.active()){
-   if(RowLesson.draw(now-initial).done){RowLesson.stop();animationStart=now;render()}
+   if(RowLesson.draw(now-initial).done){
+     RowLesson.stop();animationStart=now;
+     if(correctionFromCamera){correctionFromCamera=false;toggleAlignment();}else render();
+   }
    return;
   }
   const frame=AssemblyMotionCycle.sampleInset(now-initial);
@@ -112,11 +170,13 @@ function animate(){
  loop=requestAnimationFrame(tick);
 }
 closeOverlay=function(){
- rawCloseOverlay();for(const control of [document.querySelector('.top'),document.querySelector('.body'),$('footer')])control.inert=false;sheet.classList.remove('milestone-page','progress-page','review-page','frame-review');
+ if(reviewFrame){reviewFrame.contentWindow?.postMessage({type:'ent207-review-dispose'},location.origin);reviewFrame=null;}
+ rawCloseOverlay();for(const control of [document.querySelector('.top'),document.querySelector('.body'),$('footer')])control.inert=false;sheet.classList.remove('milestone-page','progress-page','review-page','frame-review','visitor-review');
  sheet.removeAttribute('data-milestone');
  if(typeof latestScene==='string')animate();
 };
 showOverlay=function(title){
+ stopAlignment();correctionFromCamera=false;
  if(livePick.active){leaveRealScan();render()}
  const box=rawOpenOverlay(title);
  cancelAnimationFrame(loop);
@@ -128,12 +188,14 @@ showOverlay=function(title){
  return box;
 };
 openTask=function(id,dependency=false,persist=true){
+ stopAlignment();correctionFromCamera=false;
  leaveRealScan();
  lastAction=0;reference=false;wrongChoice='';tableTarget='';animationStart=performance.now();RowLesson.stop();
  rawOpenTask(id,dependency,persist);
 };
 
 function openField(){
+ stopAlignment();correctionFromCamera=false;
  if(livePick.active){leaveRealScan();render()}
  window.speechSynthesis?.cancel();
  if(parent!==window)parent.postMessage({type:'ent207-field'},location.origin);
@@ -221,10 +283,37 @@ function showFieldReview(){
  },'review-evidence');
  box.prepend(tag);box.append(body,figure,replay,button(tr('Return to assembly','返回装配'),closeOverlay,'primary full'));
 }
+function visitorReview(restore=false){
+ if(reviewFrame)return;
+ if(restore!==true && history.state?.ent207Review!==active){
+   history.pushState({ent207Review:active},'',location.href);
+ }
+ const box=showOverlay(tr('Photo review','照片复核'));box.classList.add('visitor-review');
+ reviewFrame=document.createElement('iframe');reviewFrame.allow="camera 'self'";
+ reviewFrame.title=tr('Review the current joint','复核当前接头');
+ reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh'});
+ box.append(reviewFrame);testLog.add({taskId:active,phase,source:'photos',status:'opened'});
+}
+addEventListener('message',event=>{
+ if(event.origin===location.origin && reviewFrame && event.source===reviewFrame.contentWindow && event.data?.type==='ent207-review-close'){
+   if(history.state?.ent207Review===active)history.back();else closeOverlay();
+ }
+});
+addEventListener('popstate',()=>{
+ if(history.state?.ent207Review===active){if(!reviewFrame)visitorReview(true);}
+ else if(reviewFrame)closeOverlay();
+});
 function stepList(){
  const box=showOverlay(t('work.progress'));box.classList.add('progress-page');
  box.append(element('p',t('progress.summary',{done:done.size,total:order.length}),'subtitle'));
  const tools=element('div',null,'group-rows');box.append(element('h3',t('menu.controls'),'group-heading'),tools);
+ tools.append(button(tr('Review my photos','复核我的照片'),visitorReview,'menu-action'));
+ tools.append(button(testLog.active?tr('Save test log','保存调试记录'):tr('Record a device test','记录本机测试'),()=>{
+  if(testLog.active){testLog.download();stepList();return;}
+  const notice=showOverlay(tr('Record a device test','记录本机测试'));
+  notice.append(element('p',tr('This tab can record steps, marker IDs and guidance results for troubleshooting. Photos and account names stay out of the log. Stop and save the JSON file here when finished.','记录本页的步骤、标签编号和引导结果，供排查问题。记录不含照片和账号名，结束后可以在这里保存 JSON 文件。')),
+    button(tr('Start recording','开始记录'),()=>{testLog.start();stepList()},'primary full'));
+ },'menu-action'));
  tools.append(button(tr('Explore field guidance','体验现场引导'),openField,'menu-action'));
  tools.append(button(tr('Review a field photo','查看实拍复核示例'),showFieldReview,'menu-action'));
  tools.append(button(tr('Compare frame joints','对比灰框接头'),showFrameJoint,'menu-action'));
@@ -265,7 +354,7 @@ window.assemblyBackTicket=()=>previousAction()?completionTicket():null;
 window.assemblySwipeBack=ticket=>{if(ticketCurrent(ticket))rewindAction(ticket)};
 const rowButton=button(tr('Try a wrong row','试看插错排'),()=>{
  const row=Number(current().group[1]);
- if(RowLesson.active()){RowLesson.stop();render();return}
+ if(RowLesson.active()){RowLesson.stop();if(correctionFromCamera){correctionFromCamera=false;toggleAlignment();}else render();return}
  if(RowLesson.start(current(),row===1?2:row-1,row)){
   animationStart=performance.now();
   if(motion.matches)RowLesson.draw(0,true);
@@ -285,6 +374,10 @@ render=function(){
  $('homeSummary').hidden=!homeView;$('footer').style.display=homeView?'none':'flex';
  $('visual').style.display='block';
  const scanning=finding&&livePick.active;
+ alignButton.hidden=homeView||phase!=='guide'||!ready(active)||alignment.active;
+ alignButton.textContent=tr('Live guidance','实拍指导');
+ if(!alignment.active)recordedRowButton.hidden=true;
+ fieldButton.hidden=alignment.active;
  cameraTable.hidden=!finding||reference||scanning;
  realScan.hidden=!finding;
  realScan.textContent=scanning?tr('Close camera','关闭相机'):tr('Scan real tags','扫描实物');
@@ -293,13 +386,13 @@ render=function(){
  visual.classList.toggle('photo-pick',finding&&!reference);
  if(finding)populateTable(targetId());
  photoMode.hidden=!finding||scanning;photoMode.textContent=reference?tr('Back to parts','返回找件'):tr('Inspect in 3D','查看模型');
- rowButton.hidden=phase!=='guide'||homeView||!ready(active)||task.kind!=='install'||!layerTask(task);
+ rowButton.hidden=alignment.active||phase!=='guide'||homeView||!ready(active)||task.kind!=='install'||!layerTask(task);
  rowButton.textContent=RowLesson.active()?tr('Back to the step','返回本步'):tr('Try a wrong row','试看插错排');
  $('aiAssist').hidden=homeView||finding;
  const groups=pickupTargets(task);
  AssemblyWorkControls.update({screen,phase,taskId:active,done:done.size,total:order.length,
   picked:groups.filter(group=>group.every(id=>picked.has(id))).length,required:groups.length});
- $('topContext').textContent=homeView?t('work.overview'):tr('Guided rehearsal','模拟装配')+' · '+(order.indexOf(active)+1)+' / '+order.length;
+ $('topContext').textContent=homeView?t('work.overview'):(alignment.active?tr('Live guidance','实拍指导'):tr('Guided rehearsal','模拟装配'))+' · '+(order.indexOf(active)+1)+' / '+order.length;
  speechButton.hidden=!('speechSynthesis'in window);speechButton.classList.toggle('muted',!voiceOn);
  speechButton.setAttribute('aria-label',t(voiceOn?'voice.on':'voice.off'));speechButton.setAttribute('aria-pressed',String(voiceOn));
  if(homeView){
@@ -328,13 +421,15 @@ render=function(){
   }else if(review){
    title=completed?t('work.complete'):tr('Check the fit','装好了吗？');body=completed?t('work.saved'):checkCopy(task);action=t(completed?'work.next':'work.confirm');
   }else{
-   title=taskName(task);body=statusCopy(task);action=ready(active)?tr('Check the fit','检查装配效果'):t('work.prepareFirst');
+   title=taskName(task);body=liveProblem?tr('Camera unavailable. Continue with the model or select a photo for review.','相机暂不可用，可看模型继续或选照片复核。'):statusCopy(task);action=ready(active)?tr('Check the fit','检查装配效果'):t('work.prepareFirst');
   }
   $('headline').textContent=title;$('workSubtitle').textContent=body;
   const mark=candidate||review?'ok':wrongChoice?'adjust':null;
   if(mark)$('headline').dataset.mark=mark;else delete $('headline').dataset.mark;
   $('primary').textContent=action;$('primary').disabled=false;window.finderModel=finding;window.uiTable=!finding;
-  if(!sheet.classList.contains('open'))say(title+'. '+body);
+  if(alignment.active)paintLiveReading();
+  else if(!sheet.classList.contains('open'))say(title+'. '+body);
+  testLog.add({taskId:active,phase,source:scanning?'scan':alignment.active?'alignment-view':'guide',status:done.has(active)?'confirmed':phase,markerIds:livePick.hit?[livePick.hit.id]:[]});
  }
  window.sceneSurface='rgba(0,0,0,0)';
  if(phase!=='guide'||screen!=='work')cv.style.opacity='1';
@@ -351,28 +446,24 @@ $('primary').onclick=event=>{
  }
  if(phase==='find'&&!candidate){choosePiece(targetId());return}
  if(phase==='guide'&&ready(active)&&!done.has(active)&&pickupComplete()){
-  RowLesson.stop();phase='review';taskVisit++;model(false,true);render();return;
+  stopAlignment();correctionFromCamera=false;RowLesson.stop();phase='review';taskVisit++;model(false,true);render();return;
  }
  reference=false;wrongChoice='';
  handlePrimary(event);
 };
 $('homeButton').onclick=exitGuide;$('progressButton').onclick=stepList;
-$('aiAssist').onclick=()=>{
- const task=current();
- if(task.kind==='prepare' && ['左侧板','右侧板'].includes(task.group))showFrameJoint();
- else showFieldReview();
-};$('startOver').onclick=askReset;
+$('aiAssist').onclick=visitorReview;$('startOver').onclick=askReset;
 document.addEventListener('keydown',e=>{
- if(e.key==='Escape'){if(sheet.classList.contains('open'))closeOverlay();else exitGuide()}
+ if(e.key==='Escape'){if(reviewFrame && history.state?.ent207Review===active)history.back();else if(sheet.classList.contains('open'))closeOverlay();else exitGuide()}
 });
 document.addEventListener('pointerdown',()=>{interacted=true},{once:true});
 document.addEventListener('visibilitychange',()=>{
  if(document.hidden){leaveRealScan();window.speechSynthesis?.cancel()}
  render();
 });
-window.addEventListener('pagehide',()=>{leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
+window.addEventListener('pagehide',()=>{stopAlignment();leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
 window.ent207SetLanguage=value=>{
- AssemblyText.setLanguage(value);localizeGuide();tableTarget='';
+ AssemblyText.setLanguage(value);alignment.setLanguage();localizeGuide();tableTarget='';
  const inner=sheet.querySelector('iframe');
  if(inner?.contentWindow?.ent207SetLanguage)inner.contentWindow.ent207SetLanguage(value);
  else if(sheet.classList.contains('progress-page'))stepList();
