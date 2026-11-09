@@ -1,5 +1,6 @@
 import {classification,guardCloud,photoCheck,unavailable,validCorners} from './policy.js';
 const $=id=>document.getElementById(id);
+const photoFeedback=ShelfFeedback.attach(document.body),changePhoto=ShelfFeedback.navigation($('viewer'));
 const args=new URLSearchParams(location.search);
 const taskId=args.get('task')||'';
 const validTask=/^(prepare|install):(左侧板|右侧板|背板|层[1-5]板)$/.test(taskId);
@@ -20,7 +21,7 @@ let views=[],selected=null,replaceId=null,mode='browse',generation=0,acquiring=f
 let stream=null,worker=null,job=null,workerTimer=0,cloud=null,cloudReady=false,cloudJob=null,online=null;
 let feedback=null,moreOpen=false,roomy=false,questionOpen=false,cloudChecked=false,cloudError=false,rawAdvice=null;
 const selectedView=()=>views.find(v=>v.captureId===selected);
-const setText=(id,value)=>{$(id).textContent=value;};
+const setText=(id,value)=>{const el=$(id);if(el.textContent!==value)el.textContent=value;};
 const show=(id,on)=>$(id).toggleAttribute('hidden',!on);
 const inform=(en,zh)=>{feedback={en,zh};render();};
 const idForCapture=()=>crypto.randomUUID?.() || Array.from(crypto.getRandomValues(new Uint32Array(3))).join('-');
@@ -176,6 +177,7 @@ function renderFinding(v) {
     tr('On-device check · photo ','本机检查 · 照片 ')+index);
   const category=classification(check);$('result').dataset.state=category;
   setText('finding',check?.headline||tr('Checking this photo…','正在检查这张照片…'));
+  ShelfFeedback.mark($('finding'),!check?'neutral':category==='adjust'?'adjust':category==='direction'?'ok':'check');
   setText('advice',check?.instruction||'');show('retry',check?.status==='unavailable');
   const row=(n)=>Number.isInteger(n)&&n>=1&&n<=5;
   const measured=row(check?.observedRow)&&row(check?.targetRow);
@@ -200,7 +202,13 @@ function renderFinding(v) {
 }
 function renderOnline(){
   const has=views.length>0 && mode==='browse' && validTask;
-  show('ask',has);if(!has)return;
+  show('ask',has);
+  const local=has?classification(selectedView()?.result?.check):'unknown';
+  const cloudTone=online?({ok:'ok',issue:'adjust',need_view:'check'}[online.assessment]||'neutral'):'neutral';
+  const tone=feedback?'adjust':online&&has?cloudTone:
+    has&&cloudError?'adjust':local==='adjust'?'adjust':local==='direction'?'ok':'neutral';
+  photoFeedback.show(has?(online?'answer/'+views.at(-1).captureId:'photo/'+selected):'capture',tone);
+  if(!has)return;
   const n=views.length;
   const submit=parked?tr('Send sample to DeepSeek','发送样片给 DeepSeek'):tr('Send '+n+' photo'+(n===1?'':'s')+' to DeepSeek','发送 '+n+' 张照片给 DeepSeek');
   setText('send',cloudJob?tr('Reviewing…','正在复核…'):submit);
@@ -214,11 +222,14 @@ function renderOnline(){
   if(online){
     setText('cloud-source',online.source==='local'?tr('Current photo · local evidence','当前照片 · 本机证据'):tr('DeepSeek · visual advice','DeepSeek · 视觉建议'));
     setText('cloud-title',online.title||'');setText('cloud-copy',[online.instruction,online.viewRequest].filter((x,i,a)=>x&&a.indexOf(x)===i).join(' '));
+    ShelfFeedback.mark($('cloud-title'),cloudTone);
   }
+  ShelfFeedback.mark($('cloud-status'),cloudError?'adjust':'neutral');
 }
 function render() {
   if(disposed)return;
   const v=selectedView(),camera=mode==='live'||mode==='opening';
+  changePhoto(camera?'live':v?.captureId||'empty');
   document.documentElement.lang=lang==='zh'?'zh-CN':'en';
   document.title=tr('AI photo review','AI 照片复核')+' · ENT207';
   setText('heading',tr('AI photo review','AI 照片复核'));setText('count',views.length+' / '+viewLimit);
@@ -252,6 +263,7 @@ function render() {
   });
   renderControls();renderSamples();renderFinding(v);renderOnline();
   setText('feedback',feedback?tr(feedback.en,feedback.zh):'');
+  ShelfFeedback.mark($('feedback'),feedback?'adjust':'neutral');
   setText('retry',tr('Retry local check','重试本机检查'));
   nameButton($('back'),tr('Return to assembly','返回装配'));
 }
@@ -364,7 +376,7 @@ function scheduleCheck() {
   if(!v)return;
   const ticket={id:v.captureId,lang,precision:!!enrich};job=ticket;
   try {
-    if(!worker)worker=new Worker('../vision/worker.js?v=6');
+    if(!worker)worker=new Worker('../vision/worker.js?v=8');
     worker.onerror=()=>failJob(ticket);
     worker.onmessage=({data})=>{
       if(job!==ticket||disposed||data.captureId!==ticket.id)return;

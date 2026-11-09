@@ -257,7 +257,7 @@
 (function(root){
   'use strict';
   const workerURL=new URL('worker.js',document.currentScript.src);
-  workerURL.searchParams.set('v','6');
+  workerURL.searchParams.set('v','8');
   const SVG='http://www.w3.org/2000/svg';
   function svg(tag,attrs){
     const el=document.createElementNS(SVG,tag);

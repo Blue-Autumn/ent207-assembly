@@ -1,8 +1,10 @@
 import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './community/studio-store.js';
-import {mountWelcome} from './welcome.js?v=tabletop-6';
+import './guide/work-surface.js?v=8';
+import {mountWelcome} from './welcome.js?v=8';
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
+  const navigateMotion=ShelfFeedback.navigation($('content'));
   const paths = {
     back:'M15 5l-7 7 7 7', next:'m9 5 7 7-7 7', arrow:'M3 12h17m-7-7 7 7-7 7',
     projects:'m3 7 9-4.5L21 7l-9 4.5zM3 12l9 4.5 9-4.5M3 17l9 4.5 9-4.5',
@@ -324,6 +326,7 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
     if(['field/index.html','guide/index.html','review/index.html','tools/index.html','tools/wide-camera.html'].includes(path))frame.allow="camera 'self'";
     const url=new URL(path,document.baseURI);url.search=new URLSearchParams({lang,profile:owner(),...args}).toString();
     frame.title=title;frame.src=url.href;$('content').append(frame);
+    navigateMotion(route,frame);
   }
   function render() {
     if(!welcomeDone)return;
@@ -333,11 +336,11 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
     const next=parse();
     if(next==='field' && (route==='guide'||route==='progress') && frame) {
       parkedGuide={route,frame};frame.hidden=true;route=next;
-      embed('field/index.html',tr('Sample photos','实物样片'));return;
+      embed('field/index.html',tr('Sample photos','实物样片'),{v:'8'});return;
     }
     if(parkedGuide && next===parkedGuide.route) {
       frame.remove();route=parkedGuide.route;frame=parkedGuide.frame;frame.hidden=false;
-      parkedGuide=null;return;
+      navigateMotion(route);parkedGuide=null;return;
     }
     parkedGuide=null;
     route=parse();scroll=null;frame=null;childPost=null;restorePost=!!history.state?.post;
@@ -350,16 +353,16 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
       case 'shelf':shelfPage();break;
       case 'profile':profilePage();break;
       case 'account':accountPage();break;
-      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'7'});break;
+      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'8'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
-      case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
+      case 'field':embed('field/index.html',tr('Sample photos','实物样片'),{v:'8'});break;
       case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
       case 'camera-test':embed('tools/camera-bench.html',tr('Recognition speed test','本机识别测速'));break;
       case 'wide-camera':embed('tools/wide-camera.html',tr('Check rear cameras','检查后置广角'),{v:'7'});break;
       case 'tools':case 'voice':embed('tools/index.html',tr('Tools and earlier demos','工具与旧演示'),route==='voice'?{view:'voice'}:{});break;
       case 'review':{
         const active=readJSON('ent207.guide.v2:'+owner(),{})?.active;
-        embed('review/index.html',tr('AI photo review','AI 照片复核'),{task:typeof active==='string'?active:'prepare:左侧板',camera:cameraPreferred?'auto':'manual',v:'7'});break;
+        embed('review/index.html',tr('AI photo review','AI 照片复核'),{task:typeof active==='string'?active:'prepare:左侧板',camera:cameraPreferred?'auto':'manual',v:'8'});break;
       }
       case 'community':embed('community/index.html',tr('Community','社区'));showTabs(route);break;
       default:{
@@ -367,6 +370,7 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
         embed('community/index.html',tr('Design community','设计社区'),type==='library'?{view:id}:{post:id});
       }
     }
+    if(!frame)navigateMotion(route);
     if(scroll) scroll.scrollTop=scrolls.get(owner()+'/'+route)||0;
   }
   addEventListener('message',event=>{

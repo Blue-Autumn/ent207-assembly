@@ -1,9 +1,13 @@
 'use strict';
 /** OpenCV.js adapter with the same 4x4 dictionary and subpixel corner refinement as Android. */
-function createOpenCVGeometry(cv){
+function createOpenCVGeometry(cv,exactTags=false){
  const dictionary=cv.getPredefinedDictionary(cv.DICT_4X4_250);
  const params=new cv.aruco_DetectorParameters(),refine=new cv.aruco_RefineParameters(10,3,true);
  params.cornerRefinementMethod=cv.CORNER_REFINE_SUBPIX;
+ if(exactTags){
+  if(!('errorCorrectionRate' in params)){params.delete();refine.delete();dictionary.delete();throw Error('Exact marker decoding unavailable');}
+  params.errorCorrectionRate=0;
+ }
  const detector=new cv.aruco_ArucoDetector(dictionary,params,refine);
  params.delete();refine.delete();dictionary.delete();
  // See R91 ArucoProcessor.slotCandidates. Rectangles are unlabelled visual supports:

@@ -2,6 +2,7 @@
 (() => {
   const $=id=>document.getElementById(id),zh=new URLSearchParams(location.search).get('lang')?.startsWith('zh');
   const tr=(en,cn)=>zh?cn:en;
+  const feedback=ShelfFeedback.attach(document.body);
   document.documentElement.lang=zh?'zh-CN':'en';
   $('title').textContent=tr('Check a gray frame joint','检查灰框接头');
   $('intro').textContent=tr('Compare two close-ups of the left frame. Keep one tag on each side of the seam in view.','对比左侧框的两张接头近照。接缝两侧各保留一枚码。');
@@ -22,6 +23,8 @@
     $('caption').textContent=model?tr('CAD demonstration · right-hand half','CAD 动作示范 · 右手边半件'):tr('Recorded close-up · left frame','实拍近照 · 左侧框');
     $('finding').hidden=$('why').hidden=!result;
     $('finding').textContent=sample?tr('Flip the right-hand half','把右手边这块翻面'):tr('Same face and matching end','同面，连接端相符');
+    const tone=result?(sample?'adjust':'ok'):'neutral';
+    ShelfFeedback.mark($('finding'),tone);feedback.show('gray/'+sample,tone);
     $('why').textContent=sample?tr('024 shows face B on the left. 031 shows face A on the right. Lift the right-hand half clear, flip it over and align the joint again.','左边的 024 是 B 面，右边的 031 是 A 面。先将右手边这块退出接头，再翻面、重新对齐。'):
       tr('025 and 031 identify face A at the same connector end. Now check the seam by eye and confirm it yourself.','025 与 031 对应两块的 A 面和同一连接端。再看接缝是否贴齐，由你确认。');
     const action=$('action');action.hidden=result && !sample;

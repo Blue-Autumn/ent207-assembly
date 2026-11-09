@@ -1,5 +1,5 @@
 'use strict';
-importScripts('../field/cv.js','../field/aruco.js','../field/dictionary.js','vision.js?v=6');
+importScripts('../field/cv.js','../field/aruco.js','../field/dictionary.js','../field/finder-frame.js?v=8','vision.js?v=8');
 const detector=new AR.Detector({dictionaryName:'SHELF_4X4_250',maxHammingDistance:0});
 if(new URL(self.location.href).searchParams.get('engine')==='simd'){
   try{importScripts('fast-preprocess.js?v=5');self.ShelfFastPixels.prepare();}catch{}
@@ -92,10 +92,10 @@ function loadPrecision(){
     const timer=setTimeout(()=>reject(Error('Precision reader timed out')),40000);
     const ready=lib=>{
       clearTimeout(timer);
-      try{resolve(createOpenCVGeometry(lib))}catch(error){reject(error)}
+      try{resolve(createOpenCVGeometry(lib,new URL(self.location.href).searchParams.get('finder')==='1'))}catch(error){reject(error)}
     };
     try{
-      importScripts('opencv-backend.js','opencv-4.13.js');
+      importScripts('opencv-backend.js?v=8','opencv-4.13.js');
       if(self.cv.Mat)ready(self.cv);else self.cv.then(ready);
     }catch(error){clearTimeout(timer);reject(error)}
   });
@@ -123,6 +123,13 @@ self.onmessage=async({data})=>{
       throw Error('Expected RGBA pixels within the supported frame size.');
     }
     const {width,height}=image;
+    if(data.finder){
+      const backend=await loadPrecision();
+      if(ticket!==epoch)return;
+      const detect=img=>backend.detect(img,'').markers.map(m=>({...m,hammingDistance:0}));
+      self.postMessage(readFinderFrame(data,detect,detect,'opencv-4.13'));
+      return;
+    }
     let result=null,detectorName='fast-4x4-250',fallback=null,scale=1;
     if(data.precision==='opencv'){
       try{

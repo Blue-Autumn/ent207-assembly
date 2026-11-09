@@ -1,6 +1,9 @@
 'use strict';
 (() => {
  const $ = id => document.getElementById(id);
+ const feedback=ShelfFeedback.attach(document.body),caseChange=ShelfFeedback.navigation($('viewer'));
+ const regionLayer=createFinderOverlay($('outlines'));
+ const scannerTags=document.createElementNS('http://www.w3.org/2000/svg','g');$('outlines').append(scannerTags);
  let zh = new URLSearchParams(location.search).get('lang')?.startsWith('zh');
  const tr = (en,cn) => zh ? cn : en;
  function labels(){
@@ -44,6 +47,8 @@
    }
    $('source').textContent=photo?tr('Field photo · saved Android result','示例照片 · 安卓判定回放'):tr('CAD demonstration','CAD 动作示意');
    $('verdict').textContent=states[selected][1];$('instruction').textContent=states[selected][2];
+   const tone=selected==='correct'?'ok':'adjust';ShelfFeedback.mark($('verdict'),tone);
+   feedback.show('blue-sample',tone,selected);caseChange(selected+'/'+illustrated);
    $('explain').textContent=illustrated?(selected==='wrong'?tr('Back to photo','返回照片'):tr('Back to position','回到摆位')):tr('Show the move','看示范动作');
    $('detect').hidden=!photo;$('detect').textContent=tr('Read photo tags','识别照片标签');
  }
@@ -59,9 +64,9 @@
      label.setAttribute('x',marker.corners[0].x);label.setAttribute('y',Math.max(16,marker.corners[0].y-3));
      label.textContent=String(marker.id).padStart(3,'0');nodes.push(label);
    }
-   element.replaceChildren(...nodes);
+   (element===$('outlines')?scannerTags:element).replaceChildren(...nodes);
  }
- let registry=null,worker=null,session=0,stream=null,timer=0,running=false;
+ let registry=null,worker=null,session=0,stream=null,timer=0,running=false,frameAt=0;
  const seen=new Map();
  const buffer=document.createElement('canvas');
  const ctx=buffer.getContext('2d',{willReadFrequently:true});
@@ -69,7 +74,7 @@
    session++;clearTimeout(timer);worker?.terminate();worker=null;
    stream?.getTracks().forEach(t=>t.stop());stream=null;
    $('video').srcObject=null;running=false;seen.clear();
-   $('outlines').replaceChildren();$('power').textContent=tr('Open camera','开启相机');$('detect').disabled=false;
+   scannerTags.replaceChildren();regionLayer.clear();$('power').textContent=tr('Open camera','开启相机');$('detect').disabled=false;
  }
  async function loadRegistry(){
    if(!registry){
@@ -87,13 +92,16 @@
    buffer.width=Math.max(1,Math.round(w*scale));buffer.height=Math.max(1,Math.round(h*scale));
    ctx.drawImage(image,0,0,buffer.width,buffer.height);
    const imageData=ctx.getImageData(0,0,buffer.width,buffer.height);
-   worker.postMessage({image:imageData},[imageData.data.buffer]);
+   frameAt=performance.now();
+   const finder=running?{token:'free-scan',generation:session,atMs:frameAt}:null;
+   worker.postMessage({image:imageData,finder},[imageData.data.buffer]);
  }
  function showError(photo){
    stopReader();
    if(photo)$('tags-found').textContent=tr('Photo reader unavailable. The saved result is shown above.','暂时无法重新识码，仍可查看已保存的判定。');
    else{
      $('reading').textContent=tr('Camera unavailable','相机暂不可用');
+     ShelfFeedback.mark($('reading'),'adjust');feedback.show('field-camera','adjust','denied');
      $('cam-status').textContent=tr('Allow camera access in your browser, or return to the sample photos.','可在浏览器中允许相机权限，或返回样片继续体验。');
    }
  }
@@ -121,10 +129,12 @@
  };
  function idleCamera(){
    $('reading').textContent=tr('Ready to scan','准备识码');
+   ShelfFeedback.mark($('reading'),'neutral');feedback.show('field-camera','neutral');
    $('cam-status').textContent=tr('A tag identifies the part and face. Check direction, slot alignment and seating separately.','标签用于确认板件和面。朝向、槽位和接缝需要分别检查。');
  }
  async function startCamera(){
    stopReader();running=true;const ticket=session;
+   feedback.show('field-camera','neutral');ShelfFeedback.mark($('reading'),'neutral');
    $('power').textContent=tr('Stop camera','关闭相机');$('reading').textContent=tr('Opening camera…','正在打开相机…');
    try{
      if(!navigator.mediaDevices?.getUserMedia)throw new Error('No camera');
@@ -135,7 +145,7 @@
        track.addEventListener('ended',()=>{if(ticket===session)showError(false)},{once:true});
      }
      const video=$('video');video.srcObject=stream;await video.play();await loadRegistry();if(ticket!==session)return;
-     worker=new Worker('reader.js');worker.onerror=()=>showError(false);
+     worker=new Worker('reader.js?v=8');worker.onerror=()=>showError(false);
      function capture(){if(ticket!==session)return;if(video.readyState>=2)scanPixels(video,video.videoWidth,video.videoHeight,850);else timer=setTimeout(capture,100)}
      worker.onmessage=({data})=>{
        if(ticket!==session)return;
@@ -149,7 +159,10 @@
        for(const [id,item] of seen)if(now-item.time>500)seen.delete(id);
        const stable=[...seen.values()].filter(item=>item.count>=2).sort((a,b)=>a.marker.id-b.marker.id);
        highlight($('outlines'),stable.map(item=>item.marker),data.width,data.height);
-       $('reading').textContent=stable.length?stable.slice(0,3).map(item=>describe(item.marker.id)).join(' / '):tr('Looking for a shelf tag…','正在找板件标签…');
+       regionLayer.paint(data.regions,frameAt);
+       const copy=stable.length?stable.slice(0,3).map(item=>describe(item.marker.id)).join(' / '):tr('Looking for a shelf tag…','正在找板件标签…');
+       if($('reading').textContent!==copy)$('reading').textContent=copy;
+       const tone=stable.length?'ok':'neutral';ShelfFeedback.mark($('reading'),tone);feedback.show('field-camera',tone);
        timer=setTimeout(capture,85);
      };
      capture();

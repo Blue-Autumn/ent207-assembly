@@ -4,6 +4,15 @@ const t=AssemblyText.t;
 const phone=document.querySelector('.phone');
 const visual=$('visual');
 const sheet=$('overlay');
+const guidanceFeedback=ShelfFeedback.attach(phone),sheetFeedback=ShelfFeedback.attach(sheet);
+const moveStep=ShelfFeedback.navigation($('work')),moveSheet=ShelfFeedback.navigation(sheet);
+const receipt=document.createElement('output');receipt.id='stepReceipt';receipt.hidden=true;receipt.setAttribute('aria-live','polite');$('topContext').after(receipt);
+window.onAssemblyConfirmed=id=>{
+ if(!sheet.classList.contains('open')){
+  const number=order.indexOf(id)+1;
+  guidanceFeedback.acknowledge(receipt,tr('Step '+number+' confirmed','第 '+number+' 步已确认'));
+ }
+};
 const cameraTable=element('div',null,'camera-table');
 const photoMode=button('',()=>toggleReference(),'photo-mode');
 const realScan=button('',toggleRealScan,'live-scan-toggle');
@@ -74,13 +83,12 @@ function paintLiveReading(){
  const label=$('headline'),subtitle=$('workSubtitle');
  if(label.textContent!==title)label.textContent=title;
  if(subtitle.textContent!==body)subtitle.textContent=body;
- let mark='';
+ const mark=ShelfFeedback.liveTone(check);
  if(check?.stable){
-   const aligned=['direction_ok','install_base_ready','install_row_ok','install_oriented'].includes(check.status)&&!check.placement;
-   mark=aligned?'ok':'adjust';
    say(title+'. '+body);
  }
- if(mark){if(label.dataset.mark!==mark)label.dataset.mark=mark;}else if(label.hasAttribute('data-mark'))delete label.dataset.mark;
+ ShelfFeedback.mark(label,mark);
+ guidanceFeedback.show('live/'+active,mark,mark==='neutral'?'waiting':check.placement?'placement':check.status);
  const row=check?.stable && check.status==='install_wrong_row' && check.observedRow && check.targetRow;
  recordedRowButton.hidden=!row;
  if(row)recordedRowButton.textContent=tr('Show row ','演示换排 ')+check.observedRow+' → '+check.targetRow;
@@ -205,6 +213,7 @@ function animate(){
 closeOverlay=function(){
  const returning=sheet.classList.contains('open'),resumeCamera=returnToCamera,previousTask=active;
  returnToCamera=false;
+ sheetFeedback.clear();
  releaseReviewStream();
  if(reviewFrame){reviewFrame.contentWindow?.postMessage({type:'ent207-review-dispose'},location.origin);reviewFrame=null;}
  if(lensFrame){lensFrame.contentWindow?.postMessage({type:'ent207-lens-dispose'},location.origin);lensFrame=null;}
@@ -222,6 +231,7 @@ showOverlay=function(title){
  stopAlignment();correctionFromCamera=false;
  if(livePick.active){leaveRealScan();render()}
  const box=rawOpenOverlay(title);
+ guidanceFeedback.clear();moveSheet(active+'/'+phase+'/'+title);
  returnToCamera=resumeCamera;
  cancelAnimationFrame(loop);
  window.speechSynthesis?.cancel();
@@ -273,9 +283,10 @@ function populateTable(target){
    const choice=button('',()=>choosePiece(id),'scan-choice');
    choice.dataset.part=id;
    choice.setAttribute('aria-label',tr('Scan ','模拟扫描')+halfName(id));
-   const img=new Image();img.src='pieces/'+pieceImages[id];img.alt='';
+   const art=element('span',null,'piece-art'),img=new Image();img.src='pieces/'+pieceImages[id];img.alt='';
+   art.style.setProperty('--piece-mask','url("'+img.src+'")');art.append(img);
    const num=element('span',String(i+1),'piece-number');
-   choice.append(img,num);
+   choice.append(art,num);
    cameraTable.append(choice);
   }
  }
@@ -309,13 +320,14 @@ function showFrameJoint(){
  box.classList.add('frame-review');
  const iframe=document.createElement('iframe');
  iframe.title=tr('Left frame joint examples','左侧框接头示例');
- iframe.src='gray/index.html?lang='+(AssemblyText.english?'en':'zh');
+ iframe.src='gray/index.html?v=8&lang='+(AssemblyText.english?'en':'zh');
  box.append(iframe);
 }
 function showFieldReview(){
  reference=false;
  const box=showOverlay(tr('This joint is seated','这处接好了'));
  box.classList.add('review-page');
+ sheetFeedback.show('saved-purple','ok');ShelfFeedback.mark(box.querySelector('h2'),'ok');
  const body=element('p',tr('The purple shelf stands upright in the frame slot. The seam is flush.','紫色层板已经立进侧框槽里，这处接缝齐平。'),'review-copy');
  const tag=element('small',tr('Saved AI review · Purple shelf','AI 复核样例 · 紫色层板'),'review-label');
  const img=new Image();img.src='joint-photo.webp';img.alt=tr('A purple shelf fitted to the grey frame','紫色层板插入灰色基准框');
@@ -340,7 +352,7 @@ function visitorReview(restore=false){
  if(handed){reviewStream=handed;reviewStreamTimer=setTimeout(releaseReviewStream,20000);}
  reviewFrame=document.createElement('iframe');reviewFrame.allow="camera 'self'";
  reviewFrame.title=tr('Review the current joint','复核当前接头');
- reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh',camera:resume||cameraPreferred?'auto':'granted',v:'7'});
+ reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh',camera:resume||cameraPreferred?'auto':'granted',v:'8'});
  box.append(reviewFrame);testLog.add({taskId:active,phase,source:'photos',status:'opened'});
 }
 function inspectLenses(restore=false){
@@ -416,6 +428,7 @@ window.onAssemblyMilestone=(kind,next,proceed)=>{
  const complete=kind==='complete';
  const box=showOverlay(t(complete?'milestone.complete.title':'milestone.prepared.title'));
  box.classList.add('milestone-page');box.dataset.milestone=kind;
+ sheetFeedback.show('milestone/'+kind,'ok');
  box.append(element('div',null,'milestone-mark'),element('p',t(complete?'milestone.complete.body':'milestone.prepared.body'),'subtitle'),
   element('p',t('progress.summary',{done:done.size,total:order.length}),'milestone-count'),
   button(t(complete?'action.backProject':'action.startAssembly'),complete?exitGuide:proceed,'primary full'));
@@ -439,13 +452,12 @@ render=function(){
  const scene=[active,phase,screen].join('|');
  if(scene!==latestScene){animationStart=performance.now();latestScene=scene}
  const scanning=finding&&livePick.active;
- phone.classList.toggle('work-page',!homeView);phone.classList.toggle('found',finding&&!scanning&&!!candidate);
- phone.classList.toggle('problem',finding&&!scanning&&!!wrongChoice);
+ phone.classList.toggle('work-page',!homeView);
+ moveStep(scene+'/'+(finding?targetId():''));
  phone.classList.toggle('pickup-camera',scanning);
  phone.classList.toggle('table-camera',scanning||alignment.active);
  if(scanning)phone.dataset.pickup=candidate?'match':wrongChoice?'other':'search';
  else delete phone.dataset.pickup;
- phone.classList.toggle('local-direction',review);
  $('home').style.display=homeView?'block':'none';$('work').style.display=homeView?'none':'block';
  $('homeSummary').hidden=!homeView;$('footer').style.display=homeView?'none':'flex';
  $('visual').style.display='block';
@@ -474,6 +486,7 @@ render=function(){
  speechButton.hidden=!('speechSynthesis'in window);speechButton.classList.toggle('muted',!voiceOn);
  speechButton.setAttribute('aria-label',t(voiceOn?'voice.on':'voice.off'));speechButton.setAttribute('aria-pressed',String(voiceOn));
  if(homeView){
+  guidanceFeedback.clear();
   $('home').querySelector('h1').textContent=tr('Five-tier shelf','五层隔板架');
   $('nextText').textContent=t(allDone()?'home.finished':'home.subtitle');
   $('continue').textContent=t(allDone()?'home.summary':hasSavedProgress()?'home.continue':'home.start');
@@ -489,10 +502,10 @@ render=function(){
    action=candidate?t('work.pickup'):tr('Show the matching part','显示目标零件');
    if(scanning){
     const hit=livePick.hit;
-    title=t('work.find',{part:name});
+    title=hit?.matches?t('work.found'):t('work.find',{part:name});
     const scanned=hit?String(hit.id).padStart(3,'0')+' · '+halfName(hit.part)+' · '+hit.face:'';
     body=hit ? (hit.matches?tr('Matched: ','匹配：'):tr('Different piece: ','其他板件：'))+scanned :
-     tr('Aim at a printed marker. The camera checks part identity on this device.','将相机对准板件上的标签，在本机核对身份。');
+     tr('Aim at this part’s tags. Keep two or more on the same face clear to see its outline.','对准目标零件的方码，让同一面的两枚或更多标签清晰入镜，可看到整片轮廓。');
     action=t('work.pickup');
    }else if(cameraError){
     body=tr('Camera unavailable. Allow it in your browser or phone settings, then retry, or tap a sample part below.','相机暂不可用。可在浏览器或手机设置里允许相机后重试，或点下方样片继续。');
@@ -502,9 +515,14 @@ render=function(){
   }else{
    title=taskName(task);body=liveProblem?tr('Camera unavailable. Continue with the model or select a photo for review.','相机暂不可用，可看模型继续或选照片复核。'):statusCopy(task);action=ready(active)?tr('Check the fit','检查装配效果'):t('work.prepareFirst');
   }
-  $('headline').textContent=title;$('workSubtitle').textContent=body;
-  const mark=candidate||review?'ok':wrongChoice&&!scanning?'adjust':null;
-  if(mark)$('headline').dataset.mark=mark;else delete $('headline').dataset.mark;
+  if(!alignment.active){
+   const mark=finding?(candidate?'ok':wrongChoice||cameraError?'adjust':'neutral'):review?(completed?'ok':'check'):liveProblem?'adjust':'neutral';
+   const headline=$('headline'),subtitle=$('workSubtitle');
+   if(headline.textContent!==title)headline.textContent=title;
+   if(subtitle.textContent!==body)subtitle.textContent=body;
+   ShelfFeedback.mark(headline,mark);
+   guidanceFeedback.show(scene+'/'+(finding?targetId():'')+'/'+(scanning?'camera':'rehearsal'),sheet.classList.contains('open')?'neutral':mark);
+  }
   $('primary').textContent=action;$('primary').disabled=scanning&&!candidate;window.finderModel=finding;window.uiTable=!finding;
   if(alignment.active)paintLiveReading();
   else if(!sheet.classList.contains('open'))say(title+'. '+body);

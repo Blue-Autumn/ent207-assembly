@@ -180,7 +180,7 @@
     return Math.ceil(Math.max(16,period-elapsed,Math.min(period,elapsed*.4)));
   }
   function workerURL(path){
-    const url=new URL(path,document.baseURI);url.searchParams.set('v','6');
+    const url=new URL(path,document.baseURI);url.searchParams.set('v','8');
     try{if(localStorage.getItem('ent207.camera.simd.v1')==='on')url.searchParams.set('engine','simd');}catch{}
     return url;
   }

@@ -3,6 +3,7 @@ export function mountWelcome({language, setLanguage, opensGuide, finish}) {
   const get = id => document.getElementById('welcome-' + id);
   const next = get('next'), skip = get('skip'), back = get('back');
   const title = get('title'), description = get('description'), status = get('status');
+  const feedback=ShelfFeedback.attach(root),arrive=ShelfFeedback.navigation(root.querySelector('.welcome-card'));
   let step = 1, ticket = 0, waiting = false, issue = '';
   const tr = (en, zh) => language() === 'zh' ? zh : en;
   const issues = {
@@ -14,6 +15,7 @@ export function mountWelcome({language, setLanguage, opensGuide, finish}) {
 
   function draw(focus = false) {
     root.dataset.step = String(step);
+    arrive(step);feedback.show('welcome/'+step,issue?'adjust':'neutral');
     get('count').textContent = step + ' / 3';
     get('count').setAttribute('aria-label',tr('Step ' + step + ' of 3','第 ' + step + ' 页，共 3 页'));
     back.hidden = step === 1;
@@ -38,6 +40,7 @@ export function mountWelcome({language, setLanguage, opensGuide, finish}) {
     }
     status.hidden = !issue;
     status.textContent = issue ? tr(...(issues[issue] || issues.unavailable)) : '';
+    ShelfFeedback.mark(status,issue?'adjust':'neutral');
     next.disabled = waiting;
     next.querySelector('span').textContent = step === 1 ? tr('Continue / 继续','继续 / Continue') :
       step === 2 ? tr('Continue','继续') : waiting ? tr('Waiting for camera…','等待相机权限…') :

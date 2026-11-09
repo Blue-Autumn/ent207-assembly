@@ -1,55 +1,84 @@
-// Paint the page as a single shape behind the controls so an interrupted tint always
-// continues from the displayed colour. The hole uses the native preview's CSS bounds.
+// One transition owner per result surface. Repeated detections, DOM renders and
+// language changes do not restart the pulse. CSS interpolates from the visible wash.
 (() => {
- const phone=document.querySelector('.phone');
- const stage=document.getElementById('visual');
- const surface=document.getElementById('workSurface');
- const path=surface.querySelector('path');
- const motion=matchMedia('(prefers-reduced-motion: reduce)');
- let previous='', timer=0;
-
- function updateTint(){
-  const tone=phone.matches('.problem,.ai-adjust,.local-adjust')?'adjust':
-    phone.matches('.found,.ai-ok,.local-direction')?'ok':'neutral';
-  const style=document.documentElement.dataset.feedbackStyle;
-  const next=[tone,style,motion.matches,phone.classList.contains('work-page')].join('/');
-  if(next===previous)return;
-  previous=next;
-  clearTimeout(timer);
-  delete surface.dataset.settling;
-  const pulse=phone.classList.contains('work-page') && tone!=='neutral' && style==='pulse' && !motion.matches;
-  surface.toggleAttribute('data-peak',pulse);
-  if(pulse){
-   timer=setTimeout(()=>{
-    surface.dataset.settling='';
-    delete surface.dataset.peak;
-   },1180);
+  'use strict';
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  const ns='http://www.w3.org/2000/svg';
+  const strokes={ok:'m5 12 4.5 4.5L19 7',adjust:'m7 7 10 10 M17 7 7 17',check:'M8 8a4 4 0 0 1 8 0c0 3-4 3-4 6 M12 17h.01'};
+  const positive=new Set(['direction_ok','install_base_ready','install_oriented','install_row_ok']);
+  const correction=new Set(['flip','rotate','wrong_part','install_base_flip','install_turn','install_stand','install_wrong_row','install_wrong_part']);
+  function liveTone(check){
+    if(!check?.stable)return 'neutral';
+    if(check.placement)return 'adjust';
+    if(positive.has(check.status))return 'ok';
+    if(correction.has(check.status)||check.installMotion)return 'adjust';
+    return 'neutral';
   }
- }
-
- function resize(){
-  if(!phone.classList.contains('work-page'))return;
-  const bounds=phone.getBoundingClientRect(),rect=stage.getBoundingClientRect();
-  // Overlap the rounded native clip by one CSS pixel so fractional device-pixel
-  // rounding cannot expose the camera's unpainted perimeter.
-  const seal=1;
-  const left=rect.left-bounds.left+seal,top=rect.top-bounds.top+seal;
-  const right=left+rect.width-2*seal,bottom=top+rect.height-2*seal;
-  const radius=Math.min(16-seal,(right-left)/2,(bottom-top)/2);
-  const frame='M0 0H'+bounds.width+'V'+bounds.height+'H0Z';
-  const arc='a'+radius+' '+radius+' 0 0 1 ';
-  const aperture=radius<=0?'':`M${left+radius} ${top}H${right-radius}${arc}${radius} ${radius}V${bottom-radius}${arc}${-radius} ${radius}H${left+radius}${arc}${-radius} ${-radius}V${top+radius}${arc}${radius} ${-radius}Z`;
-  path.setAttribute('d',frame+aperture);
- }
- const size=new ResizeObserver(resize);
- for(const node of [phone,stage,document.querySelector('.top'),document.getElementById('work')])size.observe(node);
- let work=false;
- new MutationObserver(()=>{
-  const active=phone.classList.contains('work-page');
-  if(work!==active){work=active;resize()}
-  updateTint();
- }).observe(phone,{attributes:true,attributeFilter:['class']});
- new MutationObserver(updateTint).observe(document.documentElement,{attributes:true,attributeFilter:['data-feedback-style']});
- motion.addEventListener('change',updateTint);
- updateTint();
+  function mark(label,tone){
+    if(!label)return;
+    let icon=label.querySelector('.feedback-icon');
+    if(!strokes[tone]){icon?.remove();delete label.dataset.mark;return;}
+    if(icon&&label.dataset.mark===tone)return;
+    if(!icon){
+      icon=document.createElementNS(ns,'svg');icon.setAttribute('class','feedback-icon');icon.setAttribute('viewBox','0 0 24 24');
+      icon.setAttribute('aria-hidden','true');icon.setAttribute('focusable','false');
+      icon.append(document.createElementNS(ns,'path'));label.append(icon);
+    }
+    label.dataset.mark=tone;icon.firstChild.setAttribute('d',strokes[tone]);
+  }
+  function attach(root){
+    root.classList.add('feedback-surface');
+    const wash=document.createElement('div');wash.className='feedback-wash';wash.setAttribute('aria-hidden','true');
+    for(const tone of ['ok','adjust']){const layer=document.createElement('i');layer.className='wash-'+tone;wash.append(layer);}
+    let scope='',outcome='',lastCue='',leftAt=-Infinity,timer=0,receiptTimer=0,receiptNode=null;
+    function dismissReceipt(){clearTimeout(receiptTimer);if(receiptNode)receiptNode.hidden=true;receiptNode=null;}
+    function acknowledge(node,text){
+      dismissReceipt();receiptNode=node;node.textContent=text;mark(node,'ok');node.hidden=false;
+      receiptTimer=setTimeout(dismissReceipt,1450);
+    }
+    function show(nextScope,tone='neutral',reason=tone){
+      if(wash.parentNode!==root)root.prepend(wash);
+      const visual=tone==='ok'||tone==='adjust'?tone:'neutral';
+      const key=nextScope+'|'+visual+'|'+reason;
+      if(key===outcome)return;
+      const now=performance.now(),sameScope=scope===nextScope;
+      if(!sameScope||visual!=='neutral')dismissReceipt();
+      if(root.dataset.feedbackTone!=='neutral')leftAt=now;
+      const repeat=sameScope&&key===lastCue&&now-leftAt<650;
+      clearTimeout(timer);scope=nextScope;outcome=key;
+      root.dataset.feedbackTone=visual;
+      const pulse=visual!=='neutral'&&!repeat&&!reduce.matches&&!document.hidden;
+      root.dataset.feedbackPhase=pulse?'peak':'rest';
+      if(visual!=='neutral')lastCue=key;
+      if(pulse)timer=setTimeout(()=>{root.dataset.feedbackPhase='rest';},760);
+    }
+    function clear(){clearTimeout(timer);dismissReceipt();scope=outcome=lastCue='';leftAt=-Infinity;root.dataset.feedbackTone='neutral';root.dataset.feedbackPhase='rest';}
+    function steady(){clearTimeout(timer);dismissReceipt();root.dataset.feedbackPhase='rest';}
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)steady();});
+    addEventListener('pagehide',steady);
+    reduce.addEventListener('change',steady);
+    return {show,clear,acknowledge};
+  }
+  // Only transitions between distinct screens or steps animate. Cancel from the
+  // current opacity when navigation changes mid-transition. Camera frames never enter here.
+  function navigation(element){
+    let current=null,motion=null,waiting=null;
+    return (key,frame)=>{
+      if(key===current)return;
+      const first=current===null;current=key;
+      const from=motion?Number(getComputedStyle(element).opacity):.72;
+      waiting?.();waiting=null;
+      motion?.cancel();motion=null;
+      if(first||reduce.matches||document.hidden||!element.animate)return;
+      function reveal(){
+        waiting=null;if(current!==key||document.hidden||reduce.matches)return;
+        const active=element.animate([{opacity:Math.max(.45,Math.min(.98,from))},{opacity:1}],
+          {duration:220,easing:'cubic-bezier(.2,.65,.3,1)'});
+        motion=active;active.onfinish=()=>{if(motion===active)motion=null;};
+      }
+      if(frame){frame.addEventListener('load',reveal,{once:true});waiting=()=>frame.removeEventListener('load',reveal);}
+      else reveal();
+    };
+  }
+  window.ShelfFeedback=Object.freeze({attach,mark,liveTone,navigation});
 })();
