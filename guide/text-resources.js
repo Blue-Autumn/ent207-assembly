@@ -238,8 +238,8 @@
   "语音暂时没有响应，请看画面。": "Voice guidance timed out. Follow the on-screen step.",
   "语音暂不可用，请看画面。": "Voice guidance is unavailable. Follow the on-screen step."
  };
- const english=/^en(?:[-_]|$)/i.test(root.AssemblyNative?.languageTag?.()||(root.location&&new URLSearchParams(root.location.search).get('lang'))||'en');
- const locale=english?'en':'zh-CN';
+ let english=/^en(?:[-_]|$)/i.test(root.AssemblyNative?.languageTag?.()||(root.location&&new URLSearchParams(root.location.search).get('lang'))||'en');
+ let locale=english?'en':'zh-CN';
  if(root.document)root.document.documentElement.lang=locale;
  const names={'层1板':['紫色层板','purple shelf'],'层2板':['蓝色层板','blue shelf'],'层3板':['肉色层板','peach shelf'],'层4板':['黄色层板','yellow shelf'],'层5板':['绿色层板','green shelf'],'左侧板':['左侧框','left side frame'],'右侧板':['右侧框','right side frame'],'背板':['背板','back panel']};
  const groupOf=id=>String(id||'').replace(/-[12]$/,'');
@@ -308,6 +308,6 @@
   const [title,message]=guidance[event.state]||['Check the model','Match the position shown before continuing.'];
   return {title,message};
  }
- const api={locale,english,t,phrase,guideText,reference,partName,taskName,isLayer:task=>/^层[1-5]板$/.test(task?.group)};
+ const api={get locale(){return locale},get english(){return english},setLanguage(value){english=value!=='zh';locale=english?'en':'zh-CN'},t,phrase,guideText,reference,partName,taskName,isLayer:task=>/^层[1-5]板$/.test(task?.group)};
  root.AssemblyText=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

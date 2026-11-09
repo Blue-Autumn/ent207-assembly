@@ -7,12 +7,22 @@
   <meta name="description" content="Build the ENT207 five-tier shelf, rehearse each step, and explore the design community.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>Assembly Assistant · ENT207</title>
-  <link rel="stylesheet" href="app.css">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="app.css?v=language-1">
+  <script src="app.js?v=language-1" defer></script>
 </head>
 <body>
   <main id="device">
     <div id="screen">
+      <div id="edition" hidden><span id="edition-label"></span><div class="lang-pair" role="group" aria-label="Language / 语言"><button type="button" lang="en" data-language="en" aria-label="English">EN</button><button type="button" lang="zh-CN" data-language="zh" aria-label="中文">中</button></div></div>
+      <section id="welcome" aria-labelledby="welcome-title">
+        <div class="welcome-card">
+          <img src="concepts/rack-poster.png" alt="" width="236" height="166">
+          <h1 id="welcome-title"><span lang="en">Choose your language</span><small lang="zh-CN">选择语言</small></h1>
+          <p lang="en">This is the web edition of Assembly Assistant. The full app is available on Android.</p>
+          <p lang="zh-CN">这里是装配助手网页体验版，完整功能请使用 Android 应用。</p>
+          <div class="welcome-actions"><button type="button" lang="en" data-language="en">English</button><button type="button" lang="zh-CN" data-language="zh">简体中文</button></div>
+        </div>
+      </section>
       <header id="heading"></header>
       <section id="content"></section>
       <div id="actions"></div>

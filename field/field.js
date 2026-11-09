@@ -1,8 +1,9 @@
 'use strict';
 (() => {
  const $ = id => document.getElementById(id);
- const zh = new URLSearchParams(location.search).get('lang')?.startsWith('zh');
+ let zh = new URLSearchParams(location.search).get('lang')?.startsWith('zh');
  const tr = (en,cn) => zh ? cn : en;
+ function labels(){
  document.documentElement.lang = zh ? 'zh-CN' : 'en';
  $('head').textContent = tr('Field guide','实物指导');
  $('back').ariaLabel = tr('Back','返回');
@@ -16,11 +17,14 @@
  $('marker-help').textContent = tr('Display this tag on a second screen, then scan it with your phone. It identifies face A of this half.','在另一块屏幕上显示这枚标签，用手机扫描，即可识别这个半件的 A 面。');
  $('frame-tags').textContent = tr('Open both tags for the first assembly step','查看装配第一步的两枚练习标签');
  $('close-marker').textContent = tr('Close','关闭');
- const states = {
+ }
+ labels();
+ const stateLabels = () => ({
    wrong: [tr('Wrong row','错排'),tr('Lift the shelf and move to row 2.','提起蓝板，移到第 2 排。'),tr('The notch points the right way. In this photo the Android check found row 1. The target is row 2.','缺口朝向正确。这张照片的安卓判定为第 1 排，目标是第 2 排。')],
    reverse: [tr('Reversed','缺口反向'),tr('Turn the shelf half a turn.','将蓝板水平转半圈。'),tr('The notch is at the opposite end. Keep the shelf upright and turn it before lining up the slots.','缺口在相反的一端。保持层板竖直，转向后再对槽。')],
    correct: [tr('Aligned','对准'),tr('Hold it steady and lower it.','扶稳，再往下插。'),tr('The notch faces the reference end and both tabs line up with row 2. Check the seam yourself after insertion.','缺口朝向基准端，两端凸榫对准第 2 排。插入后请自行检查接缝。')]
- };
+ });
+ let states=stateLabels();
  let selected='wrong', illustrated=false, cameraMode=false;
  for(const key of ['correct','reverse','wrong']){
    const b=document.createElement('button');b.textContent=states[key][0];b.dataset.case=key;
@@ -163,5 +167,12 @@
  $('back').onclick=()=>{stopReader();if(parent===window)location.assign('../');else parent.postMessage({type:'ent207-close'},location.origin)};
  document.addEventListener('visibilitychange',()=>{if(document.hidden){stopReader();if(cameraMode)idleCamera()}});
  window.addEventListener('pagehide',stopReader);
+ window.ent207SetLanguage=value=>{
+   zh=value==='zh';labels();states=stateLabels();
+   for(const b of $('choices').children)b.textContent=states[b.dataset.case][0];
+   if(running&&cameraMode){
+     $('mode').textContent=tr('Sample photos','实物样片');$('power').textContent=tr('Stop camera','关闭相机');idleCamera();
+   }else displayMode();
+ };
  displayMode();
 })();

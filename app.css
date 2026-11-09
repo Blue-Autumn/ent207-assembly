@@ -94,3 +94,11 @@ dialog h2 {font-size:22px}dialog .secondary{width:100%;min-height:40px}
 .quick-launch .primary {background:#30382c;color:white}
 .photo-link {margin:4px auto 0;min-height:40px;display:flex;align-items:center;justify-content:center;gap:3px;color:#53664c;font-size:13px;font-weight:570}
 .photo-link svg {width:15px}
+
+#edition{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none;min-height:38px;padding:0 var(--margin);border-bottom:1px solid #dfe2d8;font-size:12px;color:#525f4c;background:var(--paper)}
+.lang-pair{display:flex;gap:2px;align-items:center}.lang-pair button{min-width:38px;min-height:36px;font-size:13px;font-weight:640;border-radius:10px}.lang-pair button[aria-pressed=true]{color:#29452d;background:#e1e8d8}
+#welcome{position:absolute;inset:0;z-index:5;background:var(--paper);display:grid;align-items:safe center;overflow:auto;padding:24px var(--margin)}
+.welcome-card{max-width:340px;width:100%;margin:auto}.welcome-card img{width:100%;height:clamp(86px,25dvh,220px);object-fit:contain;background:#eeefcf;border-radius:26px;margin-bottom:25px}
+#welcome-title{font-size:clamp(23px,6.5vw,32px);letter-spacing:-.04em;line-height:1.16}#welcome-title small{display:block;font-size:20px;margin:6px 0 18px;letter-spacing:0}.welcome-card p{font-size:14px;line-height:1.5;color:#505e4c;margin:6px 0}
+.welcome-actions{display:grid;gap:10px;margin-top:21px}.welcome-actions button{background:#e4e9dc;min-height:48px;border-radius:16px;font-size:16px;font-weight:650}.welcome-actions button:first-child{color:#fff;background:#324c39}
+@media(max-height:520px){.welcome-card img{display:none}.welcome-actions{grid-template-columns:1fr 1fr}}

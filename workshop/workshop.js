@@ -2,18 +2,19 @@
 (() => {
   const el = id => document.getElementById(id);
   const query = new URLSearchParams(location.search);
-  const chinese = (query.get('lang') || 'en').toLowerCase().startsWith('zh');
+  let chinese = (query.get('lang') || 'en').toLowerCase().startsWith('zh');
   const tr = (en, zh) => chinese ? zh : en;
   const reduce = query.get('motion') === 'reduce' || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const byId = new Map(WORKFLOW.tasks.map(task => [task.id, task]));
   const route = [...WORKFLOW.preparations, ...WORKFLOW.main].map(id => byId.get(id));
   const groups = WORKFLOW.preparations.map(id => byId.get(id));
   const parts = groups.flatMap(task => task.context);
-  const names = {
+  const makeNames = () => ({
     '左侧板': tr('Left frame', '左侧框'), '右侧板': tr('Right frame', '右侧框'), '背板': tr('Back panel', '背板'),
     '层1板': tr('Purple shelf', '紫色层板'), '层2板': tr('Blue shelf', '蓝色层板'),
     '层3板': tr('Peach shelf', '肉色层板'), '层4板': tr('Yellow shelf', '黄色层板'), '层5板': tr('Green shelf', '绿色层板')
-  };
+  });
+  let names=makeNames();
   const groupOf = id => id.replace(/-[12]$/, '');
   const pieceName = id => names[groupOf(id)] + tr(' · half ', ' · 半件 ') + id.slice(-1);
   const phaseName = phase => phase === 'prepare' ? tr('Join the halves', '拼好组件') : tr('Assemble the rack', '总装');
@@ -22,6 +23,7 @@
   let activeScroll = 0;
 
   document.documentElement.dataset.motion=reduce?'reduce':'auto';
+  function localizeWorkshop(){
   document.documentElement.lang = chinese ? 'zh-CN' : 'en';
   document.title = el('page-title').textContent = tr('Virtual assembly', '虚拟试拼');
   el('back').ariaLabel = tr('Back to project', '返回作品');
@@ -29,6 +31,8 @@
   el('previous').ariaLabel = tr('Previous', '上一个');
   el('steps').textContent = tr('Assembly steps', '安装步骤');
   el('parts').textContent = tr('Parts', '单看零件');
+  }
+  localizeWorkshop();
   window.sceneSurface = 'rgba(0,0,0,0)';
   window.uiTable = false;
 
@@ -180,6 +184,10 @@
     if (window.parent === window) return;
     event.preventDefault();
     window.parent.postMessage({type:'ent207-close'},location.origin);
+  };
+  window.ent207SetLanguage=value=>{
+    chinese=value==='zh';names=makeNames();localizeWorkshop();
+    const previous=list.scrollTop;buildList();update(false);list.scrollTop=previous;
   };
   document.body.hidden = false; buildList(); update(false);
 })();

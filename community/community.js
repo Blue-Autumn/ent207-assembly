@@ -2,7 +2,7 @@ import {showModel} from './model.js';
 
 const get=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
-const zh=(params.get('lang')||'en').startsWith('zh');
+let zh=(params.get('lang')||'en').startsWith('zh');
 const tr=(en,cn)=>zh?cn:en;
 document.documentElement.lang=zh?'zh-CN':'en';
 const profile=params.get('profile')||'guest';
@@ -13,19 +13,20 @@ const initial=params.get('post');
 const conceptIds=['stool','lamp','recordplayer','bridge','bookstand','tray','xylophone','drawers','plantstand','organizer'];
 const title=p=>zh?p.titleZh:p.titleEn;
 const body=p=>zh?p.bodyZh:p.bodyEn;
-const strings={
+const listTitles=()=>({
   feed:tr('Community','社区'),favorites:tr('Saved','收藏'),liked:tr('Likes','点赞'),
   history:tr('History','足迹'),comments:tr('Comments','评论')
-};
-const emptyText={
+});
+const listHints=()=>({
   favorites:tr('Tap the bookmark on a design to save it here.','在作品中点按收藏，即可在这里找到。'),
   liked:tr('Designs you like will appear here.','你点赞的作品会出现在这里。'),
   history:tr('Open a project to start your history.','打开一件作品，开始留下足迹。'),
   comments:tr('Your comments on designs will appear here.','你写下的作品评论会出现在这里。')
-};
+});
+let strings=listTitles(),emptyText=listHints();
 const shelf={id:'shelf',titleEn:'Five-tier shelf', titleZh:'五层隔板架',surface:'#e3ebe2'};
 const header=get('header'),scroll=get('scroll'),content=get('content');
-const date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});
+let date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});
 const icons={
  back:'m14.5 5-7 7 7 7',refresh:'M19 8a7.5 7.5 0 1 0 .2 8M19 3v5h-5',
  save:'M6 3h12v18l-6-4-6 4z',like:'M12 20 3.8 12a5.1 5.1 0 0 1 7.2-7.2L12 6l1-1.2a5.1 5.1 0 0 1 7.2 7.2z',
@@ -157,11 +158,14 @@ function reactions(box,p,original,discussion){
 }
 let composeTarget=null,onPosted=null;
 const compose=get('compose');
+function formLabels(){
 get('compose-title').textContent=tr('Add comment','写评论');
 get('comment-input').placeholder=tr('What would you use or change?','你会怎样使用或改动这个设计？');
 get('comment-input').setAttribute('aria-label',tr('Comment','评论'));
 get('comment-note').textContent=tr('Saved in this browser for this profile.','保存在本浏览器的当前个人空间。');
 get('send').textContent=tr('Post to this device','发布到本机社区');get('cancel').textContent=tr('Cancel','取消');
+}
+formLabels();
 get('cancel').onclick=()=>compose.close();
 get('comment-form').onsubmit=e=>{
  e.preventDefault();const text=get('comment-input').value.trim();
@@ -251,4 +255,12 @@ async function start(){
   content.replaceChildren(button(tr('Reload community','重新加载社区'),'soft',start));
  }
 }
+window.ent207SetLanguage=async value=>{
+ zh=value==='zh';document.documentElement.lang=zh?'zh-CN':'en';
+ strings=listTitles();emptyText=listHints();date=new Intl.DateTimeFormat(zh?'zh-CN':'en',{year:'numeric',month:'short',day:'numeric'});formLabels();
+ if(!ready)return;
+ const top=scroll.scrollTop,draft=get('comment-input').value,composing=get('compose').open;
+ if(activePost)await openDetail(activePost,entryDirect,false);else showList();
+ scroll.scrollTop=top;if(composing){get('comment-input').value=draft;get('compose').showModal();}
+};
 start();

@@ -33,11 +33,18 @@ $('progressButton').before(speechButton);
 visual.append(cameraTable,photoMode,fieldButton,realScan);
 $('taskList').replaceChildren();
 cv.setAttribute('aria-label',tr('Part model. Drag to rotate.','板件模型，可拖动旋转。'));
-document.documentElement.lang=AssemblyText.locale;
-document.title=tr('Guided assembly','引导装配');
-document.querySelectorAll('[aria-label]').forEach(el=>el.setAttribute('aria-label',AssemblyText.phrase(el.getAttribute('aria-label'))));
-document.querySelectorAll('[data-static-copy]').forEach(el=>el.textContent=AssemblyText.phrase(el.textContent));
-
+const sourceLabels=[...document.querySelectorAll('[aria-label]')].map(e=>[e,e.getAttribute('aria-label')]);
+const sourceCopy=[...document.querySelectorAll('[data-static-copy]')].map(e=>[e,e.textContent]);
+function localizeGuide(){
+ document.documentElement.lang=AssemblyText.locale;document.title=tr('Guided assembly','引导装配');
+ for(const [e,key] of sourceLabels)e.setAttribute('aria-label',AssemblyText.phrase(key));
+ for(const [e,key] of sourceCopy)e.textContent=AssemblyText.phrase(key);
+ cv.setAttribute('aria-label',tr('Part model. Drag to rotate.','板件模型，可拖动旋转。'));
+ fieldButton.textContent=tr('Field guidance','现场引导');
+ cameraTable.setAttribute('aria-label',tr('Practice scan with photographed parts','实物照片找件练习'));
+ photoMode.textContent=tr('Inspect in 3D','查看模型');
+}
+localizeGuide();
 function leaveRealScan(){
  if(livePick.active){
   livePick.stop();candidate=null;observed=false;wrongChoice='';
@@ -364,6 +371,16 @@ document.addEventListener('visibilitychange',()=>{
  render();
 });
 window.addEventListener('pagehide',()=>{leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
+window.ent207SetLanguage=value=>{
+ AssemblyText.setLanguage(value);localizeGuide();tableTarget='';
+ const inner=sheet.querySelector('iframe');
+ if(inner?.contentWindow?.ent207SetLanguage)inner.contentWindow.ent207SetLanguage(value);
+ else if(sheet.classList.contains('progress-page'))stepList();
+ else if(sheet.classList.contains('frame-review'))showFrameJoint();
+ else if(sheet.classList.contains('review-page'))showFieldReview();
+ else if(sheet.classList.contains('open'))closeOverlay();
+ render();
+};
 if(allDone())openTask(order.at(-1),true,false);else openTask(resumeTask(),true,false);
 if(routeParams.get('page')==='progress')stepList();
 else if(allDone())summary();

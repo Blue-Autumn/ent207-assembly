@@ -49,6 +49,45 @@
   const queryLang=new URLSearchParams(location.search).get('lang');
   let lang=(queryLang || read(languageKey,'en')).startsWith('zh')?'zh':'en';
   const tr=(en,zh)=>lang==='zh'?zh:en;
+  let languageChosen=false;
+  function updateEdition() {
+    document.documentElement.lang=lang==='zh'?'zh-CN':'en';
+    document.title=tr('Assembly Assistant','装配助手')+' · ENT207';
+    $('edition-label').textContent=tr('Web edition · Full app on Android','网页体验版 · 完整版在 Android');
+    for(const b of $('edition').querySelectorAll('[data-language]')) {
+      b.setAttribute('aria-pressed',String(b.dataset.language===lang));
+    }
+  }
+  function selectLanguage(value) {
+    const first=!languageChosen,changed=value!==lang;
+    languageChosen=true;
+    lang=value;write(languageKey,value);
+    $('welcome').hidden=true;$('edition').hidden=false;
+    const url=new URL(location.href);
+    if(url.searchParams.has('lang'))url.searchParams.set('lang',value);
+    history.replaceState(history.state,'',url);
+    updateEdition();
+    if(first){render();return;}
+    if(!changed)return;
+    if(frame){
+      const modules=parkedGuide?[parkedGuide.frame,frame]:[frame];
+      for(const child of modules){
+        const api=child.contentWindow?.ent207SetLanguage;
+        if(typeof api==='function'){api(value);continue;}
+        const src=new URL(child.src);src.searchParams.set('lang',value);
+        child.contentWindow.location.replace(src.href);
+      }
+      if(!$('tabs').hidden)showTabs(route);
+    }else {
+      const draft=$('nickname')?.value;
+      rememberScroll();render();
+      if(draft!==undefined && $('nickname'))$('nickname').value=draft;
+    }
+  }
+  for(const control of document.querySelectorAll('[data-language]')){
+    control.onclick=()=>selectLanguage(control.dataset.language);
+  }
+
   const profiles=()=>{ const all=readJSON(profilesKey,[]);return Array.isArray(all)?all.filter(p=>p&&typeof p.id==='string'&&typeof p.name==='string'):[]; };
   const current=()=>profiles().find(p=>p.id===read(activeKey));
   const owner=()=>current()?.id || 'guest';
@@ -122,7 +161,7 @@
     rememberScroll();render();
   });
   addEventListener('keydown',e=>{
-    if(e.key==='Escape' && !$('setting').open && route!==home) {
+    if(e.key==='Escape' && languageChosen && !$('setting').open && route!==home) {
       e.preventDefault();back();
     }
   });
@@ -256,12 +295,9 @@
     for(const [value,label] of options) {
       const active=value===(isLang?lang:read(voiceKey,'off'));
       const b=button('','choice',()=>{
-        if(isLang) {
-          rememberScroll();lang=value;write(languageKey,value);
-          const url=new URL(location.href);if(url.searchParams.has('lang'))url.searchParams.set('lang',value);
-          history.replaceState(history.state,'',url);
-        } else write(voiceKey,value);
-        dialog.close();if(isLang)render();
+        dialog.close();
+        if(isLang)selectLanguage(value);
+        else write(voiceKey,value);
       });
       b.append(node('span','',label));b.setAttribute('aria-pressed',String(active));if(active)b.append(icon('tick'));choices.append(b);
     }
@@ -300,6 +336,7 @@
     frame.title=title;frame.src=url.href;$('content').append(frame);
   }
   function render() {
+    if(!languageChosen)return;
     if($('setting').open)$('setting').close();
     const next=parse();
     if(next==='field' && (route==='guide'||route==='progress') && frame) {
@@ -364,7 +401,7 @@
       rememberScroll();render();
     }
   });
-  render();
+  updateEdition();
   fetch('community/catalog.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json();}).then(data=>{
     if(!Array.isArray(data))return;
     catalog=data.filter(p=>p && /^[a-zA-Z0-9_-]{1,90}$/.test(p.id));
