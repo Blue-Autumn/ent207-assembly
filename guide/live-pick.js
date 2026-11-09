@@ -13,8 +13,14 @@ function createPickupScanner(stage, targets, onChange, onError, onFrame) {
   outlines.setAttribute('aria-hidden','true');
   const lensButton=document.createElement('button');
   lensButton.className='pickup-lens-choice';lensButton.hidden=true;
-  view.append(video, outlines,lensButton);
+  const picture=document.createElement('div'),fitButton=document.createElement('button');
+  picture.className='camera-picture';fitButton.className='preview-fit pickup-fit';
+  picture.append(video,outlines);view.append(picture,lensButton,fitButton);
   stage.append(view);
+  const language=(en,zh)=>AssemblyText.english?en:zh;
+  const framing=ShelfCamera.frameStage(view,picture,fitButton,language);
+  const resizeVideo=()=>framing.setSize(video.videoWidth,video.videoHeight);
+  video.addEventListener('loadedmetadata',resizeVideo);video.addEventListener('resize',resizeVideo);
 
   const buffer = document.createElement('canvas');
   const context = buffer.getContext('2d',{willReadFrequently:true});
@@ -26,7 +32,7 @@ function createPickupScanner(stage, targets, onChange, onError, onFrame) {
   let nextFrame = 0, expiry = 0, registry = null, observed = null;
   let epoch = 0, capturedEpoch = 0, capturedAt = 0;
   let postedAt=0, lastDetail=-Infinity, lastCost=0, needDetail=true, targetIds=null;
-  const lens=ShelfCamera.lensControl(lensButton,(en,zh)=>AssemblyText.english?en:zh,
+  const lens=ShelfCamera.lensControl(lensButton,language,
     choice=>{publish(null);return start(null,choice);},()=>{publish(null);resetTarget();});
 
   function resetTarget() {
@@ -124,6 +130,7 @@ function createPickupScanner(stage, targets, onChange, onError, onFrame) {
       parts.set(part,{...reading, first:recent?previous.first:now, count:recent?previous.count+1:1});
     }
     outlines.setAttribute('viewBox','0 0 '+data.width+' '+data.height);
+    framing.setSize(data.width,data.height);
     updateReadout();
     paintOutlines();
   }
@@ -138,9 +145,9 @@ function createPickupScanner(stage, targets, onChange, onError, onFrame) {
     view.hidden = false;
     const ticket = generation;
     try {
-      const videoOptions={facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}};
-      const camera = suppliedStream || (choice ? await ShelfCamera.openRear(choice,videoOptions,()=>ticket===generation) :
-        await navigator.mediaDevices.getUserMedia({audio:false,video:videoOptions}));
+      framing.refresh();
+      const camera = suppliedStream || (choice ? await ShelfCamera.openRear(choice,ShelfCamera.rearOptions(),()=>ticket===generation) :
+        await ShelfCamera.openPreferred(()=>ticket===generation));
       if (ticket!==generation) { camera.getTracks().forEach(track=>track.stop()); return; }
       stream = camera;
       lens.bind(stream.getVideoTracks()[0]);
@@ -211,5 +218,5 @@ function createPickupScanner(stage, targets, onChange, onError, onFrame) {
     stop();
     return camera;
   }
-  return {start,stop,resetTarget,takeStream,match,setLanguage:lens.update,get active(){return running},get hit(){return observed}};
+  return {start,stop,resetTarget,takeStream,match,setLanguage(){lens.update();framing.setLanguage();},get active(){return running},get hit(){return observed}};
 }

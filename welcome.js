@@ -61,9 +61,7 @@ export function mountWelcome({language, setLanguage, opensGuide, finish}) {
     waiting = true; issue = ''; draw();
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw Error('unavailable');
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio:false, video:{facingMode:{ideal:'environment'}, width:{ideal:1280}, height:{ideal:720}}
-      });
+      const stream = await ShelfCamera.openPreferred(()=>attempt===ticket && !root.hidden);
       if (attempt !== ticket || root.hidden || document.hidden) {
         stream.getTracks().forEach(track => track.stop());
         if (attempt === ticket) { cancelRequest(); draw(); }

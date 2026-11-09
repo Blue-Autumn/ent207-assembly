@@ -257,6 +257,7 @@
 (function(root){
   'use strict';
   const workerURL=new URL('worker.js',document.currentScript.src);
+  workerURL.searchParams.set('v','6');
   const SVG='http://www.w3.org/2000/svg';
   function svg(tag,attrs){
     const el=document.createElementNS(SVG,tag);
@@ -292,18 +293,26 @@
     const overlay=svg('svg',{'aria-hidden':'true',class:'align-graphics'});
     const teaching=document.createElement('div');teaching.hidden=true;teaching.className='align-teaching';
     const toolbar=document.createElement('div');toolbar.className='align-controls';
+    const fitButton=document.createElement('button');fitButton.className='preview-fit align-fit';
     const lens=document.createElement('button'),back=document.createElement('button'),precision=document.createElement('button');
     precision.type='button';precision.className='align-precision';
     const qualityNote=document.createElement('span');qualityNote.className='align-quality';qualityNote.setAttribute('role','status');
     lens.type=back.type='button';lens.hidden=true;toolbar.append(precision,lens,back);
     const loading=document.createElement('span');loading.className='align-opening';
     const legend=document.createElement('span');legend.className='align-legend';legend.hidden=true;
-    stage.append(video,overlay,teaching);layer.append(stage,toolbar,loading,legend,qualityNote);container.append(layer);
+    stage.append(video,overlay,teaching);layer.append(stage,toolbar,fitButton,loading,legend,qualityNote);container.append(layer);
     const canvas=document.createElement('canvas');
     const ctx=canvas.getContext('2d',{willReadFrequently:true});
     let active=false,version=0,reader=null,stream=null,timer=0,shutter=0,deadline=0;
     let taskId='',session='',reading=null,exposure=0,frameGap=0,optics=0,frameOptics=0;
     let width=0,height=0,warming=null,warmTimer=0,quality='fast',applyPrecision=null;
+    let previousStable=null,seenHalf=[-Infinity,-Infinity];
+    const qualityKey='ent207.camera.alignmentQuality.v1';
+    function preference(){try{return localStorage.getItem(qualityKey)||'auto';}catch{return 'auto';}}
+    function userPrecision(enabled){
+      try{localStorage.setItem(qualityKey,enabled?'precision':'fast');}catch{}
+      applyPrecision?.(enabled);
+    }
     function qualityLabels(){
       precision.setAttribute('aria-pressed',String(quality==='ready'||quality==='loading'));
       precision.textContent=quality==='ready'?tr('Use fast scan','切回快速识码'):
@@ -311,7 +320,7 @@
       qualityNote.hidden=quality==='fast';
       layer.dataset.quality=quality;
       qualityNote.textContent=quality==='ready'?tr('Precision · OpenCV','精细识别 · OpenCV'):
-        quality==='loading'?tr('Loading precision reader… Fast scan is active.','正在加载精细识别，快速识码继续运行。'):
+        quality==='loading'?tr('Loading precision · scanning continues','正在加强识别 · 快速识码继续'):
         quality==='fallback'?tr('Precision unavailable. Using fast scan.','精细识别暂不可用，已继续快速识码。'):'';
     }
     function cancelWarmup(){
@@ -319,14 +328,19 @@
       if(warming){warming.terminate();warming=null}
     }
     const tr=(en,zh)=>String(getLanguage?.()||'en').startsWith('zh')?zh:en;
+    const framing=ShelfCamera.frameStage(layer,stage,fitButton,tr,()=>{if(active&&reading)drawGeometry(reading.check,reading.markers);});
+    function setVideoSize(){framing.setSize(video.videoWidth,video.videoHeight);}
+    video.addEventListener('resize',setVideoSize);video.addEventListener('loadedmetadata',setVideoSize);
     const lensMenu=ShelfCamera.lensControl(lens,tr,choice=>start({choice,
       precision:quality==='ready'||quality==='loading'?'opencv':'fast'}),()=>{
       optics++;clearTimeout(deadline);reader?.postMessage({type:'reset'});reading=null;
+      previousStable=null;seenHalf=[-Infinity,-Infinity];
       hideGeometry();onReading?.(neutral('need_view'));
     });
     function setLanguage(){
+      previousStable=null;
       back.textContent=tr('Back to model','返回模型');
-      lensMenu.update();
+      lensMenu.update();framing.setLanguage();
       loading.textContent=tr('Opening camera…','正在开启相机…');qualityLabels();
     }
     function hideGeometry(){
@@ -342,15 +356,39 @@
       if(stream){stream.getTracks().forEach(track=>track.stop());stream=null}
       video.srcObject=null;taskId='';reading=null;layer.hidden=true;hideGeometry();
       width=height=exposure=frameGap=0;lensMenu.clear();
+      previousStable=null;seenHalf=[-Infinity,-Infinity];
     }
     function close(reason){
       stop();onClose?.(reason);
     }
     function neutral(status){
-      return {status,headline:tr('Show the current parts','拍清当前组件'),
-        instruction:tr('Keep their markers and the base in view.','拍清板件标签，并露出基准框。'),
+      return {status,headline:tr('Reading the tags','正在读取标签'),
+        instruction:tr('Keep the square tags clear and hold the view steady.','让黑白方码清晰入镜，停稳片刻。'),
         visible:false,stable:false,markerIds:[],slotTargets:[],inferredSlotTargets:[],seatingVerified:false,
         cueGeometry:null,alignedPlanes:{},width,height,taskId};
+    }
+    function displayReading(data,now){
+      const c=data.check,p=data.pair;
+      if(!p)return c;
+      for(let i=0;i<2;i++)if(p.counts[i]>0)seenHalf[i]=now;
+      if(c.stable){previousStable={time:now,status:c.status,headline:c.headline};return c;}
+      if(!['need_view','searching','face_check','identity_only'].includes(c.status)){previousStable=null;return c;}
+      const actionable=['flip','rotate','direction_ok','wrong_part'];
+      if(previousStable && now-previousStable.time<=420 && p.counts.some(n=>n>0) &&
+         (!actionable.includes(c.rawStatus)||c.rawStatus===previousStable.status)){
+        return {...c,displayHeadline:previousStable.headline,
+          displayInstruction:tr('Rechecking the current tag positions…','正在复核标签位置…')};
+      }
+      const recent=seenHalf.map(t=>now-t<500);
+      if(recent.every(Boolean))return {...c,displayHeadline:tr('Checking both halves','正在核对两半的标签'),
+        displayInstruction:tr('Keep the parts in place while their tag directions are checked.','两块板可留在原位，正在核对方码朝向。')};
+      if(recent.some(Boolean)){
+        const i=recent[0]?0:1,number=p.parts[i].slice(-1),other=p.parts[1-i].slice(-1);
+        return {...c,displayHeadline:tr('Read tags on half '+number,'已读到半件 '+number+' 的标签'),
+          displayInstruction:tr('Keep the boards in place. Bring the square tags on half '+other+' into focus.','板件可留在原位，让半件 '+other+' 上的黑白码清晰入镜。')};
+      }
+      return {...c,displayHeadline:tr('Reading this step’s tags','正在读取本步的方码'),
+        displayInstruction:tr('Hold the view steady on the printed black and white tags.','对准板件上的黑白方码，停稳片刻。')};
     }
     function drawGeometry(check,markers){
       const nodes=[];
@@ -393,16 +431,8 @@
           width:stage.clientWidth,height:stage.clientHeight,scene:root.SHELF_SCENE?.parts||[]});
       }else root.BoardCue.hide(teaching);
     }
-    function resize(){
-      if(!active||!width||!height)return;
-      const fit=Math.min(layer.clientWidth/width,layer.clientHeight/height);
-      stage.style.width=width*fit+'px';stage.style.height=height*fit+'px';
-      if(reading)drawGeometry(reading.check,reading.markers);
-    }
-    const resizeObserver=new ResizeObserver(resize);
-    resizeObserver.observe(layer);
     async function start(options={}){
-      stop();setLanguage();
+      stop();setLanguage();framing.refresh();
       const owner=getTask();
       taskId=typeof owner==='string'?owner:owner?.id;
       if(!taskId)return false;
@@ -410,9 +440,8 @@
       const ticket=version;
       active=true;layer.hidden=false;loading.hidden=false;precision.disabled=true;
       try{
-        const videoOptions={facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:960}};
-        const opened=options.stream || (options.choice ? await ShelfCamera.openRear(options.choice,videoOptions,()=>ticket===version):
-          await navigator.mediaDevices.getUserMedia({audio:false,video:videoOptions}));
+        const opened=options.stream || (options.choice ? await ShelfCamera.openRear(options.choice,ShelfCamera.rearOptions(),()=>ticket===version):
+          await ShelfCamera.openPreferred(()=>ticket===version));
         if(ticket!==version){opened.getTracks().forEach(t=>t.stop());return false}
         stream=opened;
         const track=stream.getVideoTracks()[0];
@@ -422,7 +451,7 @@
         video.srcObject=opened;await video.play();
         if(ticket!==version)return false;
         loading.hidden=true;precision.disabled=false;
-        let slowFrames=0;
+        let slowFrames=0,weakSince=null,weakFrames=0,autoTried=false;
         function capture(){
           if(ticket!==version)return;
           const current=getTask();
@@ -432,14 +461,14 @@
           const w=Math.round(video.videoWidth*scale),h=Math.round(video.videoHeight*scale);
           if(w!==width||h!==height){
             width=w;height=h;canvas.width=w;canvas.height=h;
-            overlay.setAttribute('viewBox','0 0 '+w+' '+h);reading=null;hideGeometry();resize();
+            overlay.setAttribute('viewBox','0 0 '+w+' '+h);reading=null;hideGeometry();framing.setSize(w,h);
           }
           try{
             const now=performance.now();frameGap=exposure?now-exposure:0;exposure=now;frameOptics=optics;
             ctx.drawImage(video,0,0,w,h);
             const image=ctx.getImageData(0,0,w,h);
             const atMs=performance.now();shutter=atMs;
-            reader.postMessage({image,taskId,lang:getLanguage?.()||'en',mode:'stream',precision:quality==='ready'?'opencv':'fast',sessionId:session,atMs,captureId:session},
+            reader.postMessage({image,taskId,lang:getLanguage?.()||'en',mode:'stream',assistPair:quality!=='ready',precision:quality==='ready'?'opencv':'fast',sessionId:session,atMs,captureId:session},
               [image.data.buffer]);
           }catch{close('reader-error')}
         }
@@ -464,12 +493,18 @@
           clearTimeout(deadline);
           if(age<900){
             reading=data;drawGeometry(data.check,data.markers);
-            onReading?.({...data.check,width,height,taskId,markers:data.markers,detector:data.detector,slotCandidateCount:data.slotCandidateCount});
+            onReading?.({...displayReading(data,received),width,height,taskId,markers:data.markers,detector:data.detector,slotCandidateCount:data.slotCandidateCount});
             deadline=setTimeout(()=>{
               if(ticket!==version)return;
               reading=null;hideGeometry();onReading?.(neutral('lost'));
             },Math.max(1,900-age));
           }else{reading=null;hideGeometry();onReading?.(neutral('lost'))}
+          if(data.check.stable && !['wrong_part','install_wrong_part'].includes(data.check.status) && age<900){weakSince=null;weakFrames=0;}
+          else if(quality==='fast' && !autoTried && preference()==='auto' && !navigator.connection?.saveData){
+            weakSince??=received;weakFrames++;
+            const hasParts=data.pair?.counts.some(n=>n>0)||data.check.visible;
+            if(weakFrames>=4 && received-weakSince>=(hasParts?1600:2700)){autoTried=true;applyPrecision?.(true);}
+          }
           if(ticket===version){
             onFrame?.('alignment',{gap:frameGap,copy:shutter-exposure,read:received-shutter,ui:performance.now()-received,
               size:[width,height],source:[video.videoWidth,video.videoHeight],ids:data.markers.length,
@@ -504,19 +539,19 @@
           next.postMessage({type:'prepare-precision',captureId:session});
         };
         bindReader(new Worker(ShelfCamera.workerURL(workerURL)));
-        if(options.precision==='opencv')applyPrecision(true);
+        if(options.precision==='opencv'||preference()==='precision')applyPrecision(true);
         return true;
       }catch(e){
         if(ticket===version)close(e?.name==='NotAllowedError'?'denied':'unavailable');
         return false;
       }
     }
-    precision.onclick=()=>applyPrecision?.(quality!=='ready'&&quality!=='loading');
+    precision.onclick=()=>userPrecision(quality!=='ready'&&quality!=='loading');
     back.onclick=()=>close('user');
     document.addEventListener('visibilitychange',()=>{if(document.hidden&&active)close('hidden')});
     window.addEventListener('pagehide',stop);
     setLanguage();
-    return {start,stop,switchLens:lensMenu.activate,setLanguage,setPrecision(enabled){applyPrecision?.(!!enabled)},get active(){return active}};
+    return {start,stop,switchLens:lensMenu.activate,setLanguage,setPrecision:enabled=>userPrecision(!!enabled),get active(){return active}};
   }
   root.createAlignmentCamera=createAlignmentCamera;
 })(globalThis);

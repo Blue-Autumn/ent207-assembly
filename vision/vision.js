@@ -17327,6 +17327,18 @@ function evaluate(input){
   return {...out,headline:title,instruction:message,visible:out.markerIds.length>0,
     stable:mode==='stream' && stableStates.has(out.status),seatingVerified:false,coordinateSpace:'detector-pixels'};
 }
-globalThis.ShelfVision=Object.freeze({evaluate,reset});
+const registeredParts=new Map(config.sites.map(site=>[site.id,site.part]));
+function pairEvidence(taskId,markers){
+  const task=tasks.get(taskId);
+  if(task?.kind!=='prepare'||task.context.length!==2)return null;
+  const counts=[0,0],ids=new Set();
+  for(const m of markers){
+    if(ids.has(m.id))continue;ids.add(m.id);
+    const index=task.context.indexOf(registeredParts.get(m.id));
+    if(index>=0)counts[index]++;
+  }
+  return {parts:task.context,counts};
+}
+globalThis.ShelfVision=Object.freeze({evaluate,reset,pairEvidence});
 
 })();

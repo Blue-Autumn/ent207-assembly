@@ -1,5 +1,5 @@
 import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './community/studio-store.js';
-import {mountWelcome} from './welcome.js?v=camera-4';
+import {mountWelcome} from './welcome.js?v=tabletop-6';
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
@@ -128,7 +128,7 @@ import {mountWelcome} from './welcome.js?v=camera-4';
 
   const home='projects', scrolls=new Map();
   let route='',scroll=null,frame=null,childPost=null,restorePost=false,parkedGuide=null;
-  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field','studio','tools','review','voice','camera-test'];
+  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field','studio','tools','review','voice','camera-test','wide-camera'];
   const collections=['favorites','liked','history','comments'];
   function parse() {
     const hash=location.hash.slice(1);
@@ -321,13 +321,13 @@ import {mountWelcome} from './welcome.js?v=camera-4';
   }
   function embed(path,title,args={}) {
     frame=node('iframe','module');
-    if(['field/index.html','guide/index.html','review/index.html','tools/index.html'].includes(path))frame.allow="camera 'self'";
+    if(['field/index.html','guide/index.html','review/index.html','tools/index.html','tools/wide-camera.html'].includes(path))frame.allow="camera 'self'";
     const url=new URL(path,document.baseURI);url.search=new URLSearchParams({lang,profile:owner(),...args}).toString();
     frame.title=title;frame.src=url.href;$('content').append(frame);
   }
   function render() {
     if(!welcomeDone)return;
-    if(parse()!=='guide')releaseWelcomeStream();
+    if(!['guide','wide-camera'].includes(parse()))releaseWelcomeStream();
     refreshCatalog();
     if($('setting').open)$('setting').close();
     const next=parse();
@@ -350,11 +350,12 @@ import {mountWelcome} from './welcome.js?v=camera-4';
       case 'shelf':shelfPage();break;
       case 'profile':profilePage();break;
       case 'account':accountPage();break;
-      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'5'});break;
+      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'6'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
       case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
       case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
       case 'camera-test':embed('tools/camera-bench.html',tr('Recognition speed test','本机识别测速'));break;
+      case 'wide-camera':embed('tools/wide-camera.html',tr('Check rear cameras','检查后置广角'));break;
       case 'tools':case 'voice':embed('tools/index.html',tr('Tools and earlier demos','工具与旧演示'),route==='voice'?{view:'voice'}:{});break;
       case 'review':{
         const active=readJSON('ent207.guide.v2:'+owner(),{})?.active;
@@ -377,7 +378,10 @@ import {mountWelcome} from './welcome.js?v=camera-4';
       case 'ent207-field':navigate('field');break;
       case 'ent207-studio':navigate('studio');break;
       case 'ent207-review-close':back();break;
-      case 'ent207-tools-open':if(['field','guide','workshop','studio','review','camera-test'].includes(event.data.target))navigate(event.data.target);break;
+      case 'ent207-tools-open':if(['field','guide','workshop','studio','review','camera-test','wide-camera'].includes(event.data.target)){
+        if(route==='wide-camera' && event.data.target==='guide' && event.data.useCamera===true)cameraPreferred=true;
+        navigate(event.data.target);
+      }break;
       case 'ent207-studio-change':refreshCatalog();break;
       case 'ent207-community-nav': {
         if(!communityList())break;
@@ -411,7 +415,7 @@ import {mountWelcome} from './welcome.js?v=camera-4';
   }
   // The visible guide takes ownership of the permission stream while this document remains open.
   window.ent207TakeGuideCamera=source=>{
-    if(!welcomeStream || source!==frame?.contentWindow || route!=='guide')return null;
+    if(!welcomeStream || source!==frame?.contentWindow || !['guide','wide-camera'].includes(route))return null;
     clearTimeout(streamTimer);
     const stream=welcomeStream;welcomeStream=null;
     if(stream.getVideoTracks().some(track=>track.readyState==='live'))return stream;
@@ -425,7 +429,7 @@ import {mountWelcome} from './welcome.js?v=camera-4';
     finish:stream=>{
       welcomeDone=true;cameraPreferred=!!stream;
       write(languageKey,lang);$('welcome').hidden=true;$('edition').hidden=false;
-      if(stream && [home,'guide'].includes(parse())){
+      if(stream && [home,'guide','wide-camera'].includes(parse())){
         welcomeStream=stream;streamTimer=setTimeout(releaseWelcomeStream,15000);
         if(parse()===home){navigate('guide');return;}
       }else stream?.getTracks().forEach(track=>track.stop());

@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; media-src 'self' blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'">
+<title>Check rear cameras</title><link rel="stylesheet" href="tools.css">
+<style>
+#pane{padding-bottom:16px}.lens-preview{width:100%;height:clamp(120px,28dvh,210px);object-fit:contain;background:#202d25;border-radius:16px}
+.view-samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.view-samples button{padding:6px 6px 8px;border:2px solid transparent;background:#edf0e7;border-radius:13px;min-width:0;font-size:12px;line-height:1.35}.view-samples button[aria-pressed=true]{border-color:#47664b;background:#e4edda}.view-samples canvas{width:100%;height:100px;object-fit:contain;background:#27342c;border-radius:8px;display:block;margin-bottom:5px}
+#start,#use,#leave,#export{width:100%;min-height:44px;border-radius:15px;font-weight:620;margin:4px 0}#start,#use{background:#36563d;color:white}
+#status{color:#465a43;font-size:14px;line-height:1.5}#facts{font-size:14px;line-height:1.5;color:#52614f}button[hidden],video[hidden],[hidden]{display:none!important}
+</style></head><body><main><header><button id="back" aria-label="Back">‹</button><h1 id="heading"></h1></header>
+<section id="pane"><h2 id="title"></h2><p id="intro"></p><video id="preview" class="lens-preview" muted autoplay playsinline hidden></video><p id="status" role="status"></p>
+<div id="samples" class="view-samples" hidden></div><p id="facts"></p><button id="start"></button><button id="use" hidden></button><button id="leave" hidden></button><button id="export" hidden></button>
+</section></main><script src="../guide/camera-input.js?v=6"></script><script src="wide-camera.js?v=6"></script></body></html>

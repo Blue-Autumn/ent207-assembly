@@ -6,7 +6,7 @@ function makeTestLog(profile) {
  function save(){try{sessionStorage.setItem(key,JSON.stringify(record));}catch{}}
  function start(){
   batch=null;
-  record={format:'ent207-browser-test-1',version:'R91-web-5',started:new Date().toISOString(),
+  record={format:'ent207-browser-test-1',version:'R91-web-6',started:new Date().toISOString(),
     viewport:[innerWidth,innerHeight],events:[],cameraTimings:[]};save();
  }
  function flushCamera(){

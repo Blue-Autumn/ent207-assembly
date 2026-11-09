@@ -21,7 +21,7 @@ const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
 },()=>{
  setCameraPreference(false);cameraError=true;candidate=null;wrongChoice='';observed=false;render();
 },testLog.sample);
-let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null;
+let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null,lensFrame=null;
 const alignButton=button('',toggleAlignment,'align-start');
 const recordedRowButton=button('',showObservedRow,'align-row-demo');
 const alignment=createAlignmentCamera(visual,{
@@ -61,15 +61,18 @@ function enterPreferredCamera(stream){
 function paintLiveReading(){
  if(!alignment.active)return;
  const check=liveCheck;
- const title=check?.headline||tr('Show the current parts','拍清当前板件');
- const body=check?.instruction||tr('Keep the target and reference tags in the same view.','让目标板件和参照标签一起入镜。');
- $('headline').textContent=title;$('workSubtitle').textContent=body;
- delete $('headline').dataset.mark;
+ const title=check?.displayHeadline||check?.headline||tr('Reading the tags','正在读取标签');
+ const body=check?.displayInstruction||check?.instruction||tr('Hold the view steady on the square tags.','对准板件上的黑白方码，停稳片刻。');
+ const label=$('headline'),subtitle=$('workSubtitle');
+ if(label.textContent!==title)label.textContent=title;
+ if(subtitle.textContent!==body)subtitle.textContent=body;
+ let mark='';
  if(check?.stable){
    const aligned=['direction_ok','install_base_ready','install_row_ok','install_oriented'].includes(check.status)&&!check.placement;
-   $('headline').dataset.mark=aligned?'ok':'adjust';
+   mark=aligned?'ok':'adjust';
    say(title+'. '+body);
  }
+ if(mark){if(label.dataset.mark!==mark)label.dataset.mark=mark;}else if(label.hasAttribute('data-mark'))delete label.dataset.mark;
  const row=check?.stable && check.status==='install_wrong_row' && check.observedRow && check.targetRow;
  recordedRowButton.hidden=!row;
  if(row)recordedRowButton.textContent=tr('Show row ','演示换排 ')+check.observedRow+' → '+check.targetRow;
@@ -195,6 +198,7 @@ closeOverlay=function(){
  const returning=sheet.classList.contains('open'),resumeCamera=returnToCamera,previousTask=active;
  returnToCamera=false;
  if(reviewFrame){reviewFrame.contentWindow?.postMessage({type:'ent207-review-dispose'},location.origin);reviewFrame=null;}
+ if(lensFrame){lensFrame.contentWindow?.postMessage({type:'ent207-lens-dispose'},location.origin);lensFrame=null;}
  rawCloseOverlay();for(const control of [document.querySelector('.top'),document.querySelector('.body'),$('footer')])control.inert=false;sheet.classList.remove('milestone-page','progress-page','review-page','frame-review','visitor-review');
  sheet.removeAttribute('data-milestone');
  if(typeof latestScene==='string')animate();
@@ -326,14 +330,29 @@ function visitorReview(restore=false){
  reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh'});
  box.append(reviewFrame);testLog.add({taskId:active,phase,source:'photos',status:'opened'});
 }
+function inspectLenses(restore=false){
+ if(lensFrame)return;
+ if(restore!==true && history.state?.ent207Lens!==active)history.pushState({ent207Lens:active},'',location.href);
+ const box=showOverlay(tr('Check rear cameras','检查后置广角'));box.classList.add('visitor-review');
+ lensFrame=document.createElement('iframe');lensFrame.allow="camera 'self'";lensFrame.title=tr('Check rear cameras','检查后置广角');
+ lensFrame.src='../tools/wide-camera.html?'+new URLSearchParams({from:'guide',lang:AssemblyText.english?'en':'zh',v:'6'});
+ box.append(lensFrame);
+}
+addEventListener('ent207-inspect-lenses',()=>inspectLenses());
 addEventListener('message',event=>{
+ if(event.origin===location.origin && lensFrame && event.source===lensFrame.contentWindow && event.data?.type==='ent207-lens-close'){
+   if(event.data.useCamera){setCameraPreference(true);returnToCamera=true;}
+   if(history.state?.ent207Lens===active)history.back();else closeOverlay();
+   return;
+ }
  if(event.origin===location.origin && reviewFrame && event.source===reviewFrame.contentWindow && event.data?.type==='ent207-review-close'){
    if(history.state?.ent207Review===active)history.back();else closeOverlay();
  }
 });
 addEventListener('popstate',()=>{
- if(history.state?.ent207Review===active){if(!reviewFrame)visitorReview(true);}
- else if(reviewFrame)closeOverlay();
+ if(history.state?.ent207Lens===active){if(!lensFrame)inspectLenses(true);}
+ else if(history.state?.ent207Review===active){if(!reviewFrame)visitorReview(true);}
+ else if(reviewFrame||lensFrame)closeOverlay();
 });
 function stepList(){
  const box=showOverlay(t('work.progress'));box.classList.add('progress-page');
@@ -345,6 +364,7 @@ function stepList(){
     '最近一次相机记录 · 每秒识别 '+hz+' 次，单次读码 '+ms+' 毫秒'),'subtitle'));
  }
  const tools=element('div',null,'group-rows');box.append(element('h3',t('menu.controls'),'group-heading'),tools);
+ tools.append(button(tr('Check rear wide view','检查后置广角'),()=>inspectLenses(),'menu-action'));
  tools.append(button(tr('Review my photos','复核我的照片'),visitorReview,'menu-action'));
  tools.append(button(testLog.active?tr('Save test log','保存调试记录'):tr('Record a device test','记录本机测试'),()=>{
   if(testLog.active){testLog.download();stepList();return;}
@@ -409,6 +429,7 @@ render=function(){
  phone.classList.toggle('work-page',!homeView);phone.classList.toggle('found',finding&&!scanning&&!!candidate);
  phone.classList.toggle('problem',finding&&!scanning&&!!wrongChoice);
  phone.classList.toggle('pickup-camera',scanning);
+ phone.classList.toggle('table-camera',scanning||alignment.active);
  if(scanning)phone.dataset.pickup=candidate?'match':wrongChoice?'other':'search';
  else delete phone.dataset.pickup;
  phone.classList.toggle('local-direction',review);
@@ -419,7 +440,7 @@ render=function(){
  alignButton.textContent=tr('Open camera for live guidance','打开相机，实拍指导');
  cameraModes.hidden=!finding && alignButton.hidden;
  if(!alignment.active)recordedRowButton.hidden=true;
- fieldButton.hidden=alignment.active;
+ fieldButton.hidden=alignment.active||scanning;
  cameraTable.hidden=!finding||reference||scanning;
  realScan.hidden=!finding;
  realScan.textContent=scanning?tr('Close camera','关闭相机'):cameraError?tr('Retry camera','重试相机'):tr('Open camera to find parts','打开相机找零件');
@@ -505,7 +526,7 @@ $('primary').onclick=event=>{
 $('homeButton').onclick=exitGuide;$('progressButton').onclick=stepList;
 $('aiAssist').onclick=visitorReview;$('startOver').onclick=askReset;
 document.addEventListener('keydown',e=>{
- if(e.key==='Escape'){if(reviewFrame && history.state?.ent207Review===active)history.back();else if(sheet.classList.contains('open'))closeOverlay();else exitGuide()}
+ if(e.key==='Escape'){if((reviewFrame && history.state?.ent207Review===active)||(lensFrame&&history.state?.ent207Lens===active))history.back();else if(sheet.classList.contains('open'))closeOverlay();else exitGuide()}
 });
 document.addEventListener('pointerdown',()=>{interacted=true},{once:true});
 document.addEventListener('visibilitychange',()=>{

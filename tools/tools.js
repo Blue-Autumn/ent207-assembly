@@ -5,7 +5,7 @@ const el=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textConten
 const btn=(text,fn,cls='')=>{const b=el('button',text,cls);b.type='button';b.onclick=fn;return b;};
 const text=(en,cn,cls='')=>el('p',tr(en,cn),cls);
 const titles={
- menu:['Tools and earlier demos','更多工具与早期演示'],network:['Network and AI','联网与 AI'],marker:['Live marker test','实时识码测试'],timing:['Recognition speed test','本机识别测速'],
+ menu:['Tools and earlier demos','更多工具与早期演示'],network:['Network and AI','联网与 AI'],marker:['Live marker test','实时识码测试'],timing:['Recognition speed test','本机识别测速'],wide:['Check rear cameras','检查后置广角'],
  voice:['Reading voice','朗读音色'],screen:['Screen-based test','屏幕联调'],pilot:['Earlier shelf demo','早期层板架演示'],
  puzzle:['15-step Luban puzzle','鲁班锁 15 步装配'],check:['Preparation checklist','装配准备清单'],
  color:['Colour and orientation test','颜色与朝向观察'],native:['Android hardware tests','安卓硬件测试'],buttons:['Button check','按钮测试']
@@ -29,10 +29,10 @@ function close(){
 document.getElementById('back').onclick=close;
 function navigation(label,ids){
  pane.append(el('h3',label));const group=el('div','','group');
- for(const id of ids){const b=btn(name(id),()=>id==='timing'?openRoute('camera-test'):show(id),'route');b.ariaLabel=name(id);group.append(b);}pane.append(group);
+ for(const id of ids){const b=btn(name(id),()=>{if(id==='timing'||id==='wide')openRoute(id==='wide'?'wide-camera':'camera-test');else show(id);},'route');b.ariaLabel=name(id);group.append(b);}pane.append(group);
 }
 function menu(){
- navigation(tr('Diagnostics','能力检查'),['timing','network','marker','voice','screen','color','buttons']);
+ navigation(tr('Diagnostics','能力检查'),['wide','timing','network','marker','voice','screen','color','buttons']);
  navigation(tr('Earlier projects','早期项目'),['pilot','puzzle','check']);
  navigation(tr('Demonstration phone','现场展示机'),['native']);pane.scrollTop=scrollPos;
 }
