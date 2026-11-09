@@ -128,7 +128,7 @@ import {mountWelcome} from './welcome.js?v=camera-4';
 
   const home='projects', scrolls=new Map();
   let route='',scroll=null,frame=null,childPost=null,restorePost=false,parkedGuide=null;
-  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field','studio','tools','review','voice'];
+  const roots=['projects','shelf','community','profile','account','guide','progress','workshop','field','studio','tools','review','voice','camera-test'];
   const collections=['favorites','liked','history','comments'];
   function parse() {
     const hash=location.hash.slice(1);
@@ -350,10 +350,11 @@ import {mountWelcome} from './welcome.js?v=camera-4';
       case 'shelf':shelfPage();break;
       case 'profile':profilePage();break;
       case 'account':accountPage();break;
-      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'4'});break;
+      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'5'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
       case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
       case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
+      case 'camera-test':embed('tools/camera-bench.html',tr('Recognition speed test','本机识别测速'));break;
       case 'tools':case 'voice':embed('tools/index.html',tr('Tools and earlier demos','工具与旧演示'),route==='voice'?{view:'voice'}:{});break;
       case 'review':{
         const active=readJSON('ent207.guide.v2:'+owner(),{})?.active;
@@ -376,7 +377,7 @@ import {mountWelcome} from './welcome.js?v=camera-4';
       case 'ent207-field':navigate('field');break;
       case 'ent207-studio':navigate('studio');break;
       case 'ent207-review-close':back();break;
-      case 'ent207-tools-open':if(['field','guide','workshop','studio','review'].includes(event.data.target))navigate(event.data.target);break;
+      case 'ent207-tools-open':if(['field','guide','workshop','studio','review','camera-test'].includes(event.data.target))navigate(event.data.target);break;
       case 'ent207-studio-change':refreshCatalog();break;
       case 'ent207-community-nav': {
         if(!communityList())break;

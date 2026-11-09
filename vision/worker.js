@@ -1,8 +1,12 @@
 'use strict';
 importScripts('../field/cv.js','../field/aruco.js','../field/dictionary.js','vision.js');
 const detector=new AR.Detector({dictionaryName:'SHELF_4X4_250',maxHammingDistance:0});
+if(new URL(self.location.href).searchParams.get('engine')==='simd'){
+  try{importScripts('fast-preprocess.js?v=5');self.ShelfFastPixels.prepare();}catch{}
+}
 function read(scaleImage,scale){
-  return detector.detect(scaleImage).filter(m=>m.hammingDistance===0)
+  const markers=self.ShelfFastPixels?.ready?self.ShelfFastPixels.read(detector,scaleImage):detector.detect(scaleImage);
+  return markers.filter(m=>m.hammingDistance===0)
     .map(m=>({id:m.id,corners:m.corners.map(p=>({x:p.x/scale.x,y:p.y/scale.y}))}));
 }
 function repeatedAtDifferentLocations(markers){
@@ -57,6 +61,11 @@ self.onmessage=async({data})=>{
   try{
     if(data?.type==='reset'){epoch++;ShelfVision.reset();return}
     const ticket=epoch;
+    if(data?.type==='prepare-simd'){
+      const ready=await self.ShelfFastPixels?.prepare();
+      if(ticket===epoch)self.postMessage({captureId,type:ready?'simd-ready':'simd-unavailable'});
+      return;
+    }
     if(data?.type==='prepare-precision'){
       await loadPrecision();
       if(ticket===epoch)self.postMessage({captureId,type:'precision-ready',detector:'opencv-4.13'});
@@ -81,6 +90,7 @@ self.onmessage=async({data})=>{
     if(!result){
       const first=read(image,{x:1,y:1});
       result={markers:mode==='photo'?detectPhoto(image,first):first,slotQuads:[]};
+      if(self.ShelfFastPixels?.ready)detectorName='simd-4x4-250';
     }
     const {markers,slotQuads}=result;
     const check=ShelfVision.evaluate({markers,width,height,taskId,mode,lang,atMs,sessionId,slotQuads});

@@ -1,6 +1,6 @@
 'use strict';
 // Only media and marker IDs enter this helper. The guide owns task progression.
-function createPickupScanner(stage, targets, onChange, onError) {
+function createPickupScanner(stage, targets, onChange, onError, onFrame) {
   const view = document.createElement('div');
   view.className = 'pickup-lens';
   view.hidden = true;
@@ -11,17 +11,23 @@ function createPickupScanner(stage, targets, onChange, onError) {
   const ns = 'http://www.w3.org/2000/svg';
   const outlines = document.createElementNS(ns, 'svg');
   outlines.setAttribute('aria-hidden','true');
-  view.append(video, outlines);
+  const lensButton=document.createElement('button');
+  lensButton.className='pickup-lens-choice';lensButton.hidden=true;
+  view.append(video, outlines,lensButton);
   stage.append(view);
 
   const buffer = document.createElement('canvas');
   const context = buffer.getContext('2d',{willReadFrequently:true});
+  const centerBuffer=document.createElement('canvas'), centerContext=centerBuffer.getContext('2d',{willReadFrequently:true});
   const seen = new Map();
   const parts = new Map();
   let holdMs = 600, previousFrame = 0;
   let generation = 0, running = false, worker = null, stream = null;
   let nextFrame = 0, expiry = 0, registry = null, observed = null;
   let epoch = 0, capturedEpoch = 0, capturedAt = 0;
+  let postedAt=0, lastDetail=-Infinity, lastCost=0, needDetail=true, targetIds=null;
+  const lens=ShelfCamera.lensControl(lensButton,(en,zh)=>AssemblyText.english?en:zh,
+    choice=>{publish(null);return start(null,choice);},()=>{publish(null);resetTarget();});
 
   function resetTarget() {
     epoch++;
@@ -31,6 +37,7 @@ function createPickupScanner(stage, targets, onChange, onError) {
     observed = null;
     previousFrame = 0;
     holdMs = 600;
+    lastDetail=-Infinity;lastCost=0;needDetail=true;targetIds=null;
     outlines.replaceChildren();
   }
 
@@ -44,6 +51,7 @@ function createPickupScanner(stage, targets, onChange, onError) {
     stream = null;
     video.srcObject = null;
     view.hidden = true;
+    lens.clear();
     resetTarget();
   }
   function publish(hit) {
@@ -124,17 +132,18 @@ function createPickupScanner(stage, targets, onChange, onError) {
     stop();
     onError();
   }
-  async function start(suppliedStream) {
+  async function start(suppliedStream,choice) {
     stop();
     running = true;
     view.hidden = false;
     const ticket = generation;
     try {
-      const camera = suppliedStream || await navigator.mediaDevices.getUserMedia({
-        audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}
-      });
+      const videoOptions={facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}};
+      const camera = suppliedStream || (choice ? await ShelfCamera.openRear(choice,videoOptions,()=>ticket===generation) :
+        await navigator.mediaDevices.getUserMedia({audio:false,video:videoOptions}));
       if (ticket!==generation) { camera.getTracks().forEach(track=>track.stop()); return; }
       stream = camera;
+      lens.bind(stream.getVideoTracks()[0]);
       for (const track of stream.getVideoTracks()) track.addEventListener('ended',()=>fail(ticket),{once:true});
       video.srcObject = stream;
       await video.play();
@@ -145,7 +154,7 @@ function createPickupScanner(stage, targets, onChange, onError) {
         registry = await response.json();
       }
       if (ticket!==generation) return;
-      worker = new Worker('../field/reader.js');
+      worker = new Worker(ShelfCamera.workerURL('../field/reader.js'));
       worker.onerror = ()=>fail(ticket);
       function capture() {
         if (ticket!==generation) return;
@@ -155,17 +164,39 @@ function createPickupScanner(stage, targets, onChange, onError) {
           const width = Math.max(1,Math.round(video.videoWidth*scale));
           const height = Math.max(1,Math.round(video.videoHeight*scale));
           if (buffer.width!==width || buffer.height!==height) { buffer.width=width; buffer.height=height; }
+          capturedAt=performance.now();
           context.drawImage(video,0,0,width,height);
           const image = context.getImageData(0,0,width,height);
+          const message={image},transfer=[image.data.buffer];
+          if(scale<.9 && needDetail && capturedAt-lastDetail>=Math.max(140,lastCost*2.5)){
+            const vw=video.videoWidth,vh=video.videoHeight;
+            const side=Math.min(576,Math.round(Math.min(vw,vh)*.8));
+            const x=Math.floor((vw-side)/2),y=Math.floor((vh-side)/2);
+            if(centerBuffer.width!==side || centerBuffer.height!==side){centerBuffer.width=side;centerBuffer.height=side;}
+            centerContext.drawImage(video,x,y,side,side,0,0,side,side);
+            const detail=centerContext.getImageData(0,0,side,side);
+            if(!targetIds){const wanted=targets();targetIds=Object.keys(registry).filter(id=>wanted.includes(registry[id][0])).map(Number);}
+            message.detail={image:detail,ids:targetIds,x:x*width/vw,y:y*height/vh,scaleX:width/vw,scaleY:height/vh};
+            transfer.push(detail.data.buffer);lastDetail=capturedAt;
+          }
           capturedEpoch = epoch;
-          capturedAt = performance.now();
-          worker.postMessage({image},[image.data.buffer]);
+          postedAt=performance.now();
+          worker.postMessage(message,transfer);
         } catch { fail(ticket); }
       }
       worker.onmessage = ({data})=>{
         if (ticket!==generation) return;
-        if (capturedEpoch===epoch) acceptFrame(data);
-        nextFrame = setTimeout(capture,80);
+        const received=performance.now();lastCost=received-capturedAt;
+        if (capturedEpoch===epoch) {
+          const wanted=targets();
+          needDetail=data.usedCenter || !data.markers.some(m=>wanted.includes(registry[m.id]?.[0]));
+          const gap=previousFrame?capturedAt-previousFrame:0;
+          acceptFrame(data);
+          onFrame?.('pickup',{gap,copy:postedAt-capturedAt,read:received-postedAt,ui:performance.now()-received,
+            size:[data.width,data.height],source:[video.videoWidth,video.videoHeight],ids:data.markers.length,
+            center:data.usedCenter===true,detector:data.detector,lens:lens.facts});
+        }
+        nextFrame = setTimeout(capture,ShelfCamera.delay(capturedAt,80));
       };
       capture();
     } catch { fail(ticket); }
@@ -180,5 +211,5 @@ function createPickupScanner(stage, targets, onChange, onError) {
     stop();
     return camera;
   }
-  return {start,stop,resetTarget,takeStream,match,get active(){return running},get hit(){return observed}};
+  return {start,stop,resetTarget,takeStream,match,setLanguage:lens.update,get active(){return running},get hit(){return observed}};
 }

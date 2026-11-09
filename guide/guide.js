@@ -12,6 +12,7 @@ const cameraModes=element('div',null,'camera-modes');
 const routeParams=new URLSearchParams(location.search);
 let cameraPreferred=routeParams.get('camera')==='auto',guideMounted=false,returnToCamera=false;
 let cameraError=false;
+const testLog=makeTestLog(demoProfile);
 const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
  candidate=hit?.matches ? targetId() : null;
  observed=!!candidate;
@@ -19,13 +20,12 @@ const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
  render();
 },()=>{
  setCameraPreference(false);cameraError=true;candidate=null;wrongChoice='';observed=false;render();
-});
-const testLog=makeTestLog(demoProfile);
+},testLog.sample);
 let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null;
 const alignButton=button('',toggleAlignment,'align-start');
 const recordedRowButton=button('',showObservedRow,'align-row-demo');
 const alignment=createAlignmentCamera(visual,{
- getTask:()=>current(),getLanguage:()=>AssemblyText.locale,
+ getTask:()=>current(),getLanguage:()=>AssemblyText.locale,onFrame:testLog.sample,
  onReading:check=>{
    if(phase!=='guide'||screen!=='work'||check.taskId!==active)return;
    liveCheck=check;paintLiveReading();testLog.add({...check,phase,source:'alignment'});
@@ -338,12 +338,18 @@ addEventListener('popstate',()=>{
 function stepList(){
  const box=showOverlay(t('work.progress'));box.classList.add('progress-page');
  box.append(element('p',t('progress.summary',{done:done.size,total:order.length}),'subtitle'));
+ const timing=testLog.latestCamera();
+ if(timing?.medianIntervalMs){
+  const hz=(1000/timing.medianIntervalMs).toFixed(1),ms=Math.round(timing.medianWorkerRoundTripMs);
+  box.append(element('p',tr('Last camera sample · '+hz+' analysis updates/s, reader '+ms+' ms',
+    '最近一次相机记录 · 每秒识别 '+hz+' 次，单次读码 '+ms+' 毫秒'),'subtitle'));
+ }
  const tools=element('div',null,'group-rows');box.append(element('h3',t('menu.controls'),'group-heading'),tools);
  tools.append(button(tr('Review my photos','复核我的照片'),visitorReview,'menu-action'));
  tools.append(button(testLog.active?tr('Save test log','保存调试记录'):tr('Record a device test','记录本机测试'),()=>{
   if(testLog.active){testLog.download();stepList();return;}
   const notice=showOverlay(tr('Record a device test','记录本机测试'));
-  notice.append(element('p',tr('This tab can record steps, marker IDs and guidance results for troubleshooting. Photos and account names stay out of the log. Stop and save the JSON file here when finished.','记录本页的步骤、标签编号和引导结果，供排查问题。记录不含照片和账号名，结束后可以在这里保存 JSON 文件。')),
+  notice.append(element('p',tr('Record steps, tag IDs, camera capabilities and recognition times on this device. Scan for a few seconds, then return here to see the timing and save the JSON. Photos and account names stay out of the log.','在本机记录步骤、标签编号、镜头能力和识别耗时。扫描几秒后回到这里，就能看到速度和保存 JSON。记录不含照片和账号名。')),
     button(tr('Start recording','开始记录'),()=>{testLog.start();stepList()},'primary full'));
  },'menu-action'));
  tools.append(button(tr('Explore field guidance','体验现场引导'),openField,'menu-action'));
@@ -508,7 +514,7 @@ document.addEventListener('visibilitychange',()=>{
 });
 window.addEventListener('pagehide',()=>{stopAlignment();leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
 window.ent207SetLanguage=value=>{
- AssemblyText.setLanguage(value);alignment.setLanguage();localizeGuide();tableTarget='';
+ AssemblyText.setLanguage(value);alignment.setLanguage();livePick.setLanguage();localizeGuide();tableTarget='';
  const inner=sheet.querySelector('iframe');
  if(inner?.contentWindow?.ent207SetLanguage)inner.contentWindow.ent207SetLanguage(value);
  else if(sheet.classList.contains('progress-page'))stepList();
