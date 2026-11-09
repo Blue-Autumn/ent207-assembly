@@ -5,6 +5,7 @@
  let zh=params.get('lang')?.startsWith('zh')||false;
  const tr=(en,cn)=>zh?cn:en;
  let epoch=0,busy=false,live=null,decoder=null,views=[],selected=0,report=null,notice=null,finished=false,promptPending=0;
+ let selectedByVisitor=false;
  const stop=s=>s?.getTracks().forEach(t=>t.stop());
  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  const round=v=>Number.isFinite(v)?Math.round(v*1000)/1000:null;
@@ -29,6 +30,7 @@
     views.length?tr('One rear view confirmed','本次只确认了一个后置取景'):tr('Camera check incomplete','本次未能完成镜头检查');
   $('intro').textContent=tr('Rest the phone in one place and keep the same table edges in view. The browser may ask to control zoom. The full-frame samples stay on this screen.',
     '把手机靠稳，检测期间保持同一位置，用相同的桌边对比视野。浏览器可能会询问变焦权限。全幅对照图只在本页显示。');
+  $('intro').hidden=finished;
   $('status').textContent=notice?tr(...notice):'';
   $('start').textContent=busy?tr('Cancel check','取消检测'):finished?tr('Check again','重新检测'):tr('Check rear cameras and zoom','检测后摄和变焦');
   $('start').style.background=finished?'#e7ecdf':'';$('start').style.color=finished?'#3c503c':'';
@@ -37,7 +39,7 @@
    const button=document.createElement('button');button.type='button';button.setAttribute('aria-pressed',String(i===selected));
    button.append(v.thumb,document.createTextNode(label(v)));
    if(v.coverage)button.append(document.createElement('br'),document.createTextNode(tr('Table span ≈ ','同机位视野约 ')+v.coverage.toFixed(2)+'×'));
-   button.onclick=()=>{selected=i;draw();};$('samples').append(button);
+   button.onclick=()=>{selectedByVisitor=true;selected=i;draw();};$('samples').append(button);
   }
   $('facts').textContent='';
   if(report&&finished){
@@ -48,6 +50,7 @@
    if(z && z.min!==null)bits.push(tr('Initial zoom range ','起始倍率范围 ')+z.min+'–'+z.max);
    if(report.zoomAccess==='denied')bits.push(tr('Zoom permission denied','变焦权限未获准'));
    if(report.zoomAccess==='timeout')bits.push(tr('Zoom permission timed out','变焦请求未完成'));
+   if(report.comparison==='pending')bits.push(tr('Measuring table span…','正在估算桌面视野…'));
    $('facts').textContent=bits.join(' · ');
   }
   $('use').hidden=!finished||views[selected]?.side!=='rear';
@@ -93,25 +96,13 @@
   if(video.readyState<2||!video.videoWidth)throw Error('no-frame');
   await wait(220);check(n);
  }
- async function shot(info,kind,ordinal,n){
+ function shot(info,kind,ordinal,n){
   check(n);
   const thumb=document.createElement('canvas'),w=video.videoWidth,h=video.videoHeight;
   const size=Math.min(1,980/Math.max(w,h));thumb.width=Math.max(1,Math.round(w*size));thumb.height=Math.max(1,Math.round(h*size));
   const ctx=thumb.getContext('2d',{willReadFrequently:true});ctx.drawImage(video,0,0,thumb.width,thumb.height);
-  const centers=new Map();
-  try{
-   if(!decoder)decoder=new Worker('../field/reader.js?v=6');
-   const image=ctx.getImageData(0,0,thumb.width,thumb.height);
-   const marks=await new Promise((yes,no)=>{
-    const timer=setTimeout(()=>no(Error('reader-timeout')),800);
-    decoder.onmessage=e=>{clearTimeout(timer);yes(e.data.markers||[]);};decoder.onerror=()=>{clearTimeout(timer);no(Error('reader'));};
-    decoder.postMessage({image},[image.data.buffer]);
-   });
-   for(const m of marks)centers.set(m.id,m.corners.reduce((c,p)=>[c[0]+p.x/(4*thumb.width),c[1]+p.y/(4*thumb.width)],[0,0]));
-  }catch{decoder?.terminate();decoder=null;}
-  check(n);
-   return {...info,kind,ordinal,thumb,centers,width:w,height:h,readbackZoom:info.zoom,
-     zoom:kind==='zoom'||(info.range.min!==null&&info.zoom!==null&&Math.abs(info.zoom-1)>.015)?info.zoom:null};
+  return {...info,kind,ordinal,thumb,centers:null,width:w,height:h,readbackZoom:info.zoom,
+    zoom:kind==='zoom'||(info.range.min!==null&&info.zoom!==null&&Math.abs(info.zoom-1)>.015)?info.zoom:null};
  }
  // Fixed phone and fixed board only. Pair distances are normalized to image width;
  // reject rotation, inconsistent ratios, sparse or tightly clustered tags.
@@ -130,14 +121,42 @@
   ratios.sort((a,b)=>a-b);const m=ratios[Math.floor(ratios.length/2)];
   return ratios.every(v=>Math.abs(v/m-1)<.09)?round(m):null;
  }
+ // Run after every camera has stopped. Image comparison and the user's choice
+ // stay available even if the optional marker reader takes time to download.
+ async function measureViews(n,samples){
+  let worker;
+  try{
+   worker=new Worker('../field/reader.js?v=6');decoder=worker;
+   for(const [i,v] of samples.entries()){
+    check(n);
+    const {thumb}=v, image=thumb.getContext('2d').getImageData(0,0,thumb.width,thumb.height);
+    const marks=await new Promise((resolve,reject)=>{
+     const timer=setTimeout(()=>reject(Error('reader-timeout')),i===0?9000:1800);
+     worker.onmessage=e=>{clearTimeout(timer);resolve(e.data.markers||[]);};
+     worker.onerror=()=>{clearTimeout(timer);reject(Error('reader'));};
+     worker.postMessage({image},[image.data.buffer]);
+    });
+    check(n);v.centers=new Map();
+    for(const m of marks)v.centers.set(m.id,m.corners.reduce((c,p)=>[c[0]+p.x/(4*thumb.width),c[1]+p.y/(4*thumb.width)],[0,0]));
+    if(i)v.coverage=relativeSpan(samples[0],v);
+   }
+   const measured=samples.map((v,i)=>({i,span:v.coverage||0})).filter(v=>v.span>1.10).sort((a,b)=>b.span-a.span)[0];
+   if(measured&&!selectedByVisitor)selected=measured.i;
+   report.comparison=samples.some(v=>v.coverage)?'measured':'insufficient-matching-tags';
+  }catch{if(current(n))report.comparison='unavailable';}
+  finally{
+   worker?.terminate();if(decoder===worker)decoder=null;
+   if(current(n)&&finished)draw();
+  }
+ }
  async function runCheck(){
   if(busy){stopCheck();views=[];report=null;finished=false;status('Check cancelled.','已取消检测。');draw();return;}
-  const initial=live;live=null;stopCheck();busy=true;finished=false;selected=0;views=[];
+  const initial=live;live=null;stopCheck();busy=true;finished=false;selected=0;selectedByVisitor=false;views=[];
   const n=epoch;
   report={format:'ent207-rear-check-1',inputs:0,verifiedRear:0,unverified:0,notTested:0,zoomAccess:'not-requested',attempts:[]};
   status('Checking the starting camera…','正在检查起始后摄…');draw();
   const options={...api.rearOptions(),facingMode:{exact:'environment'}};
-  let devices=[],baselineId='',baseline=null;
+  let devices=[],baselineId='';
   const doneIds=new Set();
   function noteAttempt(ref,result){report.attempts.push({input:ref,result});}
   try{
@@ -148,15 +167,14 @@
    if(!t||info.side==='front')throw Error('front');
    baselineId=info.id;if(baselineId)doneIds.add(baselineId);
    await startPreview(s,n);
-   baseline=await shot(info,'base',1,n);views.push(baseline);report.verifiedRear=info.side==='rear'?1:0;
+   views.push(shot(info,'base',1,n));report.verifiedRear=info.side==='rear'?1:0;
    if(info.side==='unknown')report.unverified++;
    async function tryMinimum(track,baseInfo,ordinal){
     const min=api.capabilities(track).zoom?.min,old=track.getSettings?.().zoom;
     if(baseInfo.side!=='rear'||!Number.isFinite(min)||min<0||(Number.isFinite(old)&&min>=old-.02)||(!Number.isFinite(old)&&min>=1))return false;
     if(!await api.setZoom(track,min))return false;
     await wait(260);check(n);
-    const chosen=await shot({...baseInfo,zoom:track.getSettings().zoom},'zoom',ordinal,n);
-    chosen.coverage=relativeSpan(baseline,chosen);views.push(chosen);return true;
+    views.push(shot({...baseInfo,zoom:track.getSettings().zoom},'zoom',ordinal,n));return true;
    }
    const applied=await tryMinimum(t,info,1);check(n);
    if(applied)report.zoomAccess='verified';
@@ -186,32 +204,35 @@
      const at=alt.getVideoTracks()[0],ai=trackInfo(at,devices,d.deviceId);
      if(!at||ai.side!=='rear'||(ai.actualId&&ai.actualId!==d.deviceId)){report.unverified++;noteAttempt(i+1,'unverified-facing-or-id');continue;}
      await startPreview(alt,n);
-     const v=await shot({...ai,id:ai.id||d.deviceId},'rear',i+2,n);v.coverage=relativeSpan(baseline,v);
+     const v=shot({...ai,id:ai.id||d.deviceId},'rear',i+2,n);
      views.push(v);report.verifiedRear++;noteAttempt(i+1,ai.namedWide?'rear-ultrawide':'rear');
      if(await tryMinimum(at,{...ai,id:ai.id||d.deviceId},i+2))report.zoomAccess='verified';
     }catch(err){check(n);noteAttempt(i+1,err.name==='OverconstrainedError'?'rear-constraint-rejected':'not-opened');if(err.name!=='OverconstrainedError')report.unverified++;}
     finally{if(current(n))release();}
    }
    check(n);
-   const measured=views.map((v,i)=>({i,span:v.coverage||1})).filter(v=>v.span>1.10).sort((a,b)=>b.span-a.span)[0];
    const named=views.findIndex(v=>v.namedWide),lower=views.findIndex(v=>v.kind==='zoom');
-   selected=measured?measured.i:named>=0?named:lower>=0?lower:0;
+   selected=named>=0?named:lower>=0?lower:0;
    status(views.length>1?'Compare the table edges. Select the view that works at your seated distance.':
-    'No additional usable view was confirmed. A different permission or browser can expose different controls.',
-    views.length>1?'比较两张图的桌边，选择坐着也能拍全板件的取景。':'本次未验证出更广的取景。下方列出浏览器实际返回的后摄和变焦信息。');
+    'Try holding the phone sideways and selecting Full frame in the guide. For a still photo, System camera may offer a wider lens.',
+    views.length>1?'比较两张图的桌边，选择坐着也能拍全板件的取景。':'可试着横拿手机，在装配页点「看全幅」，让两块板沿长边并排。拍照时也可以从 AI 页打开「系统相机」查看可选镜头。');
   }catch(err){if(n===epoch)status(err.name==='NotAllowedError'?'Allow the camera in browser settings and try again.':'Could not finish the rear check. Return to this page to retry.',
     err.name==='NotAllowedError'?'请在浏览器设置中允许相机后重试。':'这次未能完成后摄验证，回到此页后可以重试。');}
   finally{
-   if(n===epoch){release();decoder?.terminate();decoder=null;busy=false;finished=true;draw();}
+   if(n===epoch){
+    release();busy=false;finished=true;
+    report.comparison=views.length>1?'pending':'single-view';draw();
+    if(views.length>1)void measureViews(n,views);
+   }
   }
  }
  $('start').onclick=runCheck;$('back').onclick=() => leave(false);$('leave').onclick=()=>leave(false);$('use').onclick=()=>leave(true);
  $('export').onclick=()=>{
   if(!report)return;
   const result={...report,views:views.map(v=>({kind:v.kind,rear:v.side,namedUltrawide:v.namedWide,pixels:[v.width,v.height],range:v.range,
-    verifiedZoom:v.zoom,zoomReadback:v.readbackZoom,relativeTableSpan:v.coverage||null,decodedTagCount:v.centers.size})),selected};
+    verifiedZoom:v.zoom,zoomReadback:v.readbackZoom,relativeTableSpan:v.coverage||null,decodedTagCount:v.centers?.size??null})),selected};
   const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'})),a=document.createElement('a');
-  a.href=url;a.download='ENT207-rear-camera-check.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  a.href=url;a.download='ENT207-rear-camera-check.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
  };
  addEventListener('pagehide',stopCheck);document.addEventListener('visibilitychange',()=>{
   if(document.hidden && !(busy && promptPending===epoch && !live)){

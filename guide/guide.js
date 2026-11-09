@@ -22,6 +22,14 @@ const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
  setCameraPreference(false);cameraError=true;candidate=null;wrongChoice='';observed=false;render();
 },testLog.sample);
 let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null,lensFrame=null;
+let reviewStream=null,reviewStreamTimer=0;
+function releaseReviewStream(){
+ clearTimeout(reviewStreamTimer);reviewStream?.getTracks().forEach(t=>t.stop());reviewStream=null;
+}
+window.ent207TakeReviewCamera=source=>{
+ if(!reviewStream||source!==reviewFrame?.contentWindow)return null;
+ clearTimeout(reviewStreamTimer);const handed=reviewStream;reviewStream=null;return handed;
+};
 const alignButton=button('',toggleAlignment,'align-start');
 const recordedRowButton=button('',showObservedRow,'align-row-demo');
 const alignment=createAlignmentCamera(visual,{
@@ -197,6 +205,7 @@ function animate(){
 closeOverlay=function(){
  const returning=sheet.classList.contains('open'),resumeCamera=returnToCamera,previousTask=active;
  returnToCamera=false;
+ releaseReviewStream();
  if(reviewFrame){reviewFrame.contentWindow?.postMessage({type:'ent207-review-dispose'},location.origin);reviewFrame=null;}
  if(lensFrame){lensFrame.contentWindow?.postMessage({type:'ent207-lens-dispose'},location.origin);lensFrame=null;}
  rawCloseOverlay();for(const control of [document.querySelector('.top'),document.querySelector('.body'),$('footer')])control.inert=false;sheet.classList.remove('milestone-page','progress-page','review-page','frame-review','visitor-review');
@@ -324,10 +333,14 @@ function visitorReview(restore=false){
  if(restore!==true && history.state?.ent207Review!==active){
    history.pushState({ent207Review:active},'',location.href);
  }
- const box=showOverlay(tr('Photo review','照片复核'));box.classList.add('visitor-review');
+ const resume=returnToCamera||alignment.active||livePick.active;
+ const handed=alignment.active?alignment.takeStream():livePick.active?livePick.takeStream():null;
+ const box=showOverlay(tr('AI photo review','AI 照片复核'));box.classList.add('visitor-review');
+ returnToCamera=resume;
+ if(handed){reviewStream=handed;reviewStreamTimer=setTimeout(releaseReviewStream,20000);}
  reviewFrame=document.createElement('iframe');reviewFrame.allow="camera 'self'";
  reviewFrame.title=tr('Review the current joint','复核当前接头');
- reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh'});
+ reviewFrame.src='../review/index.html?'+new URLSearchParams({task:active,lang:AssemblyText.english?'en':'zh',camera:resume||cameraPreferred?'auto':'granted',v:'7'});
  box.append(reviewFrame);testLog.add({taskId:active,phase,source:'photos',status:'opened'});
 }
 function inspectLenses(restore=false){
@@ -335,7 +348,7 @@ function inspectLenses(restore=false){
  if(restore!==true && history.state?.ent207Lens!==active)history.pushState({ent207Lens:active},'',location.href);
  const box=showOverlay(tr('Check rear cameras','检查后置广角'));box.classList.add('visitor-review');
  lensFrame=document.createElement('iframe');lensFrame.allow="camera 'self'";lensFrame.title=tr('Check rear cameras','检查后置广角');
- lensFrame.src='../tools/wide-camera.html?'+new URLSearchParams({from:'guide',lang:AssemblyText.english?'en':'zh',v:'6'});
+ lensFrame.src='../tools/wide-camera.html?'+new URLSearchParams({from:'guide',lang:AssemblyText.english?'en':'zh',v:'7'});
  box.append(lensFrame);
 }
 addEventListener('ent207-inspect-lenses',()=>inspectLenses());
@@ -530,10 +543,10 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('pointerdown',()=>{interacted=true},{once:true});
 document.addEventListener('visibilitychange',()=>{
- if(document.hidden){leaveRealScan();window.speechSynthesis?.cancel()}
+ if(document.hidden){releaseReviewStream();leaveRealScan();window.speechSynthesis?.cancel()}
  render();
 });
-window.addEventListener('pagehide',()=>{stopAlignment();leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
+window.addEventListener('pagehide',()=>{releaseReviewStream();stopAlignment();leaveRealScan();cancelAnimationFrame(loop);window.speechSynthesis?.cancel()});
 window.ent207SetLanguage=value=>{
  AssemblyText.setLanguage(value);alignment.setLanguage();livePick.setLanguage();localizeGuide();tableTarget='';
  const inner=sheet.querySelector('iframe');

@@ -308,7 +308,7 @@
     let width=0,height=0,warming=null,warmTimer=0,quality='fast',applyPrecision=null;
     let previousStable=null,seenHalf=[-Infinity,-Infinity];
     const qualityKey='ent207.camera.alignmentQuality.v1';
-    function preference(){try{return localStorage.getItem(qualityKey)||'auto';}catch{return 'auto';}}
+    function preference(){try{return localStorage.getItem(qualityKey);}catch{return null;}}
     function userPrecision(enabled){
       try{localStorage.setItem(qualityKey,enabled?'precision':'fast');}catch{}
       applyPrecision?.(enabled);
@@ -360,6 +360,9 @@
     }
     function close(reason){
       stop();onClose?.(reason);
+    }
+    function takeStream(){
+      const handed=stream;stream=null;stop();return handed;
     }
     function neutral(status){
       return {status,headline:tr('Reading the tags','正在读取标签'),
@@ -451,7 +454,7 @@
         video.srcObject=opened;await video.play();
         if(ticket!==version)return false;
         loading.hidden=true;precision.disabled=false;
-        let slowFrames=0,weakSince=null,weakFrames=0,autoTried=false;
+        let slowFrames=0;
         function capture(){
           if(ticket!==version)return;
           const current=getTask();
@@ -499,12 +502,6 @@
               reading=null;hideGeometry();onReading?.(neutral('lost'));
             },Math.max(1,900-age));
           }else{reading=null;hideGeometry();onReading?.(neutral('lost'))}
-          if(data.check.stable && !['wrong_part','install_wrong_part'].includes(data.check.status) && age<900){weakSince=null;weakFrames=0;}
-          else if(quality==='fast' && !autoTried && preference()==='auto' && !navigator.connection?.saveData){
-            weakSince??=received;weakFrames++;
-            const hasParts=data.pair?.counts.some(n=>n>0)||data.check.visible;
-            if(weakFrames>=4 && received-weakSince>=(hasParts?1600:2700)){autoTried=true;applyPrecision?.(true);}
-          }
           if(ticket===version){
             onFrame?.('alignment',{gap:frameGap,copy:shutter-exposure,read:received-shutter,ui:performance.now()-received,
               size:[width,height],source:[video.videoWidth,video.videoHeight],ids:data.markers.length,
@@ -539,7 +536,7 @@
           next.postMessage({type:'prepare-precision',captureId:session});
         };
         bindReader(new Worker(ShelfCamera.workerURL(workerURL)));
-        if(options.precision==='opencv'||preference()==='precision')applyPrecision(true);
+        if(options.precision==='opencv'||(options.precision!=='fast'&&preference()!=='fast'))applyPrecision(true);
         return true;
       }catch(e){
         if(ticket===version)close(e?.name==='NotAllowedError'?'denied':'unavailable');
@@ -551,7 +548,7 @@
     document.addEventListener('visibilitychange',()=>{if(document.hidden&&active)close('hidden')});
     window.addEventListener('pagehide',stop);
     setLanguage();
-    return {start,stop,switchLens:lensMenu.activate,setLanguage,setPrecision:enabled=>userPrecision(!!enabled),get active(){return active}};
+    return {start,stop,takeStream,switchLens:lensMenu.activate,setLanguage,setPrecision:enabled=>userPrecision(!!enabled),get active(){return active}};
   }
   root.createAlignmentCamera=createAlignmentCamera;
 })(globalThis);

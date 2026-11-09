@@ -18,7 +18,7 @@ const samples=taskSamples[taskId]||[];
 let samplesOpen=false,parked=null;
 let views=[],selected=null,replaceId=null,mode='browse',generation=0,acquiring=false,disposed=false;
 let stream=null,worker=null,job=null,workerTimer=0,cloud=null,cloudReady=false,cloudJob=null,online=null;
-let feedback=null;
+let feedback=null,moreOpen=false,roomy=false,questionOpen=false,cloudChecked=false,cloudError=false,rawAdvice=null;
 const selectedView=()=>views.find(v=>v.captureId===selected);
 const setText=(id,value)=>{$(id).textContent=value;};
 const show=(id,on)=>$(id).toggleAttribute('hidden',!on);
@@ -34,8 +34,26 @@ function taskName(){
   const item=names[name];
   return tr((action==='prepare'?'Join the ':'Fit the ')+item[0],(action==='prepare'?'拼好':'安装')+item[1]);
 }
-function control(label,css,click,disabled=false) {
-  const b=document.createElement('button');b.type='button';b.textContent=label;b.className=css;
+const shapes={
+  camera:'M3 7h4l2-3h6l2 3h4v13H3z M16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+  shutter:'M20.5 12a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0 M17.5 12a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0',
+  gallery:'M3 4h18v16H3z M3 16l5-5 4 4 3-3 6 6 M16 8h.01',
+  system:'M4 8V4h4 M16 4h4v4 M20 16v4h-4 M8 20H4v-4 M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+  sample:'M7 5h14v13H7z M4 8v13h14 M8 15l4-4 3 3 2-2 3 3',
+  more:'M5 12h.1 M12 12h.1 M19 12h.1',close:'M6 6l12 12 M18 6 6 18',
+  expand:'M8 4H4v4 M16 4h4v4 M4 16v4h4 M20 16v4h-4',
+  tags:'M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h2v2h-2z M19 14v4h-4v2h5'
+};
+function symbol(name){
+  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),path=document.createElementNS(ns,'path');
+  svg.setAttribute('aria-hidden','true');svg.setAttribute('viewBox','0 0 24 24');path.setAttribute('d',shapes[name]);
+  if(name==='more')path.setAttribute('stroke-width','4');
+  svg.append(path);return svg;
+}
+function nameButton(b,label){b.setAttribute('aria-label',label);b.title=label;}
+function control(label,icon,click,caption='',primary=false,disabled=false){
+  const b=document.createElement('button');b.type='button';b.className='tool'+(caption?' with-label':'')+(primary?' primary':'');b.dataset.icon=icon;
+  nameButton(b,label);b.append(symbol(icon));if(caption){const text=document.createElement('span');text.textContent=caption;b.append(text);}
   b.onclick=click;b.disabled=disabled;$('acquire').append(b);return b;
 }
 function stopCamera(){
@@ -43,7 +61,7 @@ function stopCamera(){
   stream=null;$('live').srcObject=null;
 }
 function cancelCloud(){
-  cloudJob?.abort();cloudJob=null;online=null;
+  cloudJob?.abort();cloudJob=null;online=null;rawAdvice=null;cloudError=false;
   setText('cloud-status','');show('online-result',false);
 }
 function stopWorker(){
@@ -60,29 +78,38 @@ function dispose(){
   $('still').removeAttribute('src');$('thumbs').replaceChildren();$('question').value='';
 }
 function renderControls(){
-  const row=$('acquire');row.replaceChildren();
+  const row=$('acquire'),menu=$('photo-menu');row.replaceChildren();menu.replaceChildren();menu.hidden=true;
   if(!validTask)return;
+  function menuAction(label,action){const b=document.createElement('button');b.type='button';b.textContent=label;b.disabled=acquiring;b.onclick=()=>{moreOpen=false;action();};menu.append(b);}
   if(parked){
-    if(samples.length>1)control(tr('Choose another sample','选择另一张样片'),'',toggleSamples,acquiring);
-    control(tr('Back to my photos','返回我的照片'),'quiet',restorePhotos,acquiring);
+    if(samples.length>1)control(tr('Choose another sample','选择另一张样片'),'sample',toggleSamples,tr('Samples','换张样片'),false,acquiring);
+    control(tr('Back to my photos','返回我的照片'),'gallery',restorePhotos,tr('My photos','我的照片'),false,acquiring);
     return;
   }
-  if(mode==='live'||mode==='opening'){
-    control(tr('Capture photo','拍摄照片'),'primary',capture,mode==='opening'||!$('live').videoWidth||acquiring);
-    control(tr('Cancel','取消'),'',browse);
-    return;
+  const live=mode==='live'||mode==='opening',replace=!!replaceId;
+  function choose(id){
+    if(live){generation++;stopCamera();mode=replace?'replace':'browse';feedback=null;render();}
+    const input=$(id);if(id==='pick')input.multiple=!replace && viewLimit-views.length>1;
+    input.value='';input.click();
   }
-  const choose=()=>{const input=$('pick');input.multiple=replaceId===null && (viewLimit-views.length)>1;input.value='';input.click();};
-  if(views.length<viewLimit || mode==='replace'){
-    control(mode==='replace'?tr('Retake with camera','用相机重拍'):tr('Open camera','打开相机'),'primary',openCamera,acquiring);
-    control(mode==='replace'?tr('Choose replacement','选择替换照片'):tr('Choose photos','选择照片'),'',choose,acquiring);
+  if(views.length<viewLimit||replace){
+    if(live)control(tr('Capture photo','拍摄照片'),'shutter',capture,tr('Capture','拍照'),true,mode==='opening'||!$('live').videoWidth||acquiring);
+    else control(replace?tr('Retake with camera','用相机重拍'):tr('Open camera','打开相机'),'camera',()=>openCamera(),views.length&&!replace?'':tr('Camera','相机'),!views.length||replace,acquiring);
+    control(tr('Open system camera','打开系统相机'),'system',()=>choose('system-camera'),tr('System camera','系统相机'),false,acquiring);
+    control(replace?tr('Choose replacement','选择替换照片'):tr('Choose photos','选择照片'),'gallery',()=>choose('pick'),'',false,acquiring);
   }
-  if(mode==='replace')control(tr('Cancel retake','取消替换'),'quiet',browse,acquiring);
-  else if(views.length){
-    control(tr('Retake','替换此张'),'quiet',()=>{mode='replace';replaceId=selected;feedback=null;render();},acquiring);
-    control(tr('Remove','移除此张'),'quiet',removeView,acquiring);
+  if(replace){control(tr('Cancel retake','取消替换'),'close',browse);return;}
+  if(!views.length&&samples.length)control(tr('Try a sample photo','试用一张样片'),'sample',()=>{if(live)browse();toggleSamples();},'',false,acquiring);
+  if(views.length&&!live){
+    const more=control(tr('Photo options','照片选项'),'more',()=>{moreOpen=!moreOpen;renderControls();});
+    more.setAttribute('aria-expanded',String(moreOpen));more.setAttribute('aria-controls','photo-menu');
+    if(moreOpen){
+      menu.hidden=false;
+      menuAction(tr('Retake','替换此张'),()=>{mode='replace';replaceId=selected;feedback=null;render();});
+      menuAction(tr('Remove','移除此张'),removeView);
+      if(samples.length)menuAction(tr('Try a sample photo','试用一张样片'),toggleSamples);
+    }
   }
-  if(samples.length && mode==='browse')control(tr('Try a sample photo','试用一张样片'),'',toggleSamples,acquiring);
 }
 function toggleSamples(){
   if(acquiring)return;
@@ -168,51 +195,33 @@ function renderFinding(v) {
     }
   }
   setText('limits',detail);show('limits',!!detail);
-  const precise=v.result?.detector==='opencv-4.13';
-  const waiting=job?.precision && job.id===v.captureId;
-  show('precise-options',!!check && check.status!=='unavailable');
-  $('precise').disabled=!!job || acquiring || !!cloudJob || views.some(item=>!item.result);
-  setText('precise',waiting?tr('Running high-precision check…','高精度复查中…'):precise?tr('Show fast result','查看快速结果'):
-    v.precise?tr('Show high-precision result','查看高精度结果'):tr('High-precision recheck','高精度复查'));
-  let note=v.precisionError?tr('High-precision check unavailable. The fast result is still shown.','高精度复查暂不可用，已保留快速结果。'):
-    tr('Runs on this device. First use loads about 8 MB.','在本机运行，首次使用约需加载 8 MB。');
-  if(waiting)note=tr('Your fast result stays visible while OpenCV loads and reads this photo.','正在载入 OpenCV 并识别，快速检查结果仍可查看。');
-  if(v.precise && v.fast) {
-    const a=v.fast.markers.length,b=v.precise.markers.length;
-    note=tr((precise?'Showing OpenCV 4.13. ':'Showing fast check. ')+'Tags found: fast '+a+', OpenCV '+b+'.',
-      (precise?'当前显示 OpenCV 4.13 结果。':'当前显示快速结果。')+'快速识别 '+a+' 枚，OpenCV '+b+' 枚。');
-    if(v.precise.check.status!==v.fast.check.status){
-      const other=precise?v.fast:v.precise;
-      note+=' '+tr('Other result: ','另一项结果：')+other.check.headline;
-    }
-  }
-  setText('precision-note',note);
+  $('result').dataset.reader=v.result?.detector||'pending';
+  $('result').dataset.precision=v.precise?'checked':v.precisionError?'fallback':'pending';
 }
-function renderOnline() {
-  const has=cloudReady && views.length>0 && mode==='browse' && validTask;
+function renderOnline(){
+  const has=views.length>0 && mode==='browse' && validTask;
   show('ask',has);if(!has)return;
-  setText('online-title',tr('DeepSeek photo review','DeepSeek 照片复核'));
   const n=views.length;
-  setText('sending-note',parked?tr('Send this course sample and the current step to DeepSeek for visual advice.','将这张课程样片和本步信息发给 DeepSeek，获取视觉建议。'):
-    tr('Send all '+n+' selected photo'+(n===1?'':'s')+' and this step to DeepSeek for visual advice.','将选中的 '+n+' 张照片与本步信息发给 DeepSeek，获取视觉建议。'));
-  setText('question-label',tr('Question (optional)','补充问题（可选）'));
-  setText('send',parked?tr('Send sample to DeepSeek','发送样片给 DeepSeek'):tr('Send '+n+' photo'+(n===1?'':'s')+' to DeepSeek','发送 '+n+' 张照片给 DeepSeek'));
-  $('send').disabled=!!cloudJob||!!job?.precision||acquiring||views.some(v=>!v.result);
+  const submit=parked?tr('Send sample to DeepSeek','发送样片给 DeepSeek'):tr('Send '+n+' photo'+(n===1?'':'s')+' to DeepSeek','发送 '+n+' 张照片给 DeepSeek');
+  setText('send',cloudJob?tr('Reviewing…','正在复核…'):submit);
+  $('send').disabled=!cloudReady||!!cloudJob||acquiring||views.some(v=>!v.result);
+  nameButton($('ask-question'),tr('Add a question','补充问题'));$('ask-question').setAttribute('aria-expanded',String(questionOpen));
+  show('question-box',questionOpen);setText('question-label',tr('Your question (optional)','补充问题（选填）'));
   $('question').disabled=!!cloudJob;setText('cancel-cloud',tr('Cancel','取消'));show('cancel-cloud',!!cloudJob);
-  if(cloudJob)setText('cloud-status',tr('Checking the selected photos…','正在复核选中的照片…'));
+  setText('cloud-status',cloudJob?tr('DeepSeek is reading your photos.','DeepSeek 正在查看照片。'):
+    !cloudReady?(cloudChecked?tr('Online review is unavailable. You can still check the tags below.','暂时连不上 DeepSeek，可查看下方本机结果。'):tr('Connecting to DeepSeek…','正在连接 DeepSeek…')):cloudError?tr('Could not finish. Tap Send to retry.','本次复核未完成，点发送可重试。'):'');
   show('online-result',!!online);
-  if(online) {
+  if(online){
     setText('cloud-source',online.source==='local'?tr('Current photo · local evidence','当前照片 · 本机证据'):tr('DeepSeek · visual advice','DeepSeek · 视觉建议'));
-    setText('cloud-title',online.title||'');
-    setText('cloud-copy',[online.instruction,online.viewRequest].filter((x,i,a)=>x&&a.indexOf(x)===i).join(' '));
+    setText('cloud-title',online.title||'');setText('cloud-copy',[online.instruction,online.viewRequest].filter((x,i,a)=>x&&a.indexOf(x)===i).join(' '));
   }
 }
 function render() {
   if(disposed)return;
   const v=selectedView(),camera=mode==='live'||mode==='opening';
   document.documentElement.lang=lang==='zh'?'zh-CN':'en';
-  document.title=tr('Photo review','照片复核')+' · ENT207';
-  setText('heading',tr('Photo review','照片复核'));setText('count',views.length+' / '+viewLimit);
+  document.title=tr('AI photo review','AI 照片复核')+' · ENT207';
+  setText('heading',tr('AI photo review','AI 照片复核'));setText('count',views.length+' / '+viewLimit);
   setText('task-name',taskName());
   const intro=!validTask?tr('Return to guided assembly and open photo review from the current task.','请返回装配指导，从当前步骤进入照片复核。'):
     replaceId?tr('Replace the selected photo. Your original stays until the new photo is ready.','替换选中的照片，新照片就绪后才移除原照。'):
@@ -220,7 +229,11 @@ function render() {
     /^install:层/.test(taskId)?tr('From slightly above, include the shelf notch and exposed tags on the gray frame and shelf.','从侧上方拍摄，将层板缺口、灰框和层板上可见的标签一起拍入。'):
     /^prepare:(左侧板|右侧板)$/.test(taskId)?tr('Show the joint with one tag on each side. One close-up can be enough to check the connector ends.','拍下当前接头，接缝两侧各带一枚标签。一张近照就可以核对连接端。'):
     tr('Include the part and its joint. Each photo is checked on this device.','把零件及其接头拍入画面，每张照片会在此设备上核对。');
-  setText('intro',v?.sample?tr(v.sample[1],v.sample[2]):intro);
+  setText('intro',intro);show('intro',!v||!!replaceId);
+  document.body.classList.toggle('has-frame',!!v&&!camera);document.body.classList.toggle('has-multiple',views.length>1&&!camera);document.body.classList.toggle('roomy',roomy);
+  $('marks').setAttribute('preserveAspectRatio',roomy?'xMidYMid meet':'xMidYMid slice');
+  show('stop-live',camera);nameButton($('stop-live'),tr('Close camera','关闭相机'));
+  show('expand',!!v||camera);nameButton($('expand'),roomy?tr('Fill view','铺满取景'):tr('Show full frame','看全幅'));$('expand').setAttribute('aria-pressed',String(roomy));
   $('viewer').classList.toggle('empty',!v&&!camera);
   show('live',camera);show('still',!!v&&!camera);show('camera-symbol',!v&&!camera);
   if(v && $('still').getAttribute('src')!==v.jpegDataUrl)$('still').src=v.jpegDataUrl;
@@ -228,10 +241,10 @@ function render() {
   $('still').alt=tr('Selected assembly photo','当前选中的装配照片');
   show('source-badge',!!v?.sample && !camera);setText('source-badge',tr('Course sample','课程样片'));
   show('overlay',!!v?.result?.markers.length&&!camera);
-  setText('overlay',v?.overlay?tr('Hide tags','隐藏标签'):tr('Show tags','显示标签'));
+  nameButton($('overlay'),v?.overlay?tr('Hide tags','隐藏标签'):tr('Show tags','显示标签'));
   $('overlay').setAttribute('aria-pressed',String(!!v?.overlay));
   drawOverlay(v);
-  const thumbs=$('thumbs');thumbs.replaceChildren();show('thumbs',views.length>0&&!camera);thumbs.setAttribute('aria-label',tr('Selected photos','已选照片'));
+  const thumbs=$('thumbs');thumbs.replaceChildren();show('thumbs',views.length>1&&!camera);thumbs.setAttribute('aria-label',tr('Selected photos','已选照片'));
   views.forEach((view,i)=>{
     const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',String(view===v));b.setAttribute('aria-label',view.sample?tr('Sample photo','课程样片'):tr('Photo ','照片 ')+(i+1));b.disabled=acquiring;
     const img=new Image();img.src=view.jpegDataUrl;img.alt='';const num=document.createElement('span');num.textContent=view.sample?tr('Sample','样片'):i+1;b.append(img,num);
@@ -240,19 +253,20 @@ function render() {
   renderControls();renderSamples();renderFinding(v);renderOnline();
   setText('feedback',feedback?tr(feedback.en,feedback.zh):'');
   setText('retry',tr('Retry local check','重试本机检查'));
-  setText('done',tr('Return to assembly','返回装配'));$('back').setAttribute('aria-label',tr('Back','返回'));
+  nameButton($('back'),tr('Return to assembly','返回装配'));
 }
 function browse(){
-  generation++;stopCamera();mode='browse';replaceId=null;feedback=null;acquiring=false;render();
+  generation++;stopCamera();mode='browse';replaceId=null;moreOpen=false;feedback=null;acquiring=false;render();
 }
-async function openCamera() {
-  if(acquiring||disposed)return;
+async function openCamera(handed=null) {
+  if(disposed||acquiring||mode==='live'||mode==='opening'){handed?.getTracks().forEach(t=>t.stop());return;}
+  moreOpen=false;samplesOpen=false;
   const ticket=++generation;
-  mode='opening';feedback={en:'Allow camera access to take a still photo.',zh:'允许使用相机后即可拍照。'};render();
+  mode='opening';feedback=null;render();
   try {
     if(!navigator.mediaDevices?.getUserMedia)throw Error('unavailable');
-    const fresh=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1600},height:{ideal:1200}}});
-    if(ticket!==generation||disposed){for(const t of fresh.getTracks())t.stop();return;}
+    const fresh=handed||await ShelfCamera.openPreferred(()=>ticket===generation&&!disposed);
+    if(ticket!==generation||disposed||document.hidden){for(const t of fresh.getTracks())t.stop();if(ticket===generation&&!disposed)browse();return;}
     stream=fresh;$('live').srcObject=fresh;
     for(const t of fresh.getVideoTracks())t.onended=()=>{
       if(ticket!==generation||disposed)return;
@@ -280,10 +294,10 @@ function encode(src,width,height) {
   throw Error('jpeg-size');
 }
 function acceptView(view,replaces) {
-  if(replaces && job?.id===replaces)stopWorker();
+  if(job?.precision || (replaces && job?.id===replaces))stopWorker();
   if(replaces)views=views.filter(v=>v.captureId!==replaces);
   if(views.length>=viewLimit)return false;
-  cancelCloud();views.push(view);selected=view.captureId;return true;
+  cancelCloud();moreOpen=false;samplesOpen=false;roomy=false;views.push(view);selected=view.captureId;return true;
 }
 function capture() {
   const live=$('live');
@@ -342,14 +356,15 @@ function failJob(ticket) {
 function resetResults(v) {
   v.fast=null;v.precise=null;v.result=null;v.precisionError=false;
 }
-function scheduleCheck(requested) {
+function scheduleCheck() {
   if(job||disposed)return;
-  const v=requested || views.find(v=>!v.result);
+  const pending=views.find(v=>!v.result);
+  const enrich=!pending&&views.find(v=>v.fast&&!v.precise&&!v.precisionError);
+  const v=pending||enrich;
   if(!v)return;
-  const ticket={id:v.captureId,lang,precision:!!requested};job=ticket;
-  if(requested){v.precisionError=false;render();}
+  const ticket={id:v.captureId,lang,precision:!!enrich};job=ticket;
   try {
-    if(!worker)worker=new Worker('../vision/worker.js');
+    if(!worker)worker=new Worker('../vision/worker.js?v=6');
     worker.onerror=()=>failJob(ticket);
     worker.onmessage=({data})=>{
       if(job!==ticket||disposed||data.captureId!==ticket.id)return;
@@ -357,10 +372,13 @@ function scheduleCheck(requested) {
       clearTimeout(workerTimer);job=null;
       if(views.includes(v)){
         const markers=Array.isArray(data.markers)?data.markers:[];
-        v.result={width:data.width || v.width,height:data.height||v.height,markers,detector:data.detector || 'fast-4x4-250',
+        const result={width:data.width || v.width,height:data.height||v.height,markers,detector:data.detector || 'fast-4x4-250',
           check:photoCheck(taskId,markers,data.check,lang)};
-        if(ticket.precision){v.precise=v.result;cancelCloud();}
-        else v.fast=v.result;
+        if(ticket.precision){
+          v.precise=result;
+          v.result=classification(result.check)==='unknown'&&classification(v.fast?.check)!=='unknown'?v.fast:result;
+        }else{v.fast=result;v.result=result;}
+        if(rawAdvice)online=guardCloud(rawAdvice,taskId,views.at(-1).result.check,lang);
       }
       render();scheduleCheck();
     };
@@ -373,16 +391,16 @@ function scheduleCheck(requested) {
   }catch{failJob(ticket);}
 }
 async function sendPhotos(){
-  if(!cloudReady||cloudJob||job?.precision||disposed||!views.length||views.some(v=>!v.result))return;
-  const request=new AbortController();cloudJob=request;online=null;render();
+  if(!cloudReady||cloudJob||disposed||!views.length||views.some(v=>!v.result))return;
+  const request=new AbortController();cloudJob=request;online=null;rawAdvice=null;cloudError=false;questionOpen=false;render();
   try{
     const shots=views.map(v=>({captureId:v.captureId,jpegDataUrl:v.jpegDataUrl,check:v.result.check,markers:v.result.markers,width:v.width,height:v.height}));
     const result=await cloud.reviewPhotos({taskId,lang,views:shots,question:$('question').value.trim(),signal:request.signal});
     if(cloudJob!==request||disposed)return;
-    online=guardCloud(result,taskId,views.at(-1).result.check,lang);setText('cloud-status','');
+    rawAdvice=result;online=guardCloud(result,taskId,views.at(-1).result.check,lang);
   }catch{
     if(cloudJob!==request||disposed)return;
-    setText('cloud-status',tr('Online review could not finish. The photos and local checks are still available.','在线复核暂未完成。照片与本机检查结果仍可查看。'));
+    cloudError=true;
   }finally{if(cloudJob===request&&!disposed){cloudJob=null;render();}}
 }
 async function setLanguage(next) {
@@ -392,24 +410,32 @@ async function setLanguage(next) {
   render();scheduleCheck();
 }
 window.ent207SetLanguage=setLanguage;
-$('done').onclick=$('back').onclick=leave;$('pick').onchange=importFiles;
-$('retry').onclick=()=>{const v=selectedView();if(v){v.result=null;render();scheduleCheck();}};
-$('precise').onclick=()=>{
-  const v=selectedView();
-  if(!v?.result||job||cloudJob||acquiring)return;
-  if(v.precise){cancelCloud();v.result=v.result===v.precise?v.fast:v.precise;render();}
-  else scheduleCheck(v);
-};
+$('back').onclick=leave;$('pick').onchange=$('system-camera').onchange=importFiles;
+$('retry').onclick=()=>{const v=selectedView();if(v){resetResults(v);render();scheduleCheck();}};
+$('overlay').append(symbol('tags'));$('expand').append(symbol('expand'));$('stop-live').append(symbol('close'));
 $('overlay').onclick=()=>{const v=selectedView();if(v){v.overlay=!v.overlay;render();}};
+$('expand').onclick=()=>{roomy=!roomy;render();};$('stop-live').onclick=browse;
+$('ask-question').onclick=()=>{questionOpen=!questionOpen;renderOnline();if(questionOpen)$('question').focus();};
 $('send').onclick=sendPhotos;$('cancel-cloud').onclick=()=>{cancelCloud();render();};
-$('question').oninput=()=>{if(online){online=null;renderOnline();}};
+$('question').oninput=()=>{if(online){rawAdvice=null;online=null;renderOnline();}};
 $('live').onloadedmetadata=()=>{if(!disposed)renderControls();};
 addEventListener('message',e=>{if(e.origin===location.origin && e.source===parent && e.data?.type==='ent207-review-dispose')dispose();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden && (mode==='live'||mode==='opening'))browse();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden && mode==='live')browse();});
 addEventListener('pagehide',dispose);
 render();
+async function startReviewCamera(){
+  if(!validTask||document.hidden)return;
+  const handed=window.frameElement && (parent.ent207TakeReviewCamera?.(window)||parent.ent207TakeGuideCamera?.(window));
+  if(handed||args.get('camera')==='auto'){await openCamera(handed||null);return;}
+  if(args.get('camera')!=='granted')return;
+  const ticket=generation;
+  try{
+    const permission=await navigator.permissions.query({name:'camera'});
+    if(permission.state==='granted'&&ticket===generation&&!disposed&&!document.hidden&&mode==='browse'&&!views.length)await openCamera();
+  }catch{}
+}
+void startReviewCamera();
 import('../services/cloud.js').then(async api=>{
   const status=await api.cloudReady();if(disposed)return;
-  cloud=api;cloudReady=status===true || !!(status?.configured && status.enabled!==false);render();
-}).catch(()=>{});
-
+  cloud=api;cloudChecked=true;cloudReady=status===true || !!(status?.configured && status.enabled!==false);render();
+}).catch(()=>{if(!disposed){cloudChecked=true;render();}});

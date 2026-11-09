@@ -327,7 +327,7 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
   }
   function render() {
     if(!welcomeDone)return;
-    if(!['guide','wide-camera'].includes(parse()))releaseWelcomeStream();
+    if(!['guide','wide-camera','review'].includes(parse()))releaseWelcomeStream();
     refreshCatalog();
     if($('setting').open)$('setting').close();
     const next=parse();
@@ -350,16 +350,16 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
       case 'shelf':shelfPage();break;
       case 'profile':profilePage();break;
       case 'account':accountPage();break;
-      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'6'});break;
+      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'7'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
       case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
       case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
       case 'camera-test':embed('tools/camera-bench.html',tr('Recognition speed test','本机识别测速'));break;
-      case 'wide-camera':embed('tools/wide-camera.html',tr('Check rear cameras','检查后置广角'));break;
+      case 'wide-camera':embed('tools/wide-camera.html',tr('Check rear cameras','检查后置广角'),{v:'7'});break;
       case 'tools':case 'voice':embed('tools/index.html',tr('Tools and earlier demos','工具与旧演示'),route==='voice'?{view:'voice'}:{});break;
       case 'review':{
         const active=readJSON('ent207.guide.v2:'+owner(),{})?.active;
-        embed('review/index.html',tr('Photo review','照片复核'),{task:typeof active==='string'?active:'prepare:左侧板'});break;
+        embed('review/index.html',tr('AI photo review','AI 照片复核'),{task:typeof active==='string'?active:'prepare:左侧板',camera:cameraPreferred?'auto':'manual',v:'7'});break;
       }
       case 'community':embed('community/index.html',tr('Community','社区'));showTabs(route);break;
       default:{
@@ -415,7 +415,7 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
   }
   // The visible guide takes ownership of the permission stream while this document remains open.
   window.ent207TakeGuideCamera=source=>{
-    if(!welcomeStream || source!==frame?.contentWindow || !['guide','wide-camera'].includes(route))return null;
+    if(!welcomeStream || source!==frame?.contentWindow || !['guide','wide-camera','review'].includes(route))return null;
     clearTimeout(streamTimer);
     const stream=welcomeStream;welcomeStream=null;
     if(stream.getVideoTracks().some(track=>track.readyState==='live'))return stream;
@@ -429,7 +429,7 @@ import {mountWelcome} from './welcome.js?v=tabletop-6';
     finish:stream=>{
       welcomeDone=true;cameraPreferred=!!stream;
       write(languageKey,lang);$('welcome').hidden=true;$('edition').hidden=false;
-      if(stream && [home,'guide','wide-camera'].includes(parse())){
+      if(stream && [home,'guide','wide-camera','review'].includes(parse())){
         welcomeStream=stream;streamTimer=setTimeout(releaseWelcomeStream,15000);
         if(parse()===home){navigate('guide');return;}
       }else stream?.getTracks().forEach(track=>track.stop());
