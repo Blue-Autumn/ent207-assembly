@@ -1,4 +1,5 @@
 import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './community/studio-store.js';
+import {mountWelcome} from './welcome.js?v=camera-4';
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
@@ -12,6 +13,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     comments:'M4 4h16v12H10l-6 5zM8 8h8M8 12h5',
     language:'M21 12a9 9 0 1 1-18 0 9 9 0 1 1 18 0ZM3 12h18m-9-9a16 16 0 0 1 0 18 16 16 0 0 1 0-18Z',
     voice:'M3 9h4l5-5v16l-5-5H3zM16 8q3 4 0 8M19 4q6 8 0 16',
+    camera:'M3 7h4l2-3h6l2 3h4v13H3zM16 13a4 4 0 1 1-8 0 4 4 0 1 1 8 0Z',
     tools:'M3 6h4m5 0h9M3 12h10m5 0h3M3 18h2m5 0h11M12 6a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0ZM18 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0ZM10 18a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0Z',
     tick:'m4 12 5 5L20 6'
   };
@@ -50,7 +52,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
   const queryLang=new URLSearchParams(location.search).get('lang');
   let lang=(queryLang || read(languageKey,'en')).startsWith('zh')?'zh':'en';
   const tr=(en,zh)=>lang==='zh'?zh:en;
-  let languageChosen=false;
+  let welcomeDone=false, cameraPreferred=false, welcomeStream=null, streamTimer=0;
   function updateEdition() {
     document.documentElement.lang=lang==='zh'?'zh-CN':'en';
     document.title=tr('Assembly Assistant','装配助手')+' · ENT207';
@@ -60,16 +62,13 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     }
   }
   function selectLanguage(value) {
-    const first=!languageChosen,changed=value!==lang;
-    languageChosen=true;
+    const changed=value!==lang;
     lang=value;write(languageKey,value);
-    $('welcome').hidden=true;$('edition').hidden=false;
     const url=new URL(location.href);
     if(url.searchParams.has('lang'))url.searchParams.set('lang',value);
     history.replaceState(history.state,'',url);
     updateEdition();
-    if(first){render();return;}
-    if(!changed)return;
+    if(!welcomeDone||!changed)return;
     if(frame){
       const modules=parkedGuide?[parkedGuide.frame,frame]:[frame];
       for(const child of modules){
@@ -85,7 +84,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
       if(draft!==undefined && $('nickname'))$('nickname').value=draft;
     }
   }
-  for(const control of document.querySelectorAll('[data-language]')){
+  for(const control of $('edition').querySelectorAll('[data-language]')){
     control.onclick=()=>selectLanguage(control.dataset.language);
   }
 
@@ -168,7 +167,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     rememberScroll();render();
   });
   addEventListener('keydown',e=>{
-    if(e.key==='Escape' && languageChosen && !$('setting').open && route!==home) {
+    if(e.key==='Escape' && welcomeDone && !$('setting').open && route!==home) {
       e.preventDefault();back();
     }
   });
@@ -220,13 +219,13 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     const card=button('','shelf-card',()=>navigate('shelf'));
     const img=picture('concepts/rack-poster.png',true);img.className='cover-art';img.fetchPriority='high';
     const copy=node('span','shelf-copy');copy.append(node('strong','',shelfTitle()),node('small','',progressText(progress())));
-    const arrow=node('span','open-arrow');arrow.append(icon('arrow'));card.append(img,copy,arrow);body.append(card);
+    const arrow=node('span','open-arrow');arrow.append(icon('arrow'));card.append(img,copy,arrow);
     const launches=node('div','quick-launch');
-    launches.append(button(tr('Virtual assembly','虚拟试拼'),'quick',()=>navigate('workshop')),
-      button(tr('Guided assembly','装配指导'),'quick primary',()=>navigate('guide')));
+    const guide=button('','quick primary',()=>navigate('guide'));guide.append(icon('camera'),node('span','',tr('Guided assembly','装配指导')));
+    launches.append(button(tr('Virtual assembly','虚拟试拼'),'quick',()=>navigate('workshop')),guide);
     const samples=button('','photo-link',()=>navigate('field'));
     samples.append(node('span','',tr('Try sample photos','体验实物样片')),icon('next'));
-    body.append(launches,samples);
+    body.append(launches,card,samples);
     const block=node('section');block.id='saved-projects';renderSaved(block);body.append(block);showTabs('projects');
   }
   function shelfPage() {
@@ -327,7 +326,8 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     frame.title=title;frame.src=url.href;$('content').append(frame);
   }
   function render() {
-    if(!languageChosen)return;
+    if(!welcomeDone)return;
+    if(parse()!=='guide')releaseWelcomeStream();
     refreshCatalog();
     if($('setting').open)$('setting').close();
     const next=parse();
@@ -350,7 +350,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
       case 'shelf':shelfPage();break;
       case 'profile':profilePage();break;
       case 'account':accountPage();break;
-      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work'});break;
+      case 'guide':case 'progress':embed('guide/index.html',tr('Guided assembly','装配指导'),{page:route==='progress'?'progress':'work',camera:cameraPreferred?'auto':'manual',v:'4'});break;
       case 'workshop':embed('workshop/index.html',tr('Virtual assembly','虚拟试拼'));break;
       case 'field':embed('field/index.html',tr('Sample photos','实物样片'));break;
       case 'studio':embed('studio/index.html',tr('Content studio','内容工作室'));break;
@@ -371,6 +371,7 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
     if(event.origin!==location.origin || !frame || event.source!==frame.contentWindow)return;
     switch(event.data?.type) {
       case 'ent207-close':back();break;
+      case 'ent207-camera-choice':if(['guide','progress'].includes(route))cameraPreferred=event.data.enabled===true;break;
       case 'ent207-open-shelf':navigate('shelf');break;
       case 'ent207-field':navigate('field');break;
       case 'ent207-studio':navigate('studio');break;
@@ -402,7 +403,43 @@ import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './com
       rememberScroll();render();
     }
   });
+  function releaseWelcomeStream(){
+    clearTimeout(streamTimer);
+    welcomeStream?.getTracks().forEach(track=>track.stop());
+    welcomeStream=null;
+  }
+  // The visible guide takes ownership of the permission stream while this document remains open.
+  window.ent207TakeGuideCamera=source=>{
+    if(!welcomeStream || source!==frame?.contentWindow || route!=='guide')return null;
+    clearTimeout(streamTimer);
+    const stream=welcomeStream;welcomeStream=null;
+    if(stream.getVideoTracks().some(track=>track.readyState==='live'))return stream;
+    stream.getTracks().forEach(track=>track.stop());return null;
+  };
+  addEventListener('pagehide',releaseWelcomeStream);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseWelcomeStream();});
   updateEdition();
+  const reopenWelcome=mountWelcome({
+    language:()=>lang,setLanguage:selectLanguage,opensGuide:()=>[home,'guide'].includes(parse()),
+    finish:stream=>{
+      welcomeDone=true;cameraPreferred=!!stream;
+      write(languageKey,lang);$('welcome').hidden=true;$('edition').hidden=false;
+      if(stream && [home,'guide'].includes(parse())){
+        welcomeStream=stream;streamTimer=setTimeout(releaseWelcomeStream,15000);
+        if(parse()===home){navigate('guide');return;}
+      }else stream?.getTracks().forEach(track=>track.stop());
+      render();
+    }
+  });
+  addEventListener('pageshow',event=>{
+    if(!event.persisted)return;
+    releaseWelcomeStream();welcomeDone=false;cameraPreferred=false;
+    frame=null;parkedGuide=null;route='';scroll=null;
+    if($('setting').open)$('setting').close();
+    for(const id of ['content','heading','actions','tabs'])$(id).replaceChildren();
+    $('tabs').hidden=true;$('heading').hidden=true;$('edition').hidden=true;
+    reopenWelcome();
+  });
   fetch('community/catalog.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json();}).then(data=>{
     if(!Array.isArray(data))return;
     baseCatalog=data.filter(p=>p && /^[a-zA-Z0-9_-]{1,90}$/.test(p.id));refreshCatalog();

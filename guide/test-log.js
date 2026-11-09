@@ -5,7 +5,7 @@ function makeTestLog(profile) {
  try{record=JSON.parse(sessionStorage.getItem(key)||'null');}catch{record=null;}
  function save(){try{sessionStorage.setItem(key,JSON.stringify(record));}catch{}}
  function start(){
-  record={format:'ent207-browser-test-1',version:'R91-web-3',started:new Date().toISOString(),
+  record={format:'ent207-browser-test-1',version:'R91-web-4',started:new Date().toISOString(),
     viewport:[innerWidth,innerHeight],events:[]};save();
  }
  function add(info){

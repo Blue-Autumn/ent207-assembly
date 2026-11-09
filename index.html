@@ -7,20 +7,39 @@
   <meta name="description" content="Build the ENT207 five-tier shelf, rehearse each step, and explore the design community.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>Assembly Assistant · ENT207</title>
-  <link rel="stylesheet" href="app.css?v=language-1">
-  <script type="module" src="app.js?v=web-r3"></script>
+  <link rel="stylesheet" href="app.css?v=camera-4">
+  <script type="module" src="app.js?v=camera-4"></script>
 </head>
 <body>
   <main id="device">
     <div id="screen">
       <div id="edition" hidden><span id="edition-label"></span><div class="lang-pair" role="group" aria-label="Language / 语言"><button type="button" lang="en" data-language="en" aria-label="English">EN</button><button type="button" lang="zh-CN" data-language="zh" aria-label="中文">中</button></div></div>
-      <section id="welcome" aria-labelledby="welcome-title">
+      <section id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title" data-step="1">
         <div class="welcome-card">
-          <img src="concepts/rack-poster.png" alt="" width="236" height="166">
-          <h1 id="welcome-title"><span lang="en">Choose your language</span><small lang="zh-CN">选择语言</small></h1>
-          <p lang="en">This is the web edition of Assembly Assistant. The full app is available on Android.</p>
-          <p lang="zh-CN">这里是装配助手网页体验版，完整功能请使用 Android 应用。</p>
-          <div class="welcome-actions"><button type="button" lang="en" data-language="en">English</button><button type="button" lang="zh-CN" data-language="zh">简体中文</button></div>
+          <div class="welcome-top">
+            <span class="welcome-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 9-5 9 5-9 5zM3 12l9 5 9-5m-18 4 9 5 9-5"/></svg> ENT207</span>
+            <button type="button" id="welcome-back" hidden aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+            <span class="welcome-progress" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="welcome-count" class="welcome-count">1 / 3</span>
+          </div>
+          <div class="welcome-figure" aria-hidden="true">
+            <div class="language-art"><span>A</span><span>文</span></div>
+            <img class="edition-art" src="concepts/rack-poster.png" alt="">
+            <div class="camera-art"><img src="guide/pieces/part-04.webp" alt=""><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="welcome-copy">
+            <h1 id="welcome-title" tabindex="-1">Choose your language</h1>
+            <p id="welcome-description" lang="zh-CN">选择语言</p>
+            <div id="welcome-languages" role="group" aria-label="Language / 语言">
+              <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
+              <button type="button" lang="zh-CN" data-language="zh" aria-pressed="false">简体中文</button>
+            </div>
+            <p id="welcome-status" role="status" hidden></p>
+          </div>
+          <div class="welcome-actions">
+            <button type="button" id="welcome-next"><span>Continue / 继续</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+            <button type="button" id="welcome-skip" hidden>Continue without camera</button>
+          </div>
         </div>
       </section>
       <header id="heading"></header>

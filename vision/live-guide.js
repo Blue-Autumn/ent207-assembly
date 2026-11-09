@@ -406,7 +406,7 @@
       active=true;layer.hidden=false;loading.hidden=false;precision.disabled=true;
       try{
         const constraints=options.deviceId?{deviceId:{exact:options.deviceId}}:{facingMode:{ideal:'environment'}};
-        const opened=await navigator.mediaDevices.getUserMedia({audio:false,video:{...constraints,width:{ideal:1280},height:{ideal:960}}});
+        const opened=options.stream || await navigator.mediaDevices.getUserMedia({audio:false,video:{...constraints,width:{ideal:1280},height:{ideal:960}}});
         if(ticket!==version){opened.getTracks().forEach(t=>t.stop());return false}
         stream=opened;
         const track=stream.getVideoTracks()[0];

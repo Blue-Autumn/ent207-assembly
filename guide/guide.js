@@ -7,6 +7,10 @@ const sheet=$('overlay');
 const cameraTable=element('div',null,'camera-table');
 const photoMode=button('',()=>toggleReference(),'photo-mode');
 const realScan=button('',toggleRealScan,'live-scan-toggle');
+const usePhotos=button('',()=>{setCameraPreference(false);leaveRealScan();render();},'scan-photos');
+const cameraModes=element('div',null,'camera-modes');
+const routeParams=new URLSearchParams(location.search);
+let cameraPreferred=routeParams.get('camera')==='auto',guideMounted=false,returnToCamera=false;
 let cameraError=false;
 const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
  candidate=hit?.matches ? targetId() : null;
@@ -14,7 +18,7 @@ const livePick=createPickupScanner(visual,()=>pendingPickup(),hit=>{
  wrongChoice=hit && !hit.matches ? hit.part : '';
  render();
 },()=>{
- cameraError=true;candidate=null;wrongChoice='';observed=false;render();
+ setCameraPreference(false);cameraError=true;candidate=null;wrongChoice='';observed=false;render();
 });
 const testLog=makeTestLog(demoProfile);
 let liveCheck=null, liveProblem='', correctionFromCamera=false, reviewFrame=null;
@@ -28,16 +32,31 @@ const alignment=createAlignmentCamera(visual,{
  },
  onClose:reason=>{
    liveCheck=null;liveProblem=['denied','reader-error','unavailable','ended'].includes(reason)?reason:'';
+   if(liveProblem || reason==='user')setCameraPreference(false);
    render();
  }
 });
 function stopAlignment(){
  alignment.stop();liveCheck=null;liveProblem='';recordedRowButton.hidden=true;
 }
-function toggleAlignment(){
- if(alignment.active){stopAlignment();render();return;}
+function setCameraPreference(enabled){
+ cameraPreferred=enabled;
+ if(parent!==window)parent.postMessage({type:'ent207-camera-choice',enabled},location.origin);
+}
+function startAlignment(stream){
  leaveRealScan();RowLesson.stop();correctionFromCamera=false;liveCheck=null;liveProblem='';
- alignment.start();render();
+ alignment.start({stream});render();
+}
+function toggleAlignment(){
+ if(alignment.active){setCameraPreference(false);stopAlignment();render();return;}
+ setCameraPreference(true);startAlignment();
+}
+function enterPreferredCamera(stream){
+ if(cameraPreferred && screen==='work' && !document.hidden && !sheet.classList.contains('open')){
+  if(phase==='find' && !livePick.active){startRealScan(stream);return;}
+  if(phase==='guide' && ready(active) && !alignment.active){startAlignment(stream);return;}
+ }
+ stream?.getTracks().forEach(track=>track.stop());
 }
 function paintLiveReading(){
  if(!alignment.active)return;
@@ -68,7 +87,6 @@ function showObservedRow(){
 const speechButton=button('',toggleVoice,'');
 const fieldButton=button(tr('Field guidance','现场引导'),openField,'field-entry');
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
-const routeParams=new URLSearchParams(location.search);
 const rawOpenTask=openTask, rawCloseOverlay=closeOverlay, rawOpenOverlay=showOverlay;
 let reference=false, tableTarget='', wrongChoice='', loop=0, lastAction=0, animationStart=0;
 let voiceOn=false, spoken='', interacted=false, latestScene='';
@@ -79,7 +97,9 @@ cameraTable.setAttribute('aria-label',tr('Practice scan with photographed parts'
 speechButton.id='speakStep';
 speechButton.innerHTML='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg>';
 $('progressButton').before(speechButton);
-visual.append(cameraTable,photoMode,fieldButton,realScan,alignButton,recordedRowButton);
+visual.append(cameraTable,photoMode,fieldButton,recordedRowButton);
+cameraModes.append(realScan,usePhotos,alignButton);
+visual.before(cameraModes);
 recordedRowButton.hidden=true;
 $('taskList').replaceChildren();
 cv.setAttribute('aria-label',tr('Part model. Drag to rotate.','板件模型，可拖动旋转。'));
@@ -101,12 +121,14 @@ function leaveRealScan(){
  }
  cameraError=false;
 }
+function startRealScan(stream){
+ reference=false;candidate=null;observed=false;wrongChoice='';cameraError=false;
+ livePick.start(stream);
+ render();
+}
 function toggleRealScan(){
- if(livePick.active)leaveRealScan();
- else{
-  reference=false;candidate=null;observed=false;wrongChoice='';cameraError=false;
-  livePick.start();
- }
+ if(!livePick.active){setCameraPreference(true);startRealScan();return;}
+ setCameraPreference(false);leaveRealScan();
  render();
 }
 function exitGuide(){
@@ -170,15 +192,24 @@ function animate(){
  loop=requestAnimationFrame(tick);
 }
 closeOverlay=function(){
+ const returning=sheet.classList.contains('open'),resumeCamera=returnToCamera,previousTask=active;
+ returnToCamera=false;
  if(reviewFrame){reviewFrame.contentWindow?.postMessage({type:'ent207-review-dispose'},location.origin);reviewFrame=null;}
  rawCloseOverlay();for(const control of [document.querySelector('.top'),document.querySelector('.body'),$('footer')])control.inert=false;sheet.classList.remove('milestone-page','progress-page','review-page','frame-review','visitor-review');
  sheet.removeAttribute('data-milestone');
  if(typeof latestScene==='string')animate();
+ if(returning && guideMounted)queueMicrotask(()=>{
+  if(active!==previousTask || sheet.classList.contains('open') || document.hidden)return;
+  if(resumeCamera)enterPreferredCamera();
+  render();
+ });
 };
 showOverlay=function(title){
+ const resumeCamera=returnToCamera || alignment.active || livePick.active;
  stopAlignment();correctionFromCamera=false;
  if(livePick.active){leaveRealScan();render()}
  const box=rawOpenOverlay(title);
+ returnToCamera=resumeCamera;
  cancelAnimationFrame(loop);
  window.speechSynthesis?.cancel();
  box.scrollTop=0;
@@ -192,6 +223,7 @@ openTask=function(id,dependency=false,persist=true){
  leaveRealScan();
  lastAction=0;reference=false;wrongChoice='';tableTarget='';animationStart=performance.now();RowLesson.stop();
  rawOpenTask(id,dependency,persist);
+ if(guideMounted)enterPreferredCamera();
 };
 
 function openField(){
@@ -367,21 +399,27 @@ render=function(){
  const review=phase==='review'&&!homeView,completed=done.has(active);
  const scene=[active,phase,screen].join('|');
  if(scene!==latestScene){animationStart=performance.now();latestScene=scene}
- phone.classList.toggle('work-page',!homeView);phone.classList.toggle('found',finding&&!!candidate);
- phone.classList.toggle('problem',finding&&!!wrongChoice);
+ const scanning=finding&&livePick.active;
+ phone.classList.toggle('work-page',!homeView);phone.classList.toggle('found',finding&&!scanning&&!!candidate);
+ phone.classList.toggle('problem',finding&&!scanning&&!!wrongChoice);
+ phone.classList.toggle('pickup-camera',scanning);
+ if(scanning)phone.dataset.pickup=candidate?'match':wrongChoice?'other':'search';
+ else delete phone.dataset.pickup;
  phone.classList.toggle('local-direction',review);
  $('home').style.display=homeView?'block':'none';$('work').style.display=homeView?'none':'block';
  $('homeSummary').hidden=!homeView;$('footer').style.display=homeView?'none':'flex';
  $('visual').style.display='block';
- const scanning=finding&&livePick.active;
  alignButton.hidden=homeView||phase!=='guide'||!ready(active)||alignment.active;
- alignButton.textContent=tr('Live guidance','实拍指导');
+ alignButton.textContent=tr('Open camera for live guidance','打开相机，实拍指导');
+ cameraModes.hidden=!finding && alignButton.hidden;
  if(!alignment.active)recordedRowButton.hidden=true;
  fieldButton.hidden=alignment.active;
  cameraTable.hidden=!finding||reference||scanning;
  realScan.hidden=!finding;
- realScan.textContent=scanning?tr('Close camera','关闭相机'):tr('Scan real tags','扫描实物');
+ realScan.textContent=scanning?tr('Close camera','关闭相机'):cameraError?tr('Retry camera','重试相机'):tr('Open camera to find parts','打开相机找零件');
  realScan.setAttribute('aria-pressed',String(scanning));
+ usePhotos.hidden=!scanning;
+ usePhotos.textContent=tr('Use sample photos','改用样片');
  visual.classList.toggle('live-pick',scanning);
  visual.classList.toggle('photo-pick',finding&&!reference);
  if(finding)populateTable(targetId());
@@ -392,7 +430,7 @@ render=function(){
  const groups=pickupTargets(task);
  AssemblyWorkControls.update({screen,phase,taskId:active,done:done.size,total:order.length,
   picked:groups.filter(group=>group.every(id=>picked.has(id))).length,required:groups.length});
- $('topContext').textContent=homeView?t('work.overview'):(alignment.active?tr('Live guidance','实拍指导'):tr('Guided rehearsal','模拟装配'))+' · '+(order.indexOf(active)+1)+' / '+order.length;
+ $('topContext').textContent=homeView?t('work.overview'):(scanning?tr('Camera scan','相机找件'):alignment.active?tr('Live guidance','实拍指导'):tr('Guided rehearsal','模拟装配'))+' · '+(order.indexOf(active)+1)+' / '+order.length;
  speechButton.hidden=!('speechSynthesis'in window);speechButton.classList.toggle('muted',!voiceOn);
  speechButton.setAttribute('aria-label',t(voiceOn?'voice.on':'voice.off'));speechButton.setAttribute('aria-pressed',String(voiceOn));
  if(homeView){
@@ -411,12 +449,13 @@ render=function(){
    action=candidate?t('work.pickup'):tr('Show the matching part','显示目标零件');
    if(scanning){
     const hit=livePick.hit;
+    title=t('work.find',{part:name});
     const scanned=hit?String(hit.id).padStart(3,'0')+' · '+halfName(hit.part)+' · '+hit.face:'';
     body=hit ? (hit.matches?tr('Matched: ','匹配：'):tr('Different piece: ','其他板件：'))+scanned :
      tr('Aim at a printed marker. The camera checks part identity on this device.','将相机对准板件上的标签，在本机核对身份。');
-    if(!candidate)action=tr('Continue with photos','使用照片继续');
+    action=t('work.pickup');
    }else if(cameraError){
-    body=tr('Camera unavailable. Allow camera access to retry, or continue with the photos.','相机暂不可用。可允许相机权限后重试，或继续照片练习。');
+    body=tr('Camera unavailable. Allow it in your browser or phone settings, then retry, or tap a sample part below.','相机暂不可用。可在浏览器或手机设置里允许相机后重试，或点下方样片继续。');
    }
   }else if(review){
    title=completed?t('work.complete'):tr('Check the fit','装好了吗？');body=completed?t('work.saved'):checkCopy(task);action=t(completed?'work.next':'work.confirm');
@@ -424,12 +463,12 @@ render=function(){
    title=taskName(task);body=liveProblem?tr('Camera unavailable. Continue with the model or select a photo for review.','相机暂不可用，可看模型继续或选照片复核。'):statusCopy(task);action=ready(active)?tr('Check the fit','检查装配效果'):t('work.prepareFirst');
   }
   $('headline').textContent=title;$('workSubtitle').textContent=body;
-  const mark=candidate||review?'ok':wrongChoice?'adjust':null;
+  const mark=candidate||review?'ok':wrongChoice&&!scanning?'adjust':null;
   if(mark)$('headline').dataset.mark=mark;else delete $('headline').dataset.mark;
-  $('primary').textContent=action;$('primary').disabled=false;window.finderModel=finding;window.uiTable=!finding;
+  $('primary').textContent=action;$('primary').disabled=scanning&&!candidate;window.finderModel=finding;window.uiTable=!finding;
   if(alignment.active)paintLiveReading();
   else if(!sheet.classList.contains('open'))say(title+'. '+body);
-  testLog.add({taskId:active,phase,source:scanning?'scan':alignment.active?'alignment-view':'guide',status:done.has(active)?'confirmed':phase,markerIds:livePick.hit?[livePick.hit.id]:[]});
+  testLog.add({taskId:active,phase,source:scanning?'scan':alignment.active?'alignment-view':'guide',status:scanning?(candidate?'target_seen':wrongChoice?'other_part':'searching'):done.has(active)?'confirmed':phase,markerIds:livePick.hit?[livePick.hit.id]:[]});
  }
  window.sceneSurface='rgba(0,0,0,0)';
  if(phase!=='guide'||screen!=='work')cv.style.opacity='1';
@@ -440,9 +479,15 @@ $('primary').onclick=event=>{
  if(now-lastAction<170)return;lastAction=now;interacted=true;
  if(phase==='find'&&livePick.active){
   const hit=livePick.match();
-  leaveRealScan();
-  if(!hit){render();return}
+  if(!hit)return;
   candidate=targetId();observed=true;
+  const result=handlePrimary(event);
+  if(result.status==='picked'){
+   wrongChoice='';reference=false;
+   if(phase==='find'){livePick.resetTarget();render();}
+   else enterPreferredCamera(livePick.takeStream());
+  }
+  return;
  }
  if(phase==='find'&&!candidate){choosePiece(targetId());return}
  if(phase==='guide'&&ready(active)&&!done.has(active)&&pickupComplete()){
@@ -475,5 +520,7 @@ window.ent207SetLanguage=value=>{
 if(allDone())openTask(order.at(-1),true,false);else openTask(resumeTask(),true,false);
 if(routeParams.get('page')==='progress')stepList();
 else if(allDone())summary();
+guideMounted=true;
+enterPreferredCamera(window.frameElement ? parent.ent207TakeGuideCamera?.(window) : null);
 delete document.documentElement.dataset.starting;
 

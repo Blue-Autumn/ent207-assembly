@@ -17,24 +17,34 @@ function createPickupScanner(stage, targets, onChange, onError) {
   const buffer = document.createElement('canvas');
   const context = buffer.getContext('2d',{willReadFrequently:true});
   const seen = new Map();
-  const lossMs = 500;
+  const parts = new Map();
+  let holdMs = 600, previousFrame = 0;
   let generation = 0, running = false, worker = null, stream = null;
   let nextFrame = 0, expiry = 0, registry = null, observed = null;
+  let epoch = 0, capturedEpoch = 0, capturedAt = 0;
+
+  function resetTarget() {
+    epoch++;
+    clearTimeout(expiry);
+    seen.clear();
+    parts.clear();
+    observed = null;
+    previousFrame = 0;
+    holdMs = 600;
+    outlines.replaceChildren();
+  }
 
   function stop() {
     running = false;
     generation++;
     clearTimeout(nextFrame);
-    clearTimeout(expiry);
     worker?.terminate();
     worker = null;
     stream?.getTracks().forEach(track=>track.stop());
     stream = null;
     video.srcObject = null;
-    outlines.replaceChildren();
     view.hidden = true;
-    seen.clear();
-    observed = null;
+    resetTarget();
   }
   function publish(hit) {
     const changed = observed?.id!==hit?.id || observed?.matches!==hit?.matches;
@@ -42,23 +52,31 @@ function createPickupScanner(stage, targets, onChange, onError) {
     if (changed) onChange(hit);
   }
   function updateReadout() {
-    const now = performance.now(), valid = [];
+    const now = performance.now();
     for (const [id, reading] of seen) {
-      if (now-reading.at >= lossMs) seen.delete(id);
-      else if (reading.count>=2) valid.push(reading);
+      if (now-reading.at >= holdMs) seen.delete(id);
     }
-    valid.sort((a,b)=>Number(b.matches)-Number(a.matches) || b.at-a.at || a.id-b.id);
-    publish(valid[0] || null);
+    for (const [part, reading] of parts) {
+      if (now-reading.at >= holdMs) parts.delete(part);
+    }
+    // A second board can stay visible while the desired tag dips out for one read.
+    // Retain the current part within its evidence window and prefer a confirmed target.
+    const valid = [...parts.values()].filter(p=>p.count>=2 && p.at-p.first>=(p.matches?130:260));
+    valid.sort((a,b)=>Number(b.matches)-Number(a.matches) ||
+      Number(b.part===observed?.part)-Number(a.part===observed?.part) || a.first-b.first || a.id-b.id);
+    const best = valid[0];
+    const anchor = best && observed?.part===best.part ? seen.get(observed.id) : null;
+    publish(anchor ? {...best,id:anchor.id,face:anchor.face} : best || null);
     clearTimeout(expiry);
-    if (valid.length) {
-      const firstExpiry = Math.min(...valid.map(reading=>reading.at+lossMs));
+    if (seen.size) {
+      const firstExpiry = Math.min(...[...seen.values()].map(reading=>reading.at+holdMs));
       expiry = setTimeout(()=>{if(running){updateReadout();paintOutlines()}},Math.max(1,Math.ceil(firstExpiry-now)));
     }
   }
   function paintOutlines() {
     const paths = [];
     for (const item of seen.values()) {
-      if (item.count<2) continue;
+      if (!parts.has(item.part) || (observed?.matches && !item.matches)) continue;
       const outline = document.createElementNS(ns,'polygon');
       outline.setAttribute('points',item.corners.map(c=>c.x+','+c.y).join(' '));
       outline.setAttribute('class',item.matches?'target':'other');
@@ -67,25 +85,35 @@ function createPickupScanner(stage, targets, onChange, onError) {
     outlines.replaceChildren(...paths);
   }
   function acceptFrame(data) {
-    const now = performance.now(), done = new Set();
-    let registeredVisible = false, targetVisible = false;
+    const now = capturedAt, done = new Set(), frameParts = new Map();
+    const wanted = targets();
+    if (previousFrame) {
+      // Slow phones may only return two or three reads per second.
+      // A stalled camera still loses its confirmation within one second.
+      const interval = Math.min(1000, Math.max(600,(now-previousFrame)*2.5));
+      holdMs = Math.round(holdMs*.65 + interval*.35);
+    }
+    previousFrame = now;
     for (const marker of data.markers) {
       if (marker.hammingDistance!==0 || done.has(marker.id)) continue;
       done.add(marker.id);
       const entry = registry[marker.id];
       if (!entry) continue;
-      const matches = targets().includes(entry[0]);
-      registeredVisible = true;
-      targetVisible ||= matches;
-      const prev = seen.get(marker.id);
-      const count = prev && now-prev.at<lossMs ? prev.count+1 : 1;
-      seen.set(marker.id,{id:marker.id,part:entry[0],face:entry[1],corners:marker.corners,
-        matches,at:now,count});
+      const part = entry[0];
+      const reading = {id:marker.id, part, face:entry[1], corners:marker.corners,
+        matches:wanted.includes(part), at:now};
+      seen.set(marker.id,reading);
+      const chosen = frameParts.get(part);
+      const previousId = parts.get(part)?.id;
+      if (!chosen || marker.id===previousId || (chosen.id!==previousId && marker.id<chosen.id)) {
+        frameParts.set(part,reading);
+      }
     }
-    // Brief occlusion is tolerated, but a new view containing a different board
-    // must immediately withdraw the old matching candidate.
-    if (registeredVisible && !targetVisible) {
-      for(const [id,item] of seen) if(item.matches) seen.delete(id);
+    // Several markers from one half in one exposure count as a single observation.
+    for (const [part,reading] of frameParts) {
+      const previous = parts.get(part);
+      const recent = previous && now-previous.at<holdMs;
+      parts.set(part,{...reading, first:recent?previous.first:now, count:recent?previous.count+1:1});
     }
     outlines.setAttribute('viewBox','0 0 '+data.width+' '+data.height);
     updateReadout();
@@ -96,13 +124,13 @@ function createPickupScanner(stage, targets, onChange, onError) {
     stop();
     onError();
   }
-  async function start() {
+  async function start(suppliedStream) {
     stop();
     running = true;
     view.hidden = false;
     const ticket = generation;
     try {
-      const camera = await navigator.mediaDevices.getUserMedia({
+      const camera = suppliedStream || await navigator.mediaDevices.getUserMedia({
         audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}
       });
       if (ticket!==generation) { camera.getTracks().forEach(track=>track.stop()); return; }
@@ -129,20 +157,28 @@ function createPickupScanner(stage, targets, onChange, onError) {
           if (buffer.width!==width || buffer.height!==height) { buffer.width=width; buffer.height=height; }
           context.drawImage(video,0,0,width,height);
           const image = context.getImageData(0,0,width,height);
+          capturedEpoch = epoch;
+          capturedAt = performance.now();
           worker.postMessage({image},[image.data.buffer]);
         } catch { fail(ticket); }
       }
       worker.onmessage = ({data})=>{
         if (ticket!==generation) return;
-        acceptFrame(data);
+        if (capturedEpoch===epoch) acceptFrame(data);
         nextFrame = setTimeout(capture,80);
       };
       capture();
     } catch { fail(ticket); }
   }
   function match() {
-    if (!running || !observed?.matches || performance.now()-observed.at>=lossMs) return null;
+    if (!running || !observed?.matches || performance.now()-observed.at>=holdMs) return null;
     return targets().includes(observed.part) ? observed : null;
   }
-  return {start,stop,match,get active(){return running},get hit(){return observed}};
+  function takeStream() {
+    const camera = stream;
+    stream = null;
+    stop();
+    return camera;
+  }
+  return {start,stop,resetTarget,takeStream,match,get active(){return running},get hit(){return observed}};
 }
