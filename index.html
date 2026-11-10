@@ -7,15 +7,15 @@
   <meta name="description" content="Build the ENT207 five-tier shelf, rehearse each step, and explore the design community.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>Assembly Assistant · ENT207</title>
-  <link rel="stylesheet" href="app.css?v=g26">
+  <link rel="stylesheet" href="app.css?v=project-links">
   <link rel="stylesheet" href="feedback.css?v=8">
   <script defer src="guide/camera-input.js?v=8"></script>
-  <script type="module" src="app.js?v=g26"></script>
+  <script type="module" src="app.js?v=project-links"></script>
 </head>
 <body>
   <main id="device">
     <div id="screen">
-      <div id="edition" hidden><span id="edition-label"></span><div class="lang-pair" role="group" aria-label="Language / 语言"><button type="button" lang="en" data-language="en" aria-label="English">EN</button><button type="button" lang="zh-CN" data-language="zh" aria-label="中文">中</button></div></div>
+      <div id="edition" hidden><span id="edition-label"></span><button type="button" id="edition-links" aria-haspopup="dialog" aria-controls="setting"></button><div class="lang-pair" role="group" aria-label="Language / 语言"><button type="button" lang="en" data-language="en" aria-label="English">EN</button><button type="button" lang="zh-CN" data-language="zh" aria-label="中文">中</button></div></div>
       <section id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title" data-step="1">
         <div class="welcome-card">
           <div class="welcome-top">
@@ -33,6 +33,7 @@
             <h1 id="welcome-title" tabindex="-1">Choose your language</h1>
             <p id="welcome-description" lang="zh-CN">选择语言</p>
             <strong id="welcome-android" hidden></strong>
+            <div id="welcome-links" class="course-links"></div>
             <div id="welcome-languages" role="group" aria-label="Language / 语言">
               <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
               <button type="button" lang="zh-CN" data-language="zh" aria-pressed="false">简体中文</button>

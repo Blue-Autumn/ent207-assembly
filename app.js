@@ -18,7 +18,11 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
     voice:'M3 9h4l5-5v16l-5-5H3zM16 8q3 4 0 8M19 4q6 8 0 16',
     camera:'M3 7h4l2-3h6l2 3h4v13H3zM16 13a4 4 0 1 1-8 0 4 4 0 1 1 8 0Z',
     tools:'M3 6h4m5 0h9M3 12h10m5 0h3M3 18h2m5 0h11M12 6a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0ZM18 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0ZM10 18a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0Z',
-    tick:'m4 12 5 5L20 6'
+    tick:'m4 12 5 5L20 6',
+    vote:'M4 20h16M6 16v-4m6 4V5m6 11V9',
+    video:'M3 6h18v13H3zM10 9l5 3.5-5 3.5z',
+    download:'M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4',
+    external:'M6 18 18 6M7 6h11v11'
   };
   function icon(name) {
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -55,11 +59,46 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
   const queryLang=new URLSearchParams(location.search).get('lang');
   let lang=(queryLang || read(languageKey,'en')).startsWith('zh')?'zh':'en';
   const tr=(en,zh)=>lang==='zh'?zh:en;
+  const resources={
+    vote:{href:'https://cn.unoanalyzer.com/app/project/fr5u-fIXm7hR1IDNXCV7sb4hQzplenwSRcC3gL98Hoc',
+      short:['Vote','UNO 投票'],name:['Vote for ENT207-G26','给 ENT207-G26 投票'],source:['UNO Analyzer','UNO Analyzer']},
+    video:{href:'https://video.xjtlu.edu.cn/Mediasite/Play/bb27bd33388b4d85884a4c5ca99be59d1d',
+      short:['Demo video','演示视频'],name:['Watch the demo','观看演示视频'],source:['XJTLU Mediasite','西浦 Mediasite']},
+    download:{href:'https://pan.quark.cn/s/fd6e4a6732be?pwd=tfWZ&entry=webother',
+      short:['Get APK','下载 APK'],name:['Download the Android app','下载 Android 安装包'],source:['Quark Drive · Code tfWZ','夸克网盘 · 提取码 tfWZ']}
+  };
+  function externalLink(key,cls) {
+    const a=node('a',cls);a.href=resources[key].href;a.target='_blank';a.rel='noopener noreferrer';
+    return a;
+  }
+  function resourceLink(key,expanded=false) {
+    const resource=resources[key],a=externalLink(key,'resource-link resource-'+key);
+    a.append(icon(key));
+    if(expanded){
+      const label=node('span','resource-label');
+      label.append(node('strong','',tr(...resource.name)),node('small','',tr(...resource.source)));
+      a.append(label,icon('external'));
+    }else{
+      a.append(node('span','',tr(...resource.short)));
+    }
+    return a;
+  }
+  function openResources() {
+    const dialog=$('setting'),title=node('h2','',tr('Project links & downloads','项目链接与下载'));
+    title.id='setting-title';dialog.setAttribute('aria-labelledby',title.id);
+    const choices=node('div','resource-list');
+    for(const key of Object.keys(resources))choices.append(resourceLink(key,true));
+    $('setting-body').replaceChildren(title,choices,button(tr('Close','关闭'),'secondary',()=>dialog.close()));
+    dialog.showModal();
+  }
+  $('edition-links').onclick=openResources;
   let welcomeDone=false, cameraPreferred=false, cameraUnavailable=false;
   function updateEdition() {
     document.documentElement.lang=lang==='zh'?'zh-CN':'en';
     document.title=tr('Assembly Assistant','装配助手')+' · ENT207';
     $('edition-label').textContent=tr('Web edition · Full app on Android','网页体验版 · 完整版在 Android');
+    $('edition-links').textContent=tr('View links','查看下载');
+    $('welcome-links').replaceChildren(...Object.keys(resources).map(key=>resourceLink(key)));
     for(const b of $('edition').querySelectorAll('[data-language]')) {
       b.setAttribute('aria-pressed',String(b.dataset.language===lang));
     }
@@ -218,7 +257,9 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
   function projectsPage() {
     heading(tr('Assembly Assistant','装配助手'));
     const body=scroller(true);
-    body.append(node('h2','intro',tr('Piece by piece,\nmake it yours.','一点一点，\n变成喜欢的样子。')),node('p','sub',tr('Start with a small project.','从一件小作品开始。')));
+    const intro=node('div','project-intro');
+    intro.append(node('p','sub',tr('Start with a small project.','从一件小作品开始。')));
+    body.append(node('h2','intro',tr('Piece by piece,\nmake it yours.','一点一点，\n变成喜欢的样子。')),intro);
     const card=button('','shelf-card',()=>navigate('shelf'));
     const img=picture('concepts/rack-poster.png',true);img.className='cover-art';img.fetchPriority='high';
     const copy=node('span','shelf-copy');copy.append(node('strong','',shelfTitle()),node('small','',progressText(progress())));
@@ -228,12 +269,19 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
     launches.append(button(tr('Virtual assembly','虚拟试拼'),'quick',()=>navigate('workshop')),guide);
     const samples=button('','photo-link',()=>navigate('field'));
     samples.append(node('span','',tr('Try sample photos','体验实物样片')),icon('next'));
+    intro.append(samples);
     if(cameraUnavailable){
       const notice=node('p','home-notice',tr('Camera is off. Try sample photos, or open the camera later in Guided assembly.',
         '相机未开启。可以先体验样片，也可以稍后在「装配指导」里开启相机。'));
       notice.setAttribute('role','status');body.append(notice);
     }
-    body.append(launches,card,samples);
+    const vote=externalLink('vote','vote-banner');
+    const chart=node('span','vote-chart');chart.setAttribute('aria-hidden','true');
+    chart.append(node('i'),node('i'),node('i'),node('i'));
+    const voteLabel=node('span','vote-label');
+    voteLabel.append(node('small','','UNO Analyzer'),node('strong','',tr('Vote for us','给我们投票')));
+    vote.append(chart,voteLabel,icon('external'));
+    body.append(card,launches,vote);
     if(aiPhase()!=='open')body.append(node('p','home-notice',aiNotice(tr)));
     const block=node('section');block.id='saved-projects';renderSaved(block);body.append(block);showTabs('projects');
   }
@@ -247,6 +295,7 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
       const bar=node('progress');bar.max=16;bar.value=done;bar.setAttribute('aria-label',progressText(done));
       body.append(node('p','sub',progressText(done)),bar);
     }
+    body.append(resourceLink('video',true));
     const first=done===16?tr('Review my assembly','回看我的装配'):done?tr('Continue assembly','继续我的装配'):tr('Start building','开始这件作品');
     $('actions').append(button(first,'primary',()=>navigate(done===16?'progress':'guide')),
       button(tr('Virtual assembly','虚拟试拼'),'secondary',()=>navigate('workshop')));
@@ -277,7 +326,8 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
     resume.append(node('span','',shelfTitle()),node('small','',progress()==null?tr('Open your assembly steps.','查看这件作品的装配步骤。'):progressText(progress())));
     body.append(resume,node('h2','group-label',tr('Preferences','偏好设置')));
     const settings=node('div','settings');
-    settings.append(settingsRow('language',tr('Language','语言'),()=>openSetting('lang')),
+    settings.append(settingsRow('download',tr('Project links & downloads','项目链接与下载'),openResources),
+      settingsRow('language',tr('Language','语言'),()=>openSetting('lang')),
       settingsRow('voice',tr('Voice','语音'),()=>navigate('voice')),
       settingsRow('community',tr('Content studio','内容工作室'),()=>navigate('studio')),
       settingsRow('tools',tr('Tools and earlier demos','工具与旧演示'),()=>navigate('tools')));
