@@ -1,6 +1,17 @@
 'use strict';
 window.sceneSurface = 'rgba(0,0,0,0)';
 configureOverview();
+// The embedding page shows the poster until the first full-size model frame is drawn.
+const previewFrame = window.frameElement;
+if (previewFrame?.classList.contains('rack-view')) {
+  const firstPaint = new ResizeObserver(([entry]) => {
+    if (!entry.contentRect.width || !entry.contentRect.height) return;
+    drawScene();
+    previewFrame.style.backgroundImage = 'none';
+    firstPaint.disconnect();
+  });
+  firstPaint.observe(cv);
+}
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let animation = 0;
 let previousTime = 0;
