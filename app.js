@@ -1,6 +1,7 @@
 import {loadStudio,mergeCatalog,thumbnail,visibleActivity,studioKey} from './community/studio-store.js';
 import './guide/work-surface.js?v=8';
-import {mountWelcome} from './welcome.js?v=8';
+import {mountWelcome} from './welcome.js?v=g26';
+import {aiPhase,aiNotice} from './services/academic-year.js';
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
@@ -54,7 +55,7 @@ import {mountWelcome} from './welcome.js?v=8';
   const queryLang=new URLSearchParams(location.search).get('lang');
   let lang=(queryLang || read(languageKey,'en')).startsWith('zh')?'zh':'en';
   const tr=(en,zh)=>lang==='zh'?zh:en;
-  let welcomeDone=false, cameraPreferred=false, welcomeStream=null, streamTimer=0;
+  let welcomeDone=false, cameraPreferred=false, cameraUnavailable=false;
   function updateEdition() {
     document.documentElement.lang=lang==='zh'?'zh-CN':'en';
     document.title=tr('Assembly Assistant','装配助手')+' · ENT207';
@@ -227,7 +228,13 @@ import {mountWelcome} from './welcome.js?v=8';
     launches.append(button(tr('Virtual assembly','虚拟试拼'),'quick',()=>navigate('workshop')),guide);
     const samples=button('','photo-link',()=>navigate('field'));
     samples.append(node('span','',tr('Try sample photos','体验实物样片')),icon('next'));
+    if(cameraUnavailable){
+      const notice=node('p','home-notice',tr('Camera is off. Try sample photos, or open the camera later in Guided assembly.',
+        '相机未开启。可以先体验样片，也可以稍后在「装配指导」里开启相机。'));
+      notice.setAttribute('role','status');body.append(notice);
+    }
     body.append(launches,card,samples);
+    if(aiPhase()!=='open')body.append(node('p','home-notice',aiNotice(tr)));
     const block=node('section');block.id='saved-projects';renderSaved(block);body.append(block);showTabs('projects');
   }
   function shelfPage() {
@@ -330,7 +337,6 @@ import {mountWelcome} from './welcome.js?v=8';
   }
   function render() {
     if(!welcomeDone)return;
-    if(!['guide','wide-camera','review'].includes(parse()))releaseWelcomeStream();
     refreshCatalog();
     if($('setting').open)$('setting').close();
     const next=parse();
@@ -377,7 +383,7 @@ import {mountWelcome} from './welcome.js?v=8';
     if(event.origin!==location.origin || !frame || event.source!==frame.contentWindow)return;
     switch(event.data?.type) {
       case 'ent207-close':back();break;
-      case 'ent207-camera-choice':if(['guide','progress'].includes(route))cameraPreferred=event.data.enabled===true;break;
+      case 'ent207-camera-choice':if(['guide','progress'].includes(route)){cameraPreferred=event.data.enabled===true;if(cameraPreferred)cameraUnavailable=false;}break;
       case 'ent207-open-shelf':navigate('shelf');break;
       case 'ent207-field':navigate('field');break;
       case 'ent207-studio':navigate('studio');break;
@@ -412,37 +418,23 @@ import {mountWelcome} from './welcome.js?v=8';
       rememberScroll();render();
     }
   });
-  function releaseWelcomeStream(){
-    clearTimeout(streamTimer);
-    welcomeStream?.getTracks().forEach(track=>track.stop());
-    welcomeStream=null;
-  }
-  // The visible guide takes ownership of the permission stream while this document remains open.
-  window.ent207TakeGuideCamera=source=>{
-    if(!welcomeStream || source!==frame?.contentWindow || !['guide','wide-camera','review'].includes(route))return null;
-    clearTimeout(streamTimer);
-    const stream=welcomeStream;welcomeStream=null;
-    if(stream.getVideoTracks().some(track=>track.readyState==='live'))return stream;
-    stream.getTracks().forEach(track=>track.stop());return null;
-  };
-  addEventListener('pagehide',releaseWelcomeStream);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseWelcomeStream();});
   updateEdition();
   const reopenWelcome=mountWelcome({
-    language:()=>lang,setLanguage:selectLanguage,opensGuide:()=>[home,'guide'].includes(parse()),
-    finish:stream=>{
-      welcomeDone=true;cameraPreferred=!!stream;
+    language:()=>lang,setLanguage:selectLanguage,
+    finish:(granted,unavailable=false)=>{
+      welcomeDone=true;cameraPreferred=granted;cameraUnavailable=unavailable;
       write(languageKey,lang);$('welcome').hidden=true;$('edition').hidden=false;
-      if(stream && [home,'guide','wide-camera','review'].includes(parse())){
-        welcomeStream=stream;streamTimer=setTimeout(releaseWelcomeStream,15000);
-        if(parse()===home){navigate('guide');return;}
-      }else stream?.getTracks().forEach(track=>track.stop());
+      const url=new URL(location.href);url.hash='';
+      history.replaceState({depth:0},'',url);
+      scrolls.delete(owner()+'/'+home);
       render();
+      const heading=$('heading').querySelector('h1');
+      if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
     }
   });
   addEventListener('pageshow',event=>{
     if(!event.persisted)return;
-    releaseWelcomeStream();welcomeDone=false;cameraPreferred=false;
+    welcomeDone=false;cameraPreferred=false;cameraUnavailable=false;
     frame=null;parkedGuide=null;route='';scroll=null;
     if($('setting').open)$('setting').close();
     for(const id of ['content','heading','actions','tabs'])$(id).replaceChildren();

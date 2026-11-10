@@ -4,7 +4,7 @@
 <title>AI photo review · Assembly Assistant</title><link rel="stylesheet" href="review.css?v=7"><link rel="stylesheet" href="../feedback.css?v=8"></head><body>
 <header><button id="back" class="round" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><strong id="heading"></strong><span id="count"></span></header>
 <main>
-  <h1 id="task-name"></h1><p id="intro"></p>
+  <h1 id="task-name"></h1><p id="intro"></p><p id="ai-notice"></p>
   <section id="ask" hidden aria-label="DeepSeek">
     <div id="online-result" hidden aria-live="polite"><small id="cloud-source"></small><h2 id="cloud-title"></h2><p id="cloud-copy"></p></div>
     <div class="send-row"><button id="send" class="primary" type="button"></button><button id="ask-question" type="button" aria-expanded="false" aria-controls="question-box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19l4-1 10-10-3-3L6 15zM14.5 6.5l3 3"/></svg></button><button id="cancel-cloud" hidden type="button"></button></div>
@@ -23,6 +23,6 @@
 </main>
 <input type="file" id="pick" accept="image/*" multiple hidden>
 <input type="file" id="system-camera" accept="image/*" capture="environment" hidden>
-<script src="../guide/camera-input.js?v=8"></script><script src="../guide/work-surface.js?v=8"></script><script type="module" src="review.js?v=8"></script>
+<script src="../guide/camera-input.js?v=8"></script><script src="../guide/work-surface.js?v=8"></script><script type="module" src="review.js?v=g26"></script>
 </body></html>
 

@@ -1,4 +1,5 @@
 import {classification,guardCloud,photoCheck,unavailable,validCorners} from './policy.js';
+import {aiNotice,dailyLimitMessage} from '../services/academic-year.js';
 const $=id=>document.getElementById(id);
 const photoFeedback=ShelfFeedback.attach(document.body),changePhoto=ShelfFeedback.navigation($('viewer'));
 const args=new URLSearchParams(location.search);
@@ -217,7 +218,8 @@ function renderOnline(){
   show('question-box',questionOpen);setText('question-label',tr('Your question (optional)','补充问题（选填）'));
   $('question').disabled=!!cloudJob;setText('cancel-cloud',tr('Cancel','取消'));show('cancel-cloud',!!cloudJob);
   setText('cloud-status',cloudJob?tr('DeepSeek is reading your photos.','DeepSeek 正在查看照片。'):
-    !cloudReady?(cloudChecked?tr('Online review is unavailable. You can still check the tags below.','暂时连不上 DeepSeek，可查看下方本机结果。'):tr('Connecting to DeepSeek…','正在连接 DeepSeek…')):cloudError?tr('Could not finish. Tap Send to retry.','本次复核未完成，点发送可重试。'):'');
+    cloudError==='usage_limit'?tr(...dailyLimitMessage):
+    !cloudReady?(cloudChecked?tr('You can still check the tags below.','仍可查看下方本机结果。'):tr('Connecting to DeepSeek…','正在连接 DeepSeek…')):cloudError?tr('Could not finish. Tap Send to retry.','本次复核未完成，点发送可重试。'):'');
   show('online-result',!!online);
   if(online){
     setText('cloud-source',online.source==='local'?tr('Current photo · local evidence','当前照片 · 本机证据'):tr('DeepSeek · visual advice','DeepSeek · 视觉建议'));
@@ -232,6 +234,7 @@ function render() {
   changePhoto(camera?'live':v?.captureId||'empty');
   document.documentElement.lang=lang==='zh'?'zh-CN':'en';
   document.title=tr('AI photo review','AI 照片复核')+' · ENT207';
+  setText('ai-notice',aiNotice(tr));
   setText('heading',tr('AI photo review','AI 照片复核'));setText('count',views.length+' / '+viewLimit);
   setText('task-name',taskName());
   const intro=!validTask?tr('Return to guided assembly and open photo review from the current task.','请返回装配指导，从当前步骤进入照片复核。'):
@@ -410,9 +413,9 @@ async function sendPhotos(){
     const result=await cloud.reviewPhotos({taskId,lang,views:shots,question:$('question').value.trim(),signal:request.signal});
     if(cloudJob!==request||disposed)return;
     rawAdvice=result;online=guardCloud(result,taskId,views.at(-1).result.check,lang);
-  }catch{
+  }catch(error){
     if(cloudJob!==request||disposed)return;
-    cloudError=true;
+    cloudError=error.message||'unavailable';
   }finally{if(cloudJob===request&&!disposed){cloudJob=null;render();}}
 }
 async function setLanguage(next) {

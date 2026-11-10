@@ -127,7 +127,8 @@ dialog h2 {font-size:22px}dialog .secondary{width:100%;min-height:40px}
 .welcome-actions{margin-top:auto;padding-top:24px;display:grid;gap:5px}
 #welcome-next{width:100%;min-height:52px;padding:12px 18px;border-radius:18px;background:#334a37;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:650}#welcome-next:disabled{background:#586656}
 #welcome-skip{width:100%;min-height:44px;border-radius:14px;color:#485d44;font-size:14px;font-weight:600}
-#welcome-status{padding:10px 12px;margin-top:15px;border-left:3px solid #aa7944;border-radius:3px;background:#f3ebdd;color:#694b2f;font-size:14px;line-height:1.45}
+#welcome-android{display:block;margin-top:12px;font-size:clamp(19px,5.2vw,23px);font-weight:750;line-height:1.35;color:#314b37;text-wrap:pretty}
+.home-notice{color:#42513f;margin:10px 0;font-size:14px;line-height:1.5}
 .quick-launch .quick{display:flex;align-items:center;justify-content:center;gap:6px}.quick-launch .icon{width:18px;height:18px}
 @media(max-height:630px){.welcome-card{padding-block:calc(8px + env(safe-area-inset-top)) calc(8px + env(safe-area-inset-bottom))}.welcome-figure{height:clamp(92px,22dvh,140px);margin:9px 0 15px}.language-art{transform:scale(.77)}#welcome-languages{margin-top:14px}.welcome-actions{padding-top:16px}}
 @media(max-height:410px){.welcome-figure{height:64px;margin-block:6px}.language-art{transform:scale(.49);height:100px;align-self:center;position:absolute}#welcome-title{font-size:23px}#welcome-description{font-size:14px;margin-top:5px}#welcome-languages{margin-top:8px}#welcome-languages button{min-height:40px}.welcome-actions{padding-top:8px}}

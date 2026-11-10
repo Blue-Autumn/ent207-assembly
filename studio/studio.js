@@ -1,5 +1,6 @@
 import {loadStudio,editStudio,clearUnkept,insertWorks} from '../community/studio-store.js';
 import {preparedBatch,generatedBatch,cloudReady,serviceAvailable} from './generation.js';
+import {aiNotice,dailyLimitMessage} from '../services/academic-year.js';
 const params=new URLSearchParams(location.search), profile=params.get('profile')||'guest';
 let zh=(params.get('lang')||'en').startsWith('zh');
 const tr=(en,cn)=>zh?cn:en;
@@ -33,6 +34,7 @@ function closeDialog(){dialogView=null;$('review').close();}
 function errorMessage(e){
  if(e.name==='AbortError')return result('Cancelled. The previous collection is available.','已取消，原有作品仍可浏览。');
  const code=e.code||e.message;
+ if(code==='usage_limit')return result(...dailyLimitMessage);
  if(code==='format')return result('The response did not match the design format. Previous work is safe.','响应未通过作品格式检查，原有作品已保留。');
  if(code==='capacity'||e.name==='QuotaExceededError')return result('Browser storage is full. Clear unkept additions to make room.','浏览器存储已满，可清除未保留的新增作品后重试。');
  if(code==='configuration')return result('The shared generation service is unavailable. Prepared designs are available.','共享生成服务暂不可用，仍可添加预置作品。');
@@ -95,7 +97,7 @@ function render(){
   select(tr('Design source','作品来源'),'source',[['prepared',tr('Prepared studies','预置习作')],['deepseek','DeepSeek']],mode,v=>{mode=v;status=null;render();}),
   select(tr('Designs per batch','每批作品数'),'batch',[[1,'1'],[2,'2'],[4,'4'],[8,'8'],[12,'12'],[16,'16'],[24,'24']],draft.size,v=>draft.size=+v));
  if(mode==='deepseek'){
-  f.append(el('p',tr('Each new design uses a request to the shared generation service.','每件新作品使用一次共享生成服务。'),'minor'),
+  f.append(el('p',aiNotice(tr),'minor'),
    select(tr('Sample dates','示例日期跨度'),'months',[1,3,6,12].map(n=>[n,tr(n+' months',n+' 个月')]),draft.months,v=>draft.months=+v),
    select(tr('Comment style','评论风格'),'style',[['plain',tr('Plain','简洁')],['balanced',tr('Balanced','自然')],['playful',tr('Playful','活泼')]],draft.style,v=>draft.style=v));
   const l=el('label',tr('Creative brief','创作简报'),'brief-label'),area=el('textarea');area.id='brief';area.value=draft.brief;

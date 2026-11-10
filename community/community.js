@@ -1,6 +1,7 @@
 import {showModel} from './model.js';
 import {studioKey,loadStudio,editStudio,mergeCatalog,thumbnail,visibleActivity,samplesFor,mark} from './studio-store.js';
 import {cloudReady,serviceAvailable,generateReplies} from '../studio/generation.js';
+import {aiNotice,dailyLimitMessage} from '../services/academic-year.js';
 
 const get=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
@@ -261,7 +262,7 @@ function renderDiscussion(frame,p,model){
     s.extra[p.id]=[...(s.extra[p.id]||[]),...fresh];
    });
    studio=loadStudio(profile);refreshReplies?.();
-  }catch(e){if(!ctrl.signal.aborted)notification(tr('Could not add replies. Try again later.','未添加评论，可稍后重试。'));}
+  }catch(e){if(!ctrl.signal.aborted)notification(e.message==='usage_limit'?tr(...dailyLimitMessage):tr('Could not add replies. Try again later.','未添加评论，可稍后重试。'));}
   finally{
    if(replyJob===ctrl)replyJob=null;
    const current=content.querySelector('[data-reply-request]');
@@ -271,6 +272,7 @@ function renderDiscussion(frame,p,model){
  generate.dataset.replyRequest='true';
  if(replyJob){generate.disabled=true;generate.textContent=tr('Generating…','正在生成…');}
  frame.append(h,count,notes,rows);
+ frame.append(node('p','note',aiNotice(tr)));
  if(cloudReady())frame.append(generate);
  else serviceAvailable().then(ok=>{if(ok && frame.isConnected)frame.append(generate);});
  if(studio.settings.debug)frame.append(markButtons(p,null,()=>{const pos=scroll.scrollTop;openDetail(p.id,entryDirect,false).then(()=>{scroll.scrollTop=pos;});}));
