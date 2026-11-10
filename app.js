@@ -61,11 +61,11 @@ import {aiPhase,aiNotice} from './services/academic-year.js';
   const tr=(en,zh)=>lang==='zh'?zh:en;
   const resources={
     vote:{href:'https://cn.unoanalyzer.com/app/project/fr5u-fIXm7hR1IDNXCV7sb4hQzplenwSRcC3gL98Hoc',
-      short:['Vote','UNO 投票'],name:['Vote for ENT207-G26','给 ENT207-G26 投票'],source:['UNO Analyzer','UNO Analyzer']},
+      short:['Vote on UNO','UNO 投票'],name:['Vote for ENT207-G26','给 ENT207-G26 投票'],source:['UNO Analyzer','UNO Analyzer']},
     video:{href:'https://video.xjtlu.edu.cn/Mediasite/Play/bb27bd33388b4d85884a4c5ca99be59d1d',
-      short:['Demo video','演示视频'],name:['Watch the demo','观看演示视频'],source:['XJTLU Mediasite','西浦 Mediasite']},
+      short:['Watch demo','观看演示视频'],name:['Watch the demo','观看演示视频'],source:['XJTLU Mediasite','西浦 Mediasite']},
     download:{href:'https://pan.quark.cn/s/fd6e4a6732be?pwd=tfWZ&entry=webother',
-      short:['Get APK','下载 APK'],name:['Download the Android app','下载 Android 安装包'],source:['Quark Drive · Code tfWZ','夸克网盘 · 提取码 tfWZ']}
+      short:['Download Android app (APK)','下载 Android 安装包（APK）'],name:['Download the Android app','下载 Android 安装包'],source:['Quark Drive · Code tfWZ','夸克网盘 · 提取码 tfWZ']}
   };
   function externalLink(key,cls) {
     const a=node('a',cls);a.href=resources[key].href;a.target='_blank';a.rel='noopener noreferrer';
