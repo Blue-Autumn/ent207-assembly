@@ -4,6 +4,21 @@
 
 Assembly Assistant helps a first-time builder put together a five-tier shelf. Rehearse a step on the 3D model, see which pieces to pick up, then use the camera to identify the tagged boards. The Android app is the full project. The browser edition lets visitors try the workflow without installing anything.
 
+### Inside the Android app
+
+| Choose the five-tier shelf | Rehearse the assembly | Align the physical board |
+| --- | --- | --- |
+| ![Android home screen with the five-tier shelf project](docs/screenshots/android-project.webp) | ![Exploded shelf model above the assembly step list](docs/screenshots/android-workshop.webp) | ![Camera guidance highlighting the slots for the purple shelf board](docs/screenshots/android-alignment.webp) |
+
+<details>
+<summary>See three screens from the browser edition</summary>
+
+| Rehearse a shelf step | Find a frame half | Explore a community design |
+| --- | --- | --- |
+| ![Browser workshop displaying the blue shelf step](docs/screenshots/web-rehearsal.webp) | ![Part finder showing a sample image of tagged frame pieces](docs/screenshots/web-part-finder.webp) | ![Community project with a 3D preview of a corner-brace stool](docs/screenshots/web-community.webp) |
+
+</details>
+
 ## A two-minute tour
 
 1. Open the browser demo and choose English or Chinese. You can skip camera access for this tour.
