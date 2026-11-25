@@ -1,0 +1,19 @@
+<resources>
+    <string name="library_shortcut_count">%1$s, %2$d</string>
+    <string name="library_saved">Saved</string>
+    <string name="library_liked">Likes</string>
+    <string name="library_history">History</string>
+    <string name="library_comments">Comments</string>
+    <string name="library_empty_saved">Tap the bookmark on a design to save it here.</string>
+    <string name="library_empty_liked">Designs you like will appear here.</string>
+    <string name="library_empty_history">Open a project to start your history.</string>
+    <string name="library_empty_comments">Your comments on designs will appear here.</string>
+    <string name="auth_signin_sub">Pick up your builds and saved designs on this phone.</string>
+    <string name="auth_register_sub">Keep your designs, notes and build progress together.</string>
+    <string name="auth_manage_sub">Builds and saved designs stay on this phone.</string>
+    <string name="auth_new">New here? Create an account</string>
+    <string name="auth_existing">Already have an account? Sign in</string>
+    <string name="auth_create">Create account</string>
+    <string name="auth_min_password">Use at least 8 characters for a new password.</string>
+    <string name="auth_switch">Account</string>
+</resources>

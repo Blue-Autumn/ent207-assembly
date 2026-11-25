@@ -1,0 +1,52 @@
+{
+  "K": [
+    [
+      366.29051031750447,
+      0.0,
+      482.0314094952017
+    ],
+    [
+      0.0,
+      366.284879289103,
+      360.92659887740655
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "D": [
+    0.01324254541818465,
+    -0.0060900058892611715,
+    0.0002171013931397482,
+    0.0009260038831299423,
+    -0.0034647499601247957
+  ],
+  "camera_signature": "{\"pipeline\":\"CameraX-1.6.2-Y-crop-unrotated-FIT_CENTER-v043\",\"device\":\"HUAWEI\\/ADY-AL00\\/HWADY:12\\/HUAWEIADY-AL00\\/104.2.0.245C01:user\\/release-keys\",\"camera_id\":\"4\",\"stream\":[960,720],\"crop\":[0,0,960,720],\"rotation\":90,\"crop_region\":[0,0,4160,3120],\"focal_mm\":1.76,\"af_mode\":0,\"video_stabilization\":0,\"optical_stabilization\":0,\"distortion_mode\":\"UNKNOWN\",\"physical_camera_id\":\"UNKNOWN\",\"zoom_ratio\":1}",
+  "focus_range": [
+    2.0,
+    2.0
+  ],
+  "distortion_model": "opencv_brown_conrady_5",
+  "schema": 2,
+  "status": "CONTROLLED_CANDIDATE",
+  "activation_allowed": false,
+  "trial_allowed": true,
+  "profile_id": "wide-subpix-trial-v1",
+  "detector": "opencv-4.13.0-SUBPIX-defaults-v1",
+  "paired_validation": {
+    "sample_count": 16,
+    "heldout_points": 220,
+    "overall_p95": 2.9192443984507483,
+    "edge_p95": 3.265012958580466,
+    "three_marker_p95": 3.118379297297026,
+    "failures": 0,
+    "native_agrees": true
+  },
+  "provenance": {
+    "historical_candidate_sha256": "b4d79c9d98d8b64dcebc3cbf2cad551ecc5eeb96d447934e2dc082e844bcc2be",
+    "paired_ab_sha256": "469afbf6a663b3063642289abcfe486180dc1fc770be72e4fba71099253d0b00",
+    "historical_status": "CANDIDATE_REJECTED"
+  }
+}

@@ -1,0 +1,950 @@
+[
+  {
+    "titleZh": "静阶边桌",
+    "at": 1791464312252,
+    "titleEn": "Quiet Step Console",
+    "generated": true,
+    "bodyZh": "想利用进门旁边那一小截墙。四条细腿间留出两层灰绿色搁板，浅色桌面只要能搁下钥匙和当天的信就够了。",
+    "author": "Sam",
+    "model": {
+      "parts": [
+        {
+          "shape": "box",
+          "d": 4,
+          "color": "#BD9475",
+          "w": 4,
+          "x": -28,
+          "h": 72,
+          "y": 0,
+          "z": -8
+        },
+        {
+          "shape": "box",
+          "d": 4,
+          "color": "#BD9475",
+          "w": 4,
+          "x": 28,
+          "h": 72,
+          "y": 0,
+          "z": -8
+        },
+        {
+          "shape": "box",
+          "d": 4,
+          "color": "#BD9475",
+          "w": 4,
+          "x": -28,
+          "h": 72,
+          "y": 0,
+          "z": 8
+        },
+        {
+          "shape": "box",
+          "d": 4,
+          "color": "#BD9475",
+          "w": 4,
+          "x": 28,
+          "h": 72,
+          "y": 0,
+          "z": 8
+        },
+        {
+          "shape": "box",
+          "d": 20,
+          "color": "#E4BF80",
+          "w": 60,
+          "x": 0,
+          "h": 4,
+          "y": 68,
+          "z": 0
+        },
+        {
+          "shape": "box",
+          "d": 18,
+          "color": "#72918B",
+          "w": 60,
+          "x": 0,
+          "h": 3,
+          "y": 10,
+          "z": 0
+        },
+        {
+          "shape": "box",
+          "d": 18,
+          "color": "#72918B",
+          "w": 60,
+          "x": 0,
+          "h": 3,
+          "y": 50,
+          "z": 0
+        }
+      ]
+    },
+    "id": "studio-0a778e21-fccc-46e8-b41e-bedd2b097eff",
+    "bodyEn": "A narrow console for the bit of hallway just inside the door. Two grey-green shelves sit between the tall legs. The lighter top is just deep enough for keys and the day's post.",
+    "samples": [
+      {
+        "at": 1792130343804,
+        "author": "Lin",
+        "en": "That middle shelf is where my keys would disappear. I'd keep the top for them.",
+        "zh": "我家的钥匙要是放在中层，一定找不到。还是给它留块桌面好了。"
+      },
+      {
+        "at": 1792796375356,
+        "author": "Noor",
+        "en": "The lower shelf looks like it could take a wet umbrella without much fuss.",
+        "zh": "下层架子看起来放把湿伞也没问题。"
+      },
+      {
+        "at": 1793462406908,
+        "author": "Lou",
+        "en": "That pale top against the darker legs is a nice contrast. 🪵",
+        "zh": "浅色桌面和深一点的桌腿还挺搭。🪵"
+      }
+    ],
+    "likes": 61
+  },
+  {
+    "titleZh": "纽扣台灯",
+    "at": 1788721726852,
+    "titleEn": "Button lamp",
+    "generated": true,
+    "bodyZh": "一片蜂蜜色圆盘架在细灯杆上，顶端露出一颗白色小圆帽，像老收音机上的旋钮。底座也用了圆盘，把上下面的形状呼应起来。",
+    "author": "Lou",
+    "model": {
+      "parts": [
+        {
+          "shape": "cylinder",
+          "d": 42,
+          "color": "#72918B",
+          "w": 42,
+          "x": 0,
+          "h": 5,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "shape": "cylinder",
+          "d": 6,
+          "color": "#BD9475",
+          "w": 6,
+          "x": 0,
+          "h": 48,
+          "y": 5,
+          "z": 0
+        },
+        {
+          "shape": "cylinder",
+          "d": 26,
+          "color": "#E4BF80",
+          "w": 26,
+          "x": 0,
+          "h": 6,
+          "y": 50,
+          "z": 0
+        },
+        {
+          "shape": "cylinder",
+          "d": 10,
+          "color": "#FFFFFF",
+          "w": 10,
+          "x": 0,
+          "h": 10,
+          "y": 52,
+          "z": 0
+        }
+      ]
+    },
+    "id": "studio-b8598e95-11a1-44d3-91da-fbe349302ebd",
+    "bodyEn": "One warm disc sits on a narrow stem. A white cap peeks over it like the button on an old radio. I kept the base wide enough to echo the shade.",
+    "samples": [
+      {
+        "at": 1790073404754,
+        "author": "Jun",
+        "en": "That white cap is what made me stop scrolling.",
+        "zh": "顶上那颗白色小帽子让我停下来看了一眼。"
+      },
+      {
+        "at": 1791425082656,
+        "author": "Pip",
+        "en": "I'd try this in the corner behind the armchair. Would cream work instead of white?",
+        "zh": "我想摆在单人椅后面那个角落。要是圆帽换成奶油色呢？"
+      },
+      {
+        "at": 1792776760558,
+        "author": "Noor",
+        "en": "Cream with that honey shade? Yes please.",
+        "zh": "奶油色配蜂蜜色灯罩？可以哎。"
+      }
+    ],
+    "likes": 85
+  },
+  {
+    "id": "launch2-pencil_cup",
+    "model": {
+      "kit": "desk-v2",
+      "design": "pencil_cup",
+      "width": 0.86,
+      "height": 1.18,
+      "depth": 0.86,
+      "details": 4,
+      "palette": [
+        "#B96846",
+        "#EAD8A8",
+        "#2E4940"
+      ]
+    },
+    "titleEn": "Banded pencil pot",
+    "titleZh": "横纹笔筒",
+    "bodyEn": "A smooth lip above a few bands keeps the silhouette simple. I'd use it for the three pencils that always end up under my notebook.",
+    "bodyZh": "筒口留得很干净，横纹集中在下方。想给总钻到本子下面的那几支笔找个家。",
+    "author": "Rae",
+    "at": 1794052800000,
+    "likes": 9,
+    "samples": [
+      {
+        "author": "Lin",
+        "at": 1794081600000,
+        "en": "Do the bands get shallower toward the top? Looks like it from here — nice either way.",
+        "zh": "上面那几圈是不是越往上越浅？看着像，不过怎么都行。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-letter_sorter",
+    "model": {
+      "kit": "desk-v2",
+      "design": "letter_sorter",
+      "width": 1.15,
+      "height": 1.05,
+      "depth": 0.95,
+      "details": 4,
+      "palette": [
+        "#47566D",
+        "#A3B7C1",
+        "#E3C695"
+      ]
+    },
+    "titleEn": "Countertop mail slots",
+    "titleZh": "玄关信件架",
+    "bodyEn": "I staggered the upright dividers so taller envelopes lean back at an angle and don't flop over. Mine sits by the door for bills and the mail that piles up during the week.",
+    "bodyZh": "我把竖隔板做成阶梯状，高一点的信封能斜靠回去，不会软塌塌地倒下来。我把它放在门口收账单和这一周攒下的信件。",
+    "author": "Noor",
+    "at": 1793448000000,
+    "likes": 56,
+    "samples": [
+      {
+        "author": "Otto",
+        "at": 1793476800000,
+        "en": "The stepped dividers make sense — do the slots get too narrow for thicker catalogs?",
+        "zh": "阶梯隔板这个思路挺好——槽会不会太窄，厚一点的画册塞不进去？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-phone_dock",
+    "model": {
+      "kit": "desk-v2",
+      "design": "phone_dock",
+      "width": 1.05,
+      "height": 0.85,
+      "depth": 1.1,
+      "details": 3,
+      "palette": [
+        "#BB6E62",
+        "#E2AE8C",
+        "#454D5A"
+      ]
+    },
+    "titleEn": "Kitchen phone rest",
+    "titleZh": "斜靠手机座",
+    "bodyEn": "The backrest leans back just enough that the phone stays upright while I glance at a recipe. I keep it by the kettle so the timer is right there while the coffee brews.",
+    "bodyZh": "靠背往后斜了一点，手机立着刚好能瞄一眼菜谱。我把它放在水壶旁边，煮咖啡时计时器就在手边。",
+    "author": "Sam",
+    "at": 1791633600000,
+    "likes": 63,
+    "samples": [
+      {
+        "author": "Bo",
+        "at": 1791662400000,
+        "en": "Does the front lip clear a case, or is it cut close to the bare phone?",
+        "zh": "前面那道挡边能容下手机壳吗，还是按裸机卡的？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-headphone_perch",
+    "model": {
+      "kit": "desk-v2",
+      "design": "headphone_perch",
+      "width": 0.92,
+      "height": 1.18,
+      "depth": 0.85,
+      "details": 3,
+      "palette": [
+        "#693D58",
+        "#343E4C",
+        "#E3B4A7"
+      ]
+    },
+    "titleEn": "Headphone perch",
+    "titleZh": "桌边耳机架",
+    "bodyEn": "A short bar sits across the stem with a contrasting pad on top. I wanted somewhere to leave headphones without coiling their cable around the keyboard.",
+    "bodyZh": "竖杆上搭了一根短横杆，顶部用了撞色。想给耳机留个地方，线就不用绕着键盘放了。",
+    "author": "Lin",
+    "at": 1791028800000,
+    "likes": 110,
+    "samples": [
+      {
+        "author": "Cleo",
+        "at": 1791057600000,
+        "en": "I hang mine on the monitor. The short bar would be kinder to my screen.",
+        "zh": "我的耳机还挂在显示器上……还是放横杆上比较好。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-coaster_stack",
+    "model": {
+      "kit": "desk-v2",
+      "design": "coaster_stack",
+      "width": 0.82,
+      "height": 0.95,
+      "depth": 0.86,
+      "details": 3,
+      "palette": [
+        "#B48958",
+        "#356C7D",
+        "#E9C977"
+      ]
+    },
+    "titleEn": "Tea-break coasters",
+    "titleZh": "叠放杯垫",
+    "bodyEn": "A stack of coloured discs leaves a stripe around each edge. I'd keep these next to the kettle for the first cup of the day.",
+    "bodyZh": "几片圆垫叠起来，每片边缘都露出一线颜色。水壶边就适合放这样一摞。",
+    "author": "Otto",
+    "at": 1790424000000,
+    "likes": 23,
+    "samples": [
+      {
+        "author": "Lou",
+        "at": 1790452800000,
+        "en": "I'd make the top one yellow. It would disappear under my coffee either way ☕",
+        "zh": "想把最顶上那片换成黄的。反正最后还是会被咖啡杯盖住 ☕"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-ring_tree",
+    "model": {
+      "kit": "desk-v2",
+      "design": "ring_tree",
+      "width": 0.85,
+      "height": 1.15,
+      "depth": 0.8,
+      "details": 3,
+      "palette": [
+        "#315E5D",
+        "#C3A464",
+        "#EAD7AE"
+      ]
+    },
+    "titleEn": "Bedside ring tree",
+    "titleZh": "床头戒指树",
+    "bodyEn": "I staggered the peg branches at different heights so shorter rings don't get lost behind the tall ones. It sits by the bathroom sink for the rings I take off before washing my hands.",
+    "bodyZh": "我把两根挂柱错开高度，短一点的戒指就不会被高的挡住。放在洗手池边，专门搁洗手前摘下来的戒指。",
+    "author": "June",
+    "at": 1789214400000,
+    "likes": 117,
+    "samples": [
+      {
+        "author": "Noor",
+        "at": 1789243200000,
+        "en": "Does the base feel steady with two rings on one branch? Mine always wants to tip.",
+        "zh": "两根戒指挂同一根枝的时候底座稳吗？我那个老是往前倾。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-spice_rack",
+    "model": {
+      "kit": "desk-v2",
+      "design": "spice_rack",
+      "width": 1.12,
+      "height": 0.78,
+      "depth": 0.86,
+      "details": 4,
+      "palette": [
+        "#B98061",
+        "#703F43",
+        "#C19446"
+      ]
+    },
+    "titleEn": "Counter spice ledge",
+    "titleZh": "调料罐小架",
+    "bodyEn": "A line of jars sits on a narrow shelf; the lids pull the colour scheme together. I'd keep the salt at the end closest to the stove.",
+    "bodyZh": "几个带盖小罐并排放在窄搁板上，罐盖的颜色串在一起。我习惯把盐放在最靠炉灶的那一端。",
+    "author": "Cleo",
+    "at": 1788004800000,
+    "likes": 77,
+    "samples": [
+      {
+        "author": "Ivo",
+        "at": 1788033600000,
+        "en": "Is there enough gap between jars for a big lid?",
+        "zh": "罐子之间留的空够放大一点的盖子吗？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-mini_easel",
+    "model": {
+      "kit": "desk-v2",
+      "design": "mini_easel",
+      "width": 1.05,
+      "height": 0.92,
+      "depth": 0.8,
+      "details": 3,
+      "palette": [
+        "#BB8C56",
+        "#9D6A47",
+        "#809FBE"
+      ]
+    },
+    "titleEn": "Postcard easel",
+    "titleZh": "明信片画架",
+    "bodyEn": "I widened the twin uprights a touch so small cards don't wobble, and gave the display ledge a deeper lip to catch a postcard at a lean. Mine lives on the kitchen counter holding a shopping list and a photo.",
+    "bodyZh": "我把两根立柱稍微加宽了一点，小卡片放上去不容易晃，展示挡边也加深了，斜靠一张明信片正好卡住。我这个放在厨房台面上，夹着购物清单和一张照片。",
+    "author": "Rae",
+    "at": 1786795200000,
+    "likes": 37,
+    "samples": [
+      {
+        "author": "Lin",
+        "at": 1786824000000,
+        "en": "The deeper lip is a good call — mine kept sliding cards forward. Does the wider upright still fit on a narrow shelf?",
+        "zh": "加深挡边这个想法好，我之前那个卡片老是往前滑。加宽的立柱放窄架子上还塞得下吗？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-bobbin_spool",
+    "model": {
+      "kit": "desk-v2",
+      "design": "bobbin_spool",
+      "width": 1.05,
+      "height": 0.82,
+      "depth": 0.95,
+      "details": 3,
+      "palette": [
+        "#78523D",
+        "#A44D63",
+        "#D89A7F"
+      ]
+    },
+    "titleEn": "Thread bobbin",
+    "titleZh": "桌上线轴",
+    "bodyEn": "Two wide flanges surround the banded barrel. A short length of kitchen twine would be the first thing I'd try on it.",
+    "bodyZh": "两片宽圆边夹住一道道绕线的纹路。我想先拿厨房里的那卷棉线试试。",
+    "author": "Noor",
+    "at": 1786190400000,
+    "likes": 84,
+    "samples": [
+      {
+        "author": "Otto",
+        "at": 1786219200000,
+        "en": "Did you try winding two colours of thread together?",
+        "zh": "有没有试过绕两种颜色的线？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-candle_holder",
+    "model": {
+      "kit": "desk-v2",
+      "design": "candle_holder",
+      "width": 0.9,
+      "height": 1.05,
+      "depth": 0.9,
+      "details": 3,
+      "palette": [
+        "#879998",
+        "#4B5B59",
+        "#EFE1BB"
+      ]
+    },
+    "titleEn": "Footed candle dish",
+    "titleZh": "高脚烛台",
+    "bodyEn": "A short foot lifts the candle above its flat base. I picked a contrasting colour for the wick so it reads from across the desk.",
+    "bodyZh": "短支脚把蜡烛稍稍抬高，烛芯换了个更深的颜色，隔着桌子也能一眼看到。",
+    "author": "Ivo",
+    "at": 1784980800000,
+    "likes": 44,
+    "samples": [
+      {
+        "author": "June",
+        "at": 1785009600000,
+        "en": "I like being able to see the wick from the side.",
+        "zh": "从侧面就能瞧见那颗小烛芯。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-napkin_stand",
+    "model": {
+      "kit": "desk-v2",
+      "design": "napkin_stand",
+      "width": 1.05,
+      "height": 1.18,
+      "depth": 0.82,
+      "details": 3,
+      "palette": [
+        "#5F6C7C",
+        "#AAB4BC",
+        "#D9E4E1"
+      ]
+    },
+    "titleEn": "Double-hoop napkin stand",
+    "titleZh": "双圈餐巾架",
+    "bodyEn": "I made the hoops a little taller than the base is wide so folded napkins don't flop over. It sits by the stove holding the paper towels I wipe my hands on.",
+    "bodyZh": "两个圈做得比底座宽一点高一点，折好的纸巾就不会塌下来。放在灶台边上，专门夹擦手用的厨房纸。",
+    "author": "Sam",
+    "at": 1793707200000,
+    "likes": 91,
+    "samples": [
+      {
+        "author": "Bo",
+        "at": 1793736000000,
+        "en": "Do the two hoops flex enough to grip a thick stack, or is the gap fixed?",
+        "zh": "两个圈能稍微撑开夹厚一点的纸吗，还是间隙是固定的？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-pen_rest",
+    "model": {
+      "kit": "desk-v2",
+      "design": "pen_rest",
+      "width": 1.12,
+      "height": 0.78,
+      "depth": 0.86,
+      "details": 3,
+      "palette": [
+        "#427058",
+        "#A2B58B",
+        "#E6D8A8"
+      ]
+    },
+    "titleEn": "Grooved pen rest",
+    "titleZh": "并排笔搁",
+    "bodyEn": "The shallow channels run in the same direction. I'd leave the felt-tip next to the fountain pen so I can grab either without looking.",
+    "bodyZh": "几道浅槽并排朝同一方向。我想把签字笔和钢笔紧挨着放，伸手就能换。",
+    "author": "Lin",
+    "at": 1793102400000,
+    "likes": 138,
+    "samples": [
+      {
+        "author": "Cleo",
+        "at": 1793131200000,
+        "en": "Would a fat marker fit in one of the channels?",
+        "zh": "粗一点的马克笔能卡进去吗？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-dice_tower",
+    "model": {
+      "kit": "desk-v2",
+      "design": "dice_tower",
+      "width": 1.05,
+      "height": 1.28,
+      "depth": 0.92,
+      "details": 4,
+      "palette": [
+        "#67717B",
+        "#82515E",
+        "#C89979"
+      ]
+    },
+    "titleEn": "Tabletop dice tower",
+    "titleZh": "桌游骰塔",
+    "bodyEn": "I kept the tower slim and gave the landing tray a low lip so dice don't skitter off the edge. It lives on the shelf next to our game box for quick rolls on weeknights.",
+    "bodyZh": "我把塔身做得窄一点，接盘边缘留得很低，骰子不容易蹦出去。平时就放在桌游盒旁边的架子上，晚上随手掷两把很方便。",
+    "author": "Otto",
+    "at": 1792497600000,
+    "likes": 51,
+    "samples": [
+      {
+        "author": "Lou",
+        "at": 1792526400000,
+        "en": "Does the tray lip actually stop d20s from rolling away, or do you still need a felt mat?",
+        "zh": "接盘边缘真能挡住二十面骰吗，还是得再垫块绒布？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-incense_holder",
+    "model": {
+      "kit": "desk-v2",
+      "design": "incense_holder",
+      "width": 1.24,
+      "height": 0.78,
+      "depth": 0.92,
+      "details": 3,
+      "palette": [
+        "#434961",
+        "#AB8A58",
+        "#D4B985"
+      ]
+    },
+    "titleEn": "Long incense plate",
+    "titleZh": "长盘线香座",
+    "bodyEn": "I stretched the ash plate into a long shallow trough so a thin stick can lean back and drop its ash without scattering. It sits by the window ledge where I burn one stick after dinner.",
+    "bodyZh": "我把接灰盘拉成一条细长的浅槽，细香可以稍微往后靠，灰就顺着落进去不乱飞。放在窗台上，晚饭后点一根刚好。",
+    "author": "Pip",
+    "at": 1791892800000,
+    "likes": 98,
+    "samples": [
+      {
+        "author": "Rae",
+        "at": 1791921600000,
+        "en": "That trough shape makes sense, my old dish always ended up with ash on the shelf. How wide did you leave the stick slot?",
+        "zh": "这个槽形挺合理的，我原来那个小碟子总是把灰撒到架子上。插香那道缝你留多宽？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-peg_board",
+    "model": {
+      "kit": "desk-v2",
+      "design": "peg_board",
+      "width": 1.12,
+      "height": 0.86,
+      "depth": 0.78,
+      "details": 4,
+      "palette": [
+        "#EBE3C9",
+        "#9A564B",
+        "#725458"
+      ]
+    },
+    "titleEn": "Entryway peg board",
+    "titleZh": "玄关挂钉板",
+    "bodyEn": "A few pegs project from the board, leaving open space around them. I would put keys and a spare hair tie on neighbouring hooks.",
+    "bodyZh": "几颗挂钉从面板上伸出来，彼此间留着空。我想在相邻的两个位置挂钥匙和备用发圈。",
+    "author": "June",
+    "at": 1791288000000,
+    "likes": 11,
+    "samples": [
+      {
+        "author": "Noor",
+        "at": 1791316800000,
+        "en": "Keys on the end, hair ties in the middle. That's my hallway sorted.",
+        "zh": "钥匙挂边上，皮筋挂中间。玄关有救了。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-table_lamp",
+    "model": {
+      "kit": "desk-v2",
+      "design": "table_lamp",
+      "width": 0.95,
+      "height": 1.25,
+      "depth": 0.85,
+      "details": 4,
+      "palette": [
+        "#757D56",
+        "#C0AD82",
+        "#F2E6CA"
+      ]
+    },
+    "titleEn": "Open-shade table lamp",
+    "titleZh": "敞口台灯",
+    "bodyEn": "The open cylinder of the shade sits up on a slim pedestal. I kept its rim in a different tone to make the top easy to pick out.",
+    "bodyZh": "细灯杆托着敞口圆筒灯罩，边缘换了一层色调，从上方看轮廓更清楚。",
+    "author": "Bo",
+    "at": 1790683200000,
+    "likes": 58,
+    "samples": [
+      {
+        "author": "Mina",
+        "at": 1790712000000,
+        "en": "The open top is the part I like — mine throws a nice stripe on the wall behind it.",
+        "zh": "就喜欢上面敞着这点，我那盏在后面的墙上打出一道挺好看的光。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-serving_tray",
+    "model": {
+      "kit": "desk-v2",
+      "design": "serving_tray",
+      "width": 1.18,
+      "height": 0.82,
+      "depth": 1.05,
+      "details": 3,
+      "palette": [
+        "#D4B47D",
+        "#94764B",
+        "#845B71"
+      ]
+    },
+    "titleEn": "Tea tray",
+    "titleZh": "围边茶托",
+    "bodyEn": "The raised rim runs around the whole tray. It is just the sort of thing I'd want beside a teapot with nowhere to put the spoon.",
+    "bodyZh": "一圈挡边把托盘围起来。泡茶的时候，我最缺的就是这样一块能顺手搁小勺的地方。",
+    "author": "Cleo",
+    "at": 1790078400000,
+    "likes": 105,
+    "samples": [
+      {
+        "author": "Ivo",
+        "at": 1790107200000,
+        "en": "Does the rim stay comfortable to grip when it's full? Mine gets awkward once there's a teapot on it.",
+        "zh": "装满东西的时候边沿还顺手吗？我那个一放上茶壶就不好端了。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-monitor_riser",
+    "model": {
+      "kit": "desk-v2",
+      "design": "monitor_riser",
+      "width": 1.05,
+      "height": 0.85,
+      "depth": 0.95,
+      "details": 3,
+      "palette": [
+        "#7791AC",
+        "#465E74",
+        "#DCBF96"
+      ]
+    },
+    "titleEn": "Keyboard hideaway",
+    "titleZh": "显示器增高架",
+    "bodyEn": "The platform spans a clear space for a keyboard. I like the idea of sliding it back there before opening a sketchbook.",
+    "bodyZh": "台面底下给键盘留了空。想摊开速写本的时候，就把键盘往里推。",
+    "author": "Lou",
+    "at": 1789473600000,
+    "likes": 18,
+    "samples": [
+      {
+        "author": "Sam",
+        "at": 1789502400000,
+        "en": "That keyboard space would actually give me room for my notebook.",
+        "zh": "键盘一收进去，本子就有地方摊开了。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-bookends",
+    "model": {
+      "kit": "desk-v2",
+      "design": "bookends",
+      "width": 1.05,
+      "height": 1.12,
+      "depth": 0.88,
+      "details": 3,
+      "palette": [
+        "#96563F",
+        "#B87256",
+        "#E9D9AC"
+      ]
+    },
+    "titleEn": "Paperback bookends",
+    "titleZh": "口袋书书立",
+    "bodyEn": "Two upright ends frame the books on a low base. The one I reach for most would go right by the end.",
+    "bodyZh": "矮底板两端立着挡板，中间夹书。最常翻的那本，我会放在靠边的位置。",
+    "author": "Pip",
+    "at": 1789819200000,
+    "likes": 70,
+    "samples": [
+      {
+        "author": "Rae",
+        "at": 1789848000000,
+        "en": "My cookbooks could use a pair of these. Do wide paperbacks fit too?",
+        "zh": "我那几本菜谱正缺一对书立。宽点的平装书也能放吗？"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-test_tube_vase",
+    "model": {
+      "kit": "desk-v2",
+      "design": "test_tube_vase",
+      "width": 1.1,
+      "height": 1.25,
+      "depth": 0.85,
+      "details": 3,
+      "palette": [
+        "#BDA994",
+        "#EBE7D8",
+        "#A1C7C2"
+      ]
+    },
+    "titleEn": "Cuttings on the sill",
+    "titleZh": "窗台扦插瓶",
+    "bodyEn": "Upright tubes share one broad foot. A clipping in each tube would leave the stems visible from the side.",
+    "bodyZh": "几根竖着的小管共用一块宽底座。一管插一枝，从侧面正好能看见茎。",
+    "author": "Lou",
+    "at": 1787400000000,
+    "likes": 124,
+    "samples": [
+      {
+        "author": "Sam",
+        "at": 1787428800000,
+        "en": "One sprig per tube? I'd start with basil 🌱",
+        "zh": "一管一枝吗？我想先试试罗勒 🌱"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-tape_dispenser",
+    "model": {
+      "kit": "desk-v2",
+      "design": "tape_dispenser",
+      "width": 1.05,
+      "height": 0.95,
+      "depth": 1.1,
+      "details": 3,
+      "palette": [
+        "#B9803D",
+        "#443D39",
+        "#E7A948"
+      ]
+    },
+    "titleEn": "Wide-foot tape dispenser",
+    "titleZh": "宽底胶带座",
+    "bodyEn": "I extended the base past the roll and left the cutter just in front. It could sit in the corner of the wrapping-paper drawer.",
+    "bodyZh": "底座比胶卷宽，前面留一小段切口。想把它放在收纳包装纸的抽屉边。",
+    "author": "Mina",
+    "at": 1792843200000,
+    "likes": 103,
+    "samples": [
+      {
+        "author": "Pip",
+        "at": 1792872000000,
+        "en": "Does the roll stay put when you pull at an angle? Mine always walks across the desk.",
+        "zh": "斜着扯胶带的时候那卷会不会乱跑？我这个老是往桌子边上挪。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-paint_palette",
+    "model": {
+      "kit": "desk-v2",
+      "design": "paint_palette",
+      "width": 1.18,
+      "height": 0.82,
+      "depth": 1.05,
+      "details": 3,
+      "palette": [
+        "#EEE6D8",
+        "#3869A6",
+        "#D97A67"
+      ]
+    },
+    "titleEn": "Pocket paint palette",
+    "titleZh": "椭圆调色盘",
+    "bodyEn": "A cluster of small wells follows the oval. I would leave one free for mixing whatever grey the sky happens to be.",
+    "bodyZh": "小圆槽围着椭圆底面排开。我会留一格空着，专门调当天的天空灰。",
+    "author": "Bo",
+    "at": 1788609600000,
+    "likes": 30,
+    "samples": [
+      {
+        "author": "Mina",
+        "at": 1788638400000,
+        "en": "One empty well for mixing would do it for me.",
+        "zh": "留一格空着调色就够我用了。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-desk_calendar",
+    "model": {
+      "kit": "desk-v2",
+      "design": "desk_calendar",
+      "width": 0.92,
+      "height": 1.22,
+      "depth": 0.8,
+      "details": 4,
+      "palette": [
+        "#994D45",
+        "#73586A",
+        "#F6EEDC"
+      ]
+    },
+    "titleEn": "Loop-bound desk calendar",
+    "titleZh": "活页桌历",
+    "bodyEn": "The base tilts back a little so the page block stands up on its own, and two wire loops hold the sheets at the top. I keep it by the kettle to scribble down bin day and when the sourdough needs feeding.",
+    "bodyZh": "底座稍微往后仰，整叠日历纸就能自己立住，顶部用两个金属线圈把纸页夹在一起。我把它放在烧水壶旁边，随手记下倒垃圾的日子和什么时候该喂酵种。",
+    "author": "Mina",
+    "at": 1785585600000,
+    "likes": 131,
+    "samples": [
+      {
+        "author": "Pip",
+        "at": 1785614400000,
+        "en": "Does the base sit flat on a slightly uneven desk, or does it wobble? Mine's an old kitchen table so it's never quite level.",
+        "zh": "底座放在稍微不平的桌面上会稳吗，还是会晃？我那张旧餐桌从来就没平过。"
+      }
+    ],
+    "generated": true
+  },
+  {
+    "id": "launch2-desk_clock",
+    "model": {
+      "kit": "desk-v2",
+      "design": "desk_clock",
+      "width": 1.05,
+      "height": 1.12,
+      "depth": 0.82,
+      "details": 3,
+      "palette": [
+        "#34587A",
+        "#26313B",
+        "#F2E8D6"
+      ]
+    },
+    "titleEn": "Two-hand desk clock",
+    "titleZh": "双针小台钟",
+    "bodyEn": "I kept the dial plain so the two straight hands stay readable from across the desk. It sits by my monitor and I actually check it instead of reaching for my phone.",
+    "bodyZh": "表盘做得很素，两条直指针隔着一张桌子也看得清。放在显示器旁边，现在抬眼就能看时间，不用总去摸手机。",
+    "author": "Ivo",
+    "at": 1792238400000,
+    "likes": 16,
+    "samples": [
+      {
+        "author": "June",
+        "at": 1792267200000,
+        "en": "Does the minute hand reach the rim? I always look for that first.",
+        "zh": "分针有没有够到最外圈？我看钟第一眼总找这个。"
+      }
+    ],
+    "generated": true
+  }
+]

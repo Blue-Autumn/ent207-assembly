@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="idea_stool">四根横撑从四面靠拢，在座面下围成一个小方框。留在中间的那点空隙，让这张小凳子显得格外轻巧。</string>
+    <string name="idea_tag_furniture">家具</string>
+    <string name="idea_tag_cross_rails">横撑</string>
+    <string name="idea_lamp">浅色灯罩落在十字撑上，一圈暖光从罩沿漏下来。晚上留给书桌一角就够了。</string>
+    <string name="idea_tag_lighting">照明</string>
+    <string name="idea_tag_warm_light">暖光</string>
+    <string name="idea_recordplayer">唱针从一侧探过来，黑胶上的高光绕着唱片标签慢慢走。木底座上，一小块黄铜色铭牌接住了光。</string>
+    <string name="idea_tag_music">音乐</string>
+    <string name="idea_tag_vinyl">黑胶</string>
+    <string name="idea_bridge">桥面落稳，两侧栏杆把视线引向另一端。把它摆在两摞书之间，就像桌上多了一条小路。</string>
+    <string name="idea_tag_miniature">微缩</string>
+    <string name="idea_tag_footbridge">桥梁</string>
+    <string name="idea_bookstand">书脊一本接一本地排开，最后一本刚好靠上书挡。特意留了几种不一样的高度，好让手指挑到想看的那本。</string>
+    <string name="idea_tag_reading">阅读</string>
+    <string name="idea_tag_bookends">书挡</string>
+    <string name="idea_tray">随手放下的笔和小物在浅盘里各占一角。略高的一圈边沿，把容易滚走的东西留在手边。</string>
+    <string name="idea_tag_storage">收纳</string>
+    <string name="idea_tag_stationery">文具</string>
+    <string name="idea_xylophone">一排彩色音片架在两根木条上。从一头看到另一头，长度一点点变化，像把旋律也摆到了桌面上。</string>
+    <string name="idea_tag_tone_bars">音片</string>
+    <string name="idea_drawers">低处的红抽屉拉出一大截，上层只探出一点。两个错开的把手，让人想顺手拉开看看里面藏了什么。</string>
+    <string name="idea_tag_drawers">抽屉</string>
+    <string name="idea_plantstand">花盆落在小方台上，几片叶子向不同方向展开。高出桌面的这一点距离，让枝叶有了自己的位置。</string>
+    <string name="idea_tag_plants">绿植</string>
+    <string name="idea_tag_pot_stand">花台</string>
+    <string name="idea_organizer">先搭底层，再一层层架起横板。等小格子各就各位，文件和收纳盒才滑进来，桌面也跟着腾出一角。</string>
+    <string name="idea_tag_cubbies">分格</string>
+    <string name="idea_like">喜欢</string>
+    <string name="idea_liked">已喜欢</string>
+    <string name="idea_reaction_failed">没能保存，请再试一次。</string>
+</resources>

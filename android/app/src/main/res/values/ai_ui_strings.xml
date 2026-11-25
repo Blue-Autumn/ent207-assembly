@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_ui_back">‹ 返回装配</string>
+    <string name="ai_ui_return">返回装配</string>
+    <string name="ai_ui_speak">朗读建议</string>
+    <string name="ai_ui_photo">本次照片</string>
+    <string name="ai_ui_marker_boxes">标记框</string>
+    <string name="ai_ui_show_boxes">标记框已关，点按显示</string>
+    <string name="ai_ui_hide_boxes">标记框已开，点按隐藏</string>
+    <string name="ai_ui_photo_select">查看第 %1$d 张照片，共 %2$d 张</string>
+    <string name="ai_ui_photo_selected">当前选中第 %1$d 张照片，共 %2$d 张</string>
+    <string name="ai_ui_camera_preparing">正在准备相机</string>
+    <string name="ai_ui_capture">拍一张</string>
+    <string name="ai_ui_capture_joint">拍接头</string>
+    <string name="ai_ui_allow_camera">允许相机</string>
+    <string name="ai_ui_retry_camera">重新取景</string>
+    <string name="ai_ui_analyze_count">分析这 %1$d 张</string>
+    <string name="ai_ui_analyzing">正在分析</string>
+    <string name="ai_ui_retry_analysis">重新分析这组</string>
+    <string name="ai_ui_network_settings">AI 联网设置</string>
+</resources>

@@ -1,0 +1,1546 @@
+{
+  "schema": "board-face-registry-1",
+  "assembly": "d88d5b88b2849ad3148eb0954b1b24052e3571ac2a1702d9f9f816b41fba118a",
+  "sourceSha256": "e3c0a7730155e3d7deab2ded151df31f0b4fc05f2cbee9339d7593edbd92ff48",
+  "semantics": "A is positive global thin-axis face, B negative. Slots 0..3 A, 4..7 B.",
+  "geometryUse": "Candidate centers support coarse image-axis direction only; not metric pose or exact overlay.",
+  "layerPairPolicy": "A/B may be mixed on colored shelf halves. Preserve the notch direction (+X); the other in-plane axis may be mirrored. This exception does not apply to gray frames or the backboard.",
+  "sites": [
+    {
+      "part": "右侧板-1",
+      "slot": 0,
+      "id": 15,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        140.508,
+        -296.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 1,
+      "id": 34,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        257.508,
+        -305.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 2,
+      "id": 3,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        257.508,
+        -83.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 3,
+      "id": 57,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        143.508,
+        -89.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 4,
+      "id": 106,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        140.508,
+        -296.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 5,
+      "id": 41,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        257.508,
+        -305.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 6,
+      "id": 100,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        257.508,
+        -83.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-1",
+      "slot": 7,
+      "id": 107,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        143.508,
+        -89.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 0,
+      "id": 91,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        287.508,
+        -305.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 1,
+      "id": 119,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        404.508,
+        -296.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 2,
+      "id": 47,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        401.508,
+        -89.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 3,
+      "id": 39,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        287.508,
+        -83.013,
+        220.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 4,
+      "id": 99,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        287.508,
+        -305.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 5,
+      "id": 118,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        404.508,
+        -296.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 6,
+      "id": 129,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        401.508,
+        -89.013,
+        213.3
+      ]
+    },
+    {
+      "part": "右侧板-2",
+      "slot": 7,
+      "id": 82,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        287.508,
+        -83.013,
+        213.3
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 0,
+      "id": 14,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -297.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 1,
+      "id": 35,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -297.013,
+        19.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 2,
+      "id": 12,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -297.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 3,
+      "id": 68,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -297.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 4,
+      "id": 89,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -301.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 5,
+      "id": 4,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -301.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 6,
+      "id": 5,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -301.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-1",
+      "slot": 7,
+      "id": 130,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -301.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 0,
+      "id": 32,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -243.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 1,
+      "id": 108,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -243.013,
+        19.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 2,
+      "id": 43,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -243.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 3,
+      "id": 18,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -243.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 4,
+      "id": 97,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -247.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 5,
+      "id": 49,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -247.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 6,
+      "id": 59,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -247.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-1",
+      "slot": 7,
+      "id": 60,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -247.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 0,
+      "id": 110,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -189.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 1,
+      "id": 90,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -189.013,
+        19.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 2,
+      "id": 109,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -189.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 3,
+      "id": 50,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -189.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 4,
+      "id": 125,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -193.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 5,
+      "id": 86,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -193.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 6,
+      "id": 85,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -193.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-1",
+      "slot": 7,
+      "id": 64,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -193.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 0,
+      "id": 16,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -135.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 1,
+      "id": 103,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -135.013,
+        19.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 2,
+      "id": 80,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -135.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 3,
+      "id": 40,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -135.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 4,
+      "id": 61,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -139.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 5,
+      "id": 93,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -139.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 6,
+      "id": 36,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -139.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-1",
+      "slot": 7,
+      "id": 44,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -139.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 0,
+      "id": 20,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -81.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 1,
+      "id": 17,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -81.013,
+        19.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 2,
+      "id": 66,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        410.897,
+        -81.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 3,
+      "id": 69,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        287.897,
+        -81.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 4,
+      "id": 38,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -85.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 5,
+      "id": 56,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -85.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 6,
+      "id": 30,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        410.897,
+        -85.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-1",
+      "slot": 7,
+      "id": 95,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        287.897,
+        -85.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 0,
+      "id": 102,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -297.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 1,
+      "id": 122,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -297.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 2,
+      "id": 71,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -297.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 3,
+      "id": 72,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -297.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 4,
+      "id": 6,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -301.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 5,
+      "id": 23,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -301.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 6,
+      "id": 112,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -301.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层1板-2",
+      "slot": 7,
+      "id": 7,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -301.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 0,
+      "id": 33,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -243.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 1,
+      "id": 42,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -243.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 2,
+      "id": 19,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -243.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 3,
+      "id": 28,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -243.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 4,
+      "id": 26,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -247.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 5,
+      "id": 1,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -247.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 6,
+      "id": 51,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -247.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层2板-2",
+      "slot": 7,
+      "id": 52,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -247.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 0,
+      "id": 54,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -189.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 1,
+      "id": 104,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -189.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 2,
+      "id": 65,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -189.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 3,
+      "id": 123,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -189.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 4,
+      "id": 0,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -193.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 5,
+      "id": 13,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -193.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 6,
+      "id": 73,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -193.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层3板-2",
+      "slot": 7,
+      "id": 46,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -193.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 0,
+      "id": 111,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -135.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 1,
+      "id": 67,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -135.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 2,
+      "id": 83,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -135.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 3,
+      "id": 11,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -135.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 4,
+      "id": 113,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -139.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 5,
+      "id": 74,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -139.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 6,
+      "id": 120,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -139.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层4板-2",
+      "slot": 7,
+      "id": 27,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -139.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 0,
+      "id": 55,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -81.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 1,
+      "id": 48,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -81.013,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 2,
+      "id": 8,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        257.597,
+        -81.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 3,
+      "id": 58,
+      "axis": 1,
+      "face": "A",
+      "candidateCenter": [
+        143.597,
+        -81.013,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 4,
+      "id": 131,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -85.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 5,
+      "id": 87,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -85.513,
+        16.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 6,
+      "id": 62,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        257.597,
+        -85.513,
+        202.0
+      ]
+    },
+    {
+      "part": "层5板-2",
+      "slot": 7,
+      "id": 92,
+      "axis": 1,
+      "face": "B",
+      "candidateCenter": [
+        143.597,
+        -85.513,
+        202.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 0,
+      "id": 116,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        140.508,
+        -296.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 1,
+      "id": 76,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        257.508,
+        -305.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 2,
+      "id": 31,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        257.508,
+        -83.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 3,
+      "id": 117,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        143.508,
+        -89.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 4,
+      "id": 124,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        140.508,
+        -296.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 5,
+      "id": 121,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        257.508,
+        -305.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 6,
+      "id": 96,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        257.508,
+        -83.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-1",
+      "slot": 7,
+      "id": 84,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        143.508,
+        -89.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 0,
+      "id": 21,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        287.508,
+        -305.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 1,
+      "id": 127,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        404.508,
+        -296.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 2,
+      "id": 128,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        404.508,
+        -92.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 3,
+      "id": 25,
+      "axis": 2,
+      "face": "A",
+      "candidateCenter": [
+        287.508,
+        -83.013,
+        7.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 4,
+      "id": 24,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        287.508,
+        -305.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 5,
+      "id": 22,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        404.508,
+        -296.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 6,
+      "id": 115,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        404.508,
+        -92.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "左侧板-2",
+      "slot": 7,
+      "id": 9,
+      "axis": 2,
+      "face": "B",
+      "candidateCenter": [
+        287.508,
+        -83.013,
+        -0.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 0,
+      "id": 37,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -305.013,
+        20.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 1,
+      "id": 101,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -221.013,
+        17.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 2,
+      "id": 78,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -221.013,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 3,
+      "id": 81,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -302.013,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 4,
+      "id": 75,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -305.013,
+        20.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 5,
+      "id": 98,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -221.013,
+        17.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 6,
+      "id": 126,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -221.013,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-1",
+      "slot": 7,
+      "id": 45,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -302.013,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 0,
+      "id": 88,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -201.519,
+        17.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 1,
+      "id": 63,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -84.519,
+        20.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 2,
+      "id": 29,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -84.519,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 3,
+      "id": 70,
+      "axis": 0,
+      "face": "A",
+      "candidateCenter": [
+        133.897,
+        -201.519,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 4,
+      "id": 77,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -201.519,
+        17.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 5,
+      "id": 79,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -84.519,
+        20.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 6,
+      "id": 105,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -84.519,
+        203.0
+      ]
+    },
+    {
+      "part": "背板-2",
+      "slot": 7,
+      "id": 94,
+      "axis": 0,
+      "face": "B",
+      "candidateCenter": [
+        126.897,
+        -201.519,
+        203.0
+      ]
+    }
+  ]
+}

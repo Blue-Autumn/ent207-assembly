@@ -1,0 +1,106 @@
+package com.example.arassemblydemo
+
+/** Translates measured installation cues at the display boundary; marker IDs and rules stay canonical. */
+internal object FinalGuideEnglish {
+    private val fixed = mapOf(
+        "拿稳手机" to "Hold the phone steady",
+        "等标签清楚再继续。" to "Keep the tags in view for a moment.",
+        "换另一块灰框" to "Use the other gray frame",
+        "这块是最后盖上的。把作底的灰框单独放到桌上。" to "Set this top frame aside. Lay the base frame on the table.",
+        "先换成作底的灰框" to "Get the base frame",
+        "先拿开层板，把作底的灰框内侧朝上放平。" to "Set the shelf aside. Lay the base frame flat, inside up.",
+        "移开旁边的另一块灰框" to "Set the spare frame aside",
+        "把层板拿到作底的灰框上方，让目标孔入镜。" to "Hold the shelf above the base with the target slots in view.",
+        "灰框两半正反不同" to "One frame half is flipped",
+        "把底下的灰框翻面" to "Flip the base frame",
+        "先分开灰框，把朝外的一半翻过来，再接好。" to "Separate the halves. Flip the one facing out, then rejoin them.",
+        "先拿开层板，把灰框翻过来，内侧朝上平放。" to "Lift the shelf clear. Flip the gray frame and lay it flat, inside up.",
+        "对准作底的灰框" to "Aim at the base frame",
+        "把平放灰框的标签带进画面。" to "Show the tags on the frame lying on the table.",
+        "先摆正底框的两半" to "Turn the base halves into line",
+        "先松开接头，平放转正这一半，再拼成框。" to "Separate the joint. Turn this half flat on the table, then rejoin it.",
+        "把底框平转半圈" to "Turn the base halfway around",
+        "把底框顺时针转" to "Turn the base clockwise",
+        "把底框逆时针转" to "Turn the base counterclockwise",
+        "把亮起的这排转到远端，后面好插板。" to "Turn the base until the highlighted row is farthest from you.",
+        "若还没插板，先把亮起的这排转到远端，再拿起紫板。" to "If the shelves are still out, turn the highlighted row away from you. Then pick up the purple shelf.",
+        "把作底的灰框单独放好" to "Leave just the base in view",
+        "把另一块灰框移出画面，再看平放的这一块。" to "Move the spare frame aside and aim at the one lying flat.",
+        "把完整底框放平" to "Lay the joined base flat",
+        "朝着中间的接缝拍，让两半的内侧标签一起入镜。" to "Aim at the center seam and show the inside tags on both halves.",
+        "灰框内侧朝上" to "The base is inside up",
+        "把框平放在桌上，后面都以它为准。" to "Leave the frame flat here as you add the shelves.",
+        "拿起当前层板" to "Pick up this shelf",
+        "拿起这一步的组件" to "Pick up the next part",
+        "让层板和框上的目标孔一起入镜。" to "Show the shelf and its target slots together.",
+        "把组件的标签和安装位置一起拍进来。" to "Show the tags on the part and where it will fit.",
+        "把上面的灰框翻面" to "Flip the top frame",
+        "从桌面上方看，把上框的外侧翻朝上，再对准层板。" to "Turn the outer face up, then line the frame up with the shelves.",
+        "先提离槽口。扶住板边，转到箭头指的一侧。" to "Lift the shelf clear. Hold its edge and turn the notch toward the arrow.",
+        "保持这个朝向，稍微抬高手机，让基准灰框也露出来。" to "Hold this position and raise the phone a little to include the base.",
+        "再露出板上的一个角" to "Show another corner",
+        "手扶住板边，把隔开的标签一起拍清。" to "Steady the shelf by its edge. Show two tags spaced apart.",
+        "上框两半方向没对上" to "The top frame halves face different ways",
+        "先放下上框，松开接头，把这一半平放转正。" to "Set the top frame down. Separate the joint and turn this half on the table.",
+        "先对齐上框的两半" to "Line up the top frame halves",
+        "拍清上框两端接头，把两半接齐，再盖到层板上。" to "Show both end joints and fit the halves together before lowering the frame.",
+        "拍到的上框孔位对上了" to "The visible top slots line up",
+        "逐排对准层板的凸榫，再平稳放下。" to "Line up each row with the shelf tabs, then lower the frame evenly.",
+        "托住上框，对准层板" to "Hold the top frame over the shelves",
+        "让上框和两层凸榫一起入镜，核对盖合方向。" to "Show the top frame and tabs from two shelves to check its direction.",
+        "把基准和组件一起拍进来" to "Show the base and the part",
+        "在灰框和手持组件上各露出分开的标签。" to "Show two spaced tags on the base and two on the part in your hand.",
+        "稍微斜一点拍" to "Tilt the phone a little",
+        "让灰框和手里的板各露出两个角。" to "Include two corners of the frame and two of the panel.",
+        "把缺口转到另一端" to "Turn the notch to the other end",
+        "把组件转半圈" to "Turn the part halfway around",
+        "托住上框，平放转半圈，再对准层板。" to "Keep the top frame level and turn it halfway around. Line it up again.",
+        "先提离槽口。扶稳层板，竖着转半圈。" to "Lift the shelf clear. Hold it upright and turn it halfway around.",
+        "把层板立起来" to "Stand the shelf upright",
+        "一只手扶住板边，让凸榫朝下。" to "Hold the edge with one hand, with the tabs pointing down.",
+        "扶稳这块板" to "Steady the panel",
+        "按示范摆正，等方向对齐再插。" to "Match the position shown, then insert the panel.",
+        "对齐各层凸榫，平稳放下。" to "Line up the tabs on each shelf and lower the frame evenly.",
+        "上框方向对了" to "The top frame is facing the right way",
+        "托住上框，对准每排凸榫，再盖下。" to "Hold the frame over the tabs. Line up each row and lower it.",
+        "对着另一排孔了" to "The shelf is over the wrong row",
+        "方向和孔位对上了" to "Direction and slots line up",
+        "扶稳层板，向下插到接缝齐平。" to "Hold the shelf steady and press down until the joint sits flush.",
+        "方向对了，移到亮起的孔" to "Move to the highlighted slots",
+        "扶稳层板，两端对准同一排，再向下插。" to "Line both ends up with the same row, then press down.",
+        "拿起背板，对着架子开口" to "Bring the back panel to the opening",
+        "把架子整体转到背面朝你，让上框和手里的背板入镜。" to "Turn the rack so its back faces you. Show the top frame and the back panel.",
+        "拍到上框和背板" to "Show the top frame and back panel",
+        "对准上方灰框和手里的背板；能看到下框一角更好。" to "Show the top frame and the panel in your hand. Include a bottom corner if visible.",
+        "先看看背板的两半" to "Show both back panel halves",
+        "扶稳背板，让两半同一侧的标签一起入镜。" to "Hold the panel steady and show tags on both halves of the same face.",
+        "露出上框和背板的两个角" to "Show two corners of the top frame and back panel",
+        "稍微斜拍，带上下框靠近你的一个角。" to "Tilt the phone to include a near corner of the bottom frame.",
+        "从架子背面斜拍，让上框的两个角入镜。" to "Aim across the back so two top frame corners are visible.",
+        "把背板掉个头" to "Turn the back panel 180°",
+        "先离开接头，保持这一面朝你，在板面内转半圈。" to "Pull clear of the joint. Keep this face toward you and turn the panel halfway around.",
+        "背板上下倒了" to "The back panel is upside down",
+        "先离开接头，沿横轴翻半圈，把上端换到底下。" to "Pull clear and flip the panel end over end, bringing the top to the bottom.",
+        "把背板左右翻过来" to "Flip the back panel sideways",
+        "保持上端朝上，沿竖轴翻半圈，让另一面朝你。" to "Keep the top edge up and swing the panel around so the other face is toward you.",
+        "背板方向和接头对上了" to "The back panel joints line up",
+        "沿开口直推。检查上下两边是否贴齐，再点下一步。" to "Slide the panel straight in. Check that both edges are flush, then continue.",
+        "方向对了，移到架子背面" to "Move the panel to the back",
+        "让背板靠近亮起的接头，再对准直推。" to "Bring the panel to the highlighted joints and slide it straight in.",
+        "背板方向对了" to "The back panel faces the right way",
+        "保持这个方向，把上下两边对到架子背面的接头，再直推。" to "Keep this direction. Align both edges with the rear joints and slide straight in.",
+    )
+    private val sides = mapOf("右边" to "right", "左边" to "left", "画面上方" to "top of the image", "画面下方" to "bottom of the image")
+    private val row = Regex("提起层板，对准第([1-5])排再放下。")
+
+    fun text(source: String): String? {
+        fixed[source]?.let { return it }
+        row.matchEntire(source)?.let { return "Lift the shelf, line up both ends with row ${it.groupValues[1]}, then lower it." }
+        for ((side, english) in sides) {
+            if (source == "把缺口转向$side") return "Turn the notch toward the $english"
+            if (source == "缺口朝$side") return "The notch faces the $english"
+        }
+        return null
+    }
+}
+

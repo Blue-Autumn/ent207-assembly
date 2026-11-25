@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_part">当前零件</string>
+    <string name="scan_startup">相机启动中</string>
+    <string name="scan_permission">尚未开启相机权限。可打开设置后回来。</string>
+    <string name="scan_unregistered">这件零件尚未登记有效编号，请先回到工作页登记。</string>
+    <string name="scan_find">找到 %1$s</string>
+    <string name="scan_ids">本件编号：%1$s\n将手机对准零件区，读到其中任意一枚即可。</string>
+    <string name="scan_preview">完整相机取景</string>
+    <string name="scan_return">已找到，返回拿取确认</string>
+    <string name="scan_switch">切换镜头</string>
+    <string name="scan_retry">重新寻找</string>
+    <string name="scan_cancel">取消</string>
+    <string name="scan_settings">相机权限设置</string>
+    <string name="scan_need_camera">需要开启相机权限</string>
+    <string name="scan_wide">广角 · 完整取景</string>
+    <string name="scan_no_wide">主摄 · 此设备未提供独立广角</string>
+    <string name="scan_main">主摄 · 完整取景</string>
+    <string name="scan_error">相机暂未就绪，可切换镜头或返回重试</string>
+    <string name="scan_resume">返回后将重新寻找这件零件。</string>
+    <string name="scan_found">找到 %1$s · %2$s\n返回工作页后，拿到实物再确认。</string>
+    <string name="scan_held">已找到的目标仍保留。\n可返回工作页核对并拿取；移出画面不会自动计入已拿到。</string>
+    <string name="scan_unclear">暂时没有读清标签，请持稳或切换镜头。</string>
+    <string name="scan_aim">将本件标签放入画面，等待识别。</string>
+    <string name="scan_other">看到其他标签，继续寻找上方列出的编号。</string>
+    <string name="scan_looking">正在寻找 %1$s…</string>
+</resources>

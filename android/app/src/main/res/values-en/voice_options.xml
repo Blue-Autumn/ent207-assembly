@@ -1,0 +1,15 @@
+<resources>
+    <string name="voice_picker_title">Reading voice</string>
+    <string name="voice_picker_intro">Choose a voice for assembly instructions and AI replies.</string>
+    <string name="voice_picker_engine">Speech engine</string>
+    <string name="voice_picker_voice">On-device voice</string>
+    <string name="voice_picker_loading">Loading…</string>
+    <string name="voice_picker_system">System default engine</string>
+    <string name="voice_picker_empty">No installed offline voice for this language.</string>
+    <string name="voice_picker_preview">Play sample</string>
+    <string name="voice_picker_sample">That looks right. Hold the shelf steady, line up both slots, and lower it into place.</string>
+    <string name="voice_picker_sample_failed">Could not play this voice. Try another.</string>
+    <string name="voice_picker_apply">Use this voice</string>
+    <string name="voice_picker_extra">For another US English voice, install the offline Sherpa engine (83 MB). Then select it above.</string>
+    <string name="voice_picker_download">Get US English voice</string>
+</resources>

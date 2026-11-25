@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="ai_ui_back">‹ Back to assembly</string>
+    <string name="ai_ui_return">Back to assembly</string>
+    <string name="ai_ui_speak">Read guidance aloud</string>
+    <string name="ai_ui_photo">Assembly photo</string>
+    <string name="ai_ui_marker_boxes">Markers</string>
+    <string name="ai_ui_show_boxes">Markers off. Tap to show.</string>
+    <string name="ai_ui_hide_boxes">Markers on. Tap to hide.</string>
+    <string name="ai_ui_photo_select">View photo %1$d of %2$d</string>
+    <string name="ai_ui_photo_selected">Selected photo %1$d of %2$d</string>
+    <string name="ai_ui_camera_preparing">Starting camera</string>
+    <string name="ai_ui_capture">Take photo</string>
+    <string name="ai_ui_capture_joint">Photograph joint</string>
+    <string name="ai_ui_allow_camera">Allow camera</string>
+    <string name="ai_ui_retry_camera">Open camera again</string>
+    <string name="ai_ui_analyze_count">Analyze photos (%1$d)</string>
+    <string name="ai_ui_analyzing">Analyzing</string>
+    <string name="ai_ui_retry_analysis">Analyze again</string>
+    <string name="ai_ui_network_settings">AI connection</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_part">this part</string>
+    <string name="scan_startup">Starting camera</string>
+    <string name="scan_permission">Allow camera access in Settings, then return.</string>
+    <string name="scan_unregistered">This part has no registered tags. Return to assembly and register it first.</string>
+    <string name="scan_find">Find %1$s</string>
+    <string name="scan_ids">Tags on this part: %1$s\nPoint the phone at the parts. Any one of these tags identifies it.</string>
+    <string name="scan_preview">Camera preview</string>
+    <string name="scan_return">Found it · return to assembly</string>
+    <string name="scan_switch">Switch lens</string>
+    <string name="scan_retry">Search again</string>
+    <string name="scan_cancel">Cancel</string>
+    <string name="scan_settings">Camera permissions</string>
+    <string name="scan_need_camera">Allow camera access</string>
+    <string name="scan_wide">Wide camera</string>
+    <string name="scan_no_wide">Main camera · wide lens unavailable</string>
+    <string name="scan_main">Main camera</string>
+    <string name="scan_error">Camera unavailable. Switch lens or return and try again.</string>
+    <string name="scan_resume">The search resumes when you return.</string>
+    <string name="scan_found">Found %1$s · %2$s\nPick it up, then confirm on the assembly screen.</string>
+    <string name="scan_held">Part found. Return to assembly and confirm once you have it in hand.</string>
+    <string name="scan_unclear">Hold the phone steady or switch lens to see the tag clearly.</string>
+    <string name="scan_aim">Point the camera at a tag on this part.</string>
+    <string name="scan_other">Other tags are visible. Look for a tag listed above.</string>
+    <string name="scan_looking">Looking for %1$s…</string>
+</resources>

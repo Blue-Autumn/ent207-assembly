@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AR Assembly Demo</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="environment_test">Android environment test</string>
+    <string name="test_button">点击测试</string>
+    <string name="click_count">按钮正常工作！点击次数：%1$d</string>
+    <string name="version_label">AR Assembly Demo · v%1$s 五层架装配</string>
+    <string name="enter_camera">进入 AR 演示</string>
+    <string name="camera_starting">Camera Starting · 等待预览和分析帧</string>
+    <string name="camera_active">Camera Active · 预览流已启动</string>
+    <string name="camera_idle">Camera Idle · 预览流尚未启动</string>
+    <string name="camera_paused">Camera Paused · 已释放相机</string>
+    <string name="camera_error">Camera Error · %1$s</string>
+    <string name="camera_permission">需要相机权限才能显示实时预览。普通AR不保存画面；标定采样仅在勾选并手动采集时保存少量灰度图，不录像、不上传。</string>
+    <string name="camera_denied">相机权限未开启。可再次请求授权；如果系统不再弹窗，请自行在应用设置中授权后返回。</string>
+    <string name="camera_request">请求相机权限</string>
+    <string name="camera_retry">重试相机</string>
+    <string name="camera_settings">打开应用设置</string>
+    <string name="camera_home">返回主页</string>
+    <string name="camera_overlay_note">DICT_4X4_50 · A4-landscape-four-48-v1 固定板 · 未标定演示</string>
+    <string name="aruco_waiting">ArUco：等待检测</string>
+    <string name="aruco_none">未识别到标记 · %1$.1f ms</string>
+    <string name="aruco_found">识别 %1$d 个 · ID %2$s · %3$.1f ms</string>
+    <string name="aruco_error">检测失败：%1$s</string>
+    <string name="aruco_mapping_wait">检测到 %1$d 个 · 等待预览坐标变换</string>
+    <string name="aruco_stale">ArUco：图像中断，已清除叠加</string>
+    <string name="analysis_waiting">帧分析：等待图像</string>
+    <string name="analysis_stalled">帧分析：暂无新帧 · 0 fps</string>
+    <string name="analysis_stats">帧分析：%1$d × %2$d · rotation %3$d°\n分析回调 %4$.1f fps · 累计 %5$d 帧</string>
+</resources>

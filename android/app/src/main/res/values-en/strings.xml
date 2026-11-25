@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AR Assembly Demo</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="environment_test">Android environment test</string>
+    <string name="test_button">Test button</string>
+    <string name="click_count">Button works. Tap count: %1$d</string>
+    <string name="version_label">AR Assembly Demo · v%1$s · Five-tier shelf</string>
+    <string name="enter_camera">Open AR demo</string>
+    <string name="camera_starting">Starting camera</string>
+    <string name="camera_active">Camera active</string>
+    <string name="camera_idle">Camera idle</string>
+    <string name="camera_paused">Camera paused</string>
+    <string name="camera_error">Camera error · %1$s</string>
+    <string name="camera_permission">Allow camera access for live guidance. Calibration samples are saved only when you choose to record one.</string>
+    <string name="camera_denied">Camera permission is off. Try again or enable camera access in the app settings.</string>
+    <string name="camera_request">Request camera access</string>
+    <string name="camera_retry">Retry camera</string>
+    <string name="camera_settings">Open app settings</string>
+    <string name="camera_home">Home</string>
+    <string name="camera_overlay_note">DICT_4X4_50 · A4-landscape-four-48-v1 · uncalibrated</string>
+    <string name="aruco_waiting">Waiting for markers</string>
+    <string name="aruco_none">No markers · %1$.1f ms</string>
+    <string name="aruco_found">%1$d markers · IDs %2$s · %3$.1f ms</string>
+    <string name="aruco_error">Detection failed: %1$s</string>
+    <string name="aruco_mapping_wait">Detected %1$d markers · waiting for preview coordinates</string>
+    <string name="aruco_stale">Camera interrupted. Markers cleared.</string>
+    <string name="analysis_waiting">Waiting for camera frame</string>
+    <string name="analysis_stalled">No new frames · 0 fps</string>
+    <string name="analysis_stats">Analysis %1$d × %2$d · rotation %3$d°\n%4$.1f fps · %5$d frames</string>
+</resources>

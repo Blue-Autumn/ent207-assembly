@@ -1,0 +1,141 @@
+{
+  "status": "SOURCE_GEOMETRY_GUIDE_CANDIDATE_NOT_PHYSICALLY_APPROVED",
+  "date": "2026-11-02",
+  "intake_sha256": "f69df0b46882242d81f5be342bf8e38996dec6d165d55c42d008ee4240226ed0",
+  "sources": [
+    {
+      "file": "层1板-1.stl",
+      "sha256": "d5e8b725860593d0712c4692430b75901966dd6fbaf97240b489f14118969e53",
+      "triangles": 316,
+      "T_assembly_from_source": [
+        [
+          -1.0,
+          -0.0,
+          -0.0,
+          547.9602432250977
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -301.7632593512535
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -30.97824478149414
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "identity_note": "deterministic arbitrary mapping within geometrically equivalent instances; not printed-label identity",
+      "projected_bounds": [
+        -421.8972473144531,
+        3.814697265625e-06,
+        -268.89725494384766,
+        219.60000228881836
+      ],
+      "rechecked_max_vertex_error_to_assembly": 3.5236025704830096e-05
+    },
+    {
+      "file": "层1板-2.stl",
+      "sha256": "6964139c6f6014dadf756e9db5c92f4ce58610b1fa755260b37f8833e9504d5a",
+      "triangles": 156,
+      "T_assembly_from_source": [
+        [
+          -1.0,
+          -0.0,
+          -0.0,
+          547.9602355957031
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          -301.76327535510063
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -30.97824478149414
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "identity_note": "deterministic arbitrary mapping within geometrically equivalent instances; not printed-label identity",
+      "projected_bounds": [
+        -277.8972473144531,
+        3.814697265625e-06,
+        -127.59722900390625,
+        219.60000228881836
+      ],
+      "rechecked_max_vertex_error_to_assembly": 8.534138421295378e-06
+    }
+  ],
+  "assembly_source": {
+    "file": "装配体.stl",
+    "sha256": "d88d5b88b2849ad3148eb0954b1b24052e3571ac2a1702d9f9f816b41fba118a"
+  },
+  "render_view": {
+    "horizontal": "negative assembly X",
+    "vertical": "positive assembly Z",
+    "purpose": "orthographic illustration only; not insertion axes"
+  },
+  "candidate_joint": {
+    "method": "overlap of projected bounding boxes of the two recovered source meshes",
+    "projected_bounds": [
+      -277.8972473144531,
+      3.814697265625e-06,
+      -268.89725494384766,
+      219.60000228881836
+    ],
+    "meaning": "candidate joint band; not validated contact manifold or collision proof"
+  },
+  "identity": {
+    "color_layer_basis": "Project kit file-layer correspondence",
+    "physical_marker_binding": "UNCONFIRMED",
+    "intake_mapping": "arbitrary equivalent instance assignment supports relative geometry, not physical color identity"
+  },
+  "known_motion": "User confirmed aligned straight insertion; no sliding or tilting",
+  "unknown": [
+    "Per-joint insertion axis",
+    "Numeric start/end and travel",
+    "Physical face and viewing direction",
+    "Label placement transforms",
+    "Guide visual/physical approval",
+    "Collision/fit validation"
+  ],
+  "source_hashes_unchanged": true,
+  "assets": [
+    {
+      "file": "half-identification.png",
+      "sha256": "e5d380a41ac4479637b7072f2fda583aa38370357903ff20751cfc62276cc86b",
+      "bytes": 92010
+    },
+    {
+      "file": "half-identification.svg",
+      "sha256": "520c35a6f4cdaad12098da7a69e4a196a5110df32f15d8c6bb5fca6dd1771081",
+      "bytes": 4240
+    },
+    {
+      "file": "pair-reference.png",
+      "sha256": "2c5c7f1fd07532b3853731044d2f24cbec84cab0ad893a5c7fbd98204f38fec1",
+      "bytes": 103527
+    },
+    {
+      "file": "pair-reference.svg",
+      "sha256": "fe7c592087d599939976aeb202a92ffaed8f67ea5895218743d636323c6fe604",
+      "bytes": 4213
+    }
+  ]
+}

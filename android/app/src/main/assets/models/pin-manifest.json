@@ -1,0 +1,34 @@
+{
+  "source": "插入销.stl",
+  "source_sha256": "64b8938092abe297f4d96f03d81a7db7a28dab89507c90df2514398cdd2912b9",
+  "source_units": "mm user confirmed",
+  "original_bounds_mm": [
+    [
+      -35.99672317504883,
+      -2.9424448013305664,
+      7.112612365745008e-08
+    ],
+    [
+      25.806840896606445,
+      10.30008602142334,
+      15.382259368896484
+    ]
+  ],
+  "dimensions_mm": [
+    61.803565979003906,
+    13.242530822753906,
+    15.382259368896484
+  ],
+  "source_origin_rebased_mm": [
+    -5.094941139221191,
+    3.6788206100463867,
+    7.112612365745008e-08
+  ],
+  "glb_units": "metres",
+  "triangles": 9250,
+  "unique_vertices": 4598,
+  "decimation": false,
+  "color": "gray user confirmed; RGB 0.5 display approximation, not measured colorimetry",
+  "glb_sha256": "01df93a3dd3e7e74d337211d47735bd665ec3c23f1227157bec0dab18ee28d40",
+  "mapping": "source p -> (p-origin); glTF=(x,z,-y)/1000; board=(gltf.x,-gltf.z,gltf.y)*1000; base at board z=0"
+}

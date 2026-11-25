@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "board_id": "A4-landscape-four-48-v1",
+  "dictionary": "DICT_4X4_50",
+  "units": "mm",
+  "page_mm": [
+    297.0,
+    210.0
+  ],
+  "origin_page_mm": [
+    148.5,
+    105.0
+  ],
+  "axes": "X page-right, Y page-up, Z out of printed face; board-to-camera",
+  "corner_order": "decoded top-left, top-right, bottom-right, bottom-left",
+  "ruler_mm": 100.0,
+  "marker_length_mm": 48.0,
+  "markers": [
+    {
+      "id": 0,
+      "corners_mm": [
+        [
+          -131,
+          80,
+          0
+        ],
+        [
+          -83,
+          80,
+          0
+        ],
+        [
+          -83,
+          32,
+          0
+        ],
+        [
+          -131,
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "id": 1,
+      "corners_mm": [
+        [
+          83,
+          80,
+          0
+        ],
+        [
+          131,
+          80,
+          0
+        ],
+        [
+          131,
+          32,
+          0
+        ],
+        [
+          83,
+          32,
+          0
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "corners_mm": [
+        [
+          -131,
+          -32,
+          0
+        ],
+        [
+          -83,
+          -32,
+          0
+        ],
+        [
+          -83,
+          -80,
+          0
+        ],
+        [
+          -131,
+          -80,
+          0
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "corners_mm": [
+        [
+          83,
+          -32,
+          0
+        ],
+        [
+          131,
+          -32,
+          0
+        ],
+        [
+          131,
+          -80,
+          0
+        ],
+        [
+          83,
+          -80,
+          0
+        ]
+      ]
+    }
+  ]
+}

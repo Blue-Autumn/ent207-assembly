@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="idea_stool">Watch the four rails meet beneath the seat. The square of air between them keeps this little stool looking light.</string>
+    <string name="idea_tag_furniture">Furniture</string>
+    <string name="idea_tag_cross_rails">Cross rails</string>
+    <string name="idea_lamp">The shade settles onto a crosspiece. A little amber light spills from the rim, just enough for a quiet corner of the desk.</string>
+    <string name="idea_tag_lighting">Lighting</string>
+    <string name="idea_tag_warm_light">Warm light</string>
+    <string name="idea_recordplayer">A tonearm reaches over the record as its grooves catch the light. A small brass-coloured plate finishes the wooden plinth.</string>
+    <string name="idea_tag_music">Music</string>
+    <string name="idea_tag_vinyl">Vinyl</string>
+    <string name="idea_bridge">The deck slips between two rails. Set this little bridge between stacks of books and you have a path across your desk.</string>
+    <string name="idea_tag_miniature">Miniature</string>
+    <string name="idea_tag_footbridge">Footbridge</string>
+    <string name="idea_bookstand">The books settle in one by one against the end support. Their spines sit at different heights, ready for a browsing finger.</string>
+    <string name="idea_tag_reading">Reading</string>
+    <string name="idea_tag_bookends">Bookends</string>
+    <string name="idea_tray">A pen and small odds and ends find their own corners. The raised lip keeps the things that roll away close at hand.</string>
+    <string name="idea_tag_storage">Storage</string>
+    <string name="idea_tag_stationery">Stationery</string>
+    <string name="idea_xylophone">Coloured bars span two wooden rails. Follow the row from long to short and you can almost hear the notes climbing.</string>
+    <string name="idea_tag_tone_bars">Tone bars</string>
+    <string name="idea_drawers">The red drawer slides far out at the bottom while the upper drawer peeks forward. Each leaves its handle within reach.</string>
+    <string name="idea_tag_drawers">Drawers</string>
+    <string name="idea_plantstand">A pot rests on a square platform with room for its leaves to spread. The short legs lift a patch of green off the desk.</string>
+    <string name="idea_tag_plants">Plants</string>
+    <string name="idea_tag_pot_stand">Pot stand</string>
+    <string name="idea_organizer">The shelves rise from the base, one level at a time. Only when the cubbies are ready do the files and boxes slide home.</string>
+    <string name="idea_tag_cubbies">Cubbies</string>
+    <string name="idea_like">Like</string>
+    <string name="idea_liked">Liked</string>
+    <string name="idea_reaction_failed">Could not save this change. Try again.</string>
+</resources>

@@ -1,0 +1,4567 @@
+{
+  "schema": "assembly-ai-model-reference-1",
+  "assembly": "d88d5b88b2849ad3148eb0954b1b24052e3571ac2a1702d9f9f816b41fba118a",
+  "actionsSource": "121fa41a207143e0ee80c1d6d863cb40aa69ff15cddfdad3dbe79ae447aa002b",
+  "sceneSha256": "907c0b83dad06cdce7c06002a01426d9657815320f50663b33199553d149d758",
+  "rendererSha256": "338a359b6846d0b455a87d23ce0aa8a54dacc61ac28e36ee75f9feebe7f0e77a",
+  "evidenceKind": "CAD_EXPECTED_STATE_NOT_PHOTOGRAPH",
+  "entries": [
+    {
+      "task": "prepare:层1板",
+      "title": "拼好紫色层板",
+      "file": "step-00.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "ed80bbac5e600934afbbc599e767b69e3e0c41a01d7ab8b78946b9f949408184",
+      "bytes": 84971,
+      "parts": [
+        "层1板-1",
+        "层1板-2"
+      ],
+      "members": [
+        "层1板-2"
+      ],
+      "workPose": {
+        "normalAxis": 1,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0979888054430054,
+                0.5278768680995582
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.0215917972754551
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.8005598105901919,
+                0.7239969883053856
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                183.8276008463801,
+                271.9827505578421
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                472.94563330188964,
+                313.2138382778976
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7437773876363913,
+                -0.5048669192576574
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.2176016302061294
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.137220570008803,
+                -0.3301985632449355
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                987.6189817604211,
+                353.7031327794976
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                739.317644527158,
+                282.3314652527723
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "prepare:层2板",
+      "title": "拼好蓝色层板",
+      "file": "step-01.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "d2afaa063d404dfd5ee9240e23c877f83de1b0fc38f4539050cf58d04d6c0638",
+      "bytes": 83295,
+      "parts": [
+        "层2板-1",
+        "层2板-2"
+      ],
+      "members": [
+        "层2板-2"
+      ],
+      "workPose": {
+        "normalAxis": 1,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0979888054430054,
+                0.5278768680995582
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.0215917972754551
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.8005598105901919,
+                0.7239969883053856
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                183.8276008463801,
+                271.9827505578421
+              ]
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                472.94563330188964,
+                313.2138382778976
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7437773876363913,
+                -0.5048669192576574
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.2176016302061294
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.137220570008803,
+                -0.3301985632449355
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                987.6189817604211,
+                353.7031327794976
+              ]
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                739.317644527158,
+                282.3314652527723
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "prepare:层3板",
+      "title": "拼好肉色层板",
+      "file": "step-02.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "89c81b42472c1b384633c5108b7b9727dcfe126ba86d7514d16433319a0a8657",
+      "bytes": 85032,
+      "parts": [
+        "层3板-1",
+        "层3板-2"
+      ],
+      "members": [
+        "层3板-2"
+      ],
+      "workPose": {
+        "normalAxis": 1,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0979888054430054,
+                0.5278768680995582
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.0215917972754551
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.8005598105901919,
+                0.7239969883053856
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                183.8276008463801,
+                271.9827505578421
+              ]
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                472.94563330188964,
+                313.2138382778976
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7437773876363913,
+                -0.5048669192576574
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.2176016302061294
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.137220570008803,
+                -0.3301985632449355
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                987.6189817604211,
+                353.7031327794976
+              ]
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                859.7915532172327,
+                287.8138312673412
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "prepare:层4板",
+      "title": "拼好黄色层板",
+      "file": "step-03.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "5a7c1b5bfe06840ce6e25b0e4ba143a17dfc483817e6f82313548737971f5d83",
+      "bytes": 82876,
+      "parts": [
+        "层4板-1",
+        "层4板-2"
+      ],
+      "members": [
+        "层4板-2"
+      ],
+      "workPose": {
+        "normalAxis": 1,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0979888054430054,
+                0.5278768680995582
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.0215917972754551
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.8005598105901919,
+                0.7239969883053856
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                183.8276008463801,
+                271.9827505578421
+              ]
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                472.94563330188964,
+                313.2138382778976
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7437773876363913,
+                -0.5048669192576574
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.2176016302061294
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.137220570008803,
+                -0.3301985632449355
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                987.6189817604211,
+                353.7031327794976
+              ]
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                739.317644527158,
+                282.3314652527723
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "prepare:层5板",
+      "title": "拼好绿色层板",
+      "file": "step-04.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "a89c0bcd23e26acdaee6dafae741199209932a368326f2873d47d92f91b4b615",
+      "bytes": 85423,
+      "parts": [
+        "层5板-1",
+        "层5板-2"
+      ],
+      "members": [
+        "层5板-2"
+      ],
+      "workPose": {
+        "normalAxis": 1,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0979888054430054,
+                0.5278768680995582
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.0215917972754551
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.8005598105901919,
+                0.7239969883053856
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                183.8276008463801,
+                271.9827505578421
+              ]
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                472.94563330188964,
+                313.2138382778976
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7437773876363913,
+                -0.5048669192576574
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0,
+                -1.2176016302061294
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.137220570008803,
+                -0.3301985632449355
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 136,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                987.6189817604211,
+                353.7031327794976
+              ]
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 204,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                739.317644527158,
+                282.3314652527723
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "prepare:背板",
+      "title": "拼好背板",
+      "file": "step-05.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "5ebbfe883accaead4dfde5dc2bbcbb37c84b478ce56415f39f326088138a674f",
+      "bytes": 89180,
+      "parts": [
+        "背板-1",
+        "背板-2"
+      ],
+      "members": [
+        "背板-1"
+      ],
+      "workPose": {
+        "normalAxis": 0,
+        "upSign": -1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0,
+                1.1678137623400158
+              ],
+              "screenUnit": [
+                0,
+                1
+              ],
+              "depthPerModelUnit": -0.6593846719714731,
+              "screenDegreesClockwise": 90
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                1.2551455887873377,
+                0.6034326753911776
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                -0.9151451361266765,
+                0.8276237623389802
+              ],
+              "screenUnit": [
+                -0.7416828081099693,
+                0.6707507824476318
+              ],
+              "depthPerModelUnit": 0.607479710052518,
+              "screenDegreesClockwise": 137.87496297480791
+            }
+          ],
+          "parts": [
+            {
+              "part": "背板-1",
+              "shortName": "背板1",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 200,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                107.63982101733386,
+                316.24679051184955
+              ]
+            },
+            {
+              "part": "背板-2",
+              "shortName": "背板2",
+              "targetMember": false,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 248,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                471.9073787848944,
+                292.86919750542813
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0,
+                1.3918787764296785
+              ],
+              "screenUnit": [
+                0,
+                1
+              ],
+              "depthPerModelUnit": -0.4439481069655198,
+              "screenDegreesClockwise": 90
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8502353598722964,
+                -0.5771292780851536
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                1.2999926546144223,
+                -0.37746037849045344
+              ],
+              "screenUnit": [
+                0.9603376901427539,
+                -0.27883959706483574
+              ],
+              "depthPerModelUnit": -0.49046120319333775,
+              "screenDegreesClockwise": -16.19096044677559
+            }
+          ],
+          "parts": [
+            {
+              "part": "背板-1",
+              "shortName": "背板1",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 200,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                1055.9620666319279,
+                335.0442994870893
+              ]
+            },
+            {
+              "part": "背板-2",
+              "shortName": "背板2",
+              "targetMember": false,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 248,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                740.3959804133058,
+                279.5867310386865
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    },
+    {
+      "task": "prepare:右侧板",
+      "title": "拼好模型右侧框",
+      "file": "step-06.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "4736c49398ce4b2002519e7c32d48f17cd48f38aaf3113f33072ed0a01cc43cc",
+      "bytes": 94266,
+      "parts": [
+        "右侧板-1",
+        "右侧板-2"
+      ],
+      "members": [
+        "右侧板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0918880720299862,
+                0.5249438363316474
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.7961116759995871,
+                -0.7199742582050567
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.0159155470430221
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                214.729089903157,
+                244.137682242395
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                437.5074423869075,
+                333.04732355768783
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7396447520957488,
+                -0.5020617372119256
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -1.1309018539207767,
+                0.3283638875198888
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.210836294428277
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                944.4511373598308,
+                364.0950946052255
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                783.7794643677541,
+                273.11724520461394
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    },
+    {
+      "task": "prepare:左侧板",
+      "title": "拼好模型左侧框",
+      "file": "step-07.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "c6f4103689c94597802304b7bd44c153b845e5d0b73a16a933d3506eab17d53e",
+      "bytes": 94277,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2"
+      ],
+      "members": [
+        "左侧板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0918880720299862,
+                0.5249438363316474
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.7961116759995871,
+                -0.7199742582050567
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.0159155470430221
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                249.06137988499916,
+                245.7568166213903
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                424.3715997329143,
+                344.9268988180712
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7396447520957488,
+                -0.5020617372119256
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -1.1309018539207767,
+                0.3283638875198888
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.210836294428277
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                925.791256770138,
+                369.51309874930365
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                815.2319986311153,
+                280.3283586640393
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    },
+    {
+      "task": "install:左侧板",
+      "title": "平放底侧框",
+      "file": "step-08.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "ce5935fa5ac9a130d9a45cb3b032bc8524e278938d357b5888bfef97b2968a8d",
+      "bytes": 95699,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2"
+      ],
+      "members": [
+        "左侧板-1",
+        "左侧板-2"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                1.0918880720299862,
+                0.5249438363316474
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.7961116759995871,
+                -0.7199742582050567
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.0159155470430221
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                249.06137988499916,
+                245.7568166213903
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                424.3715997329143,
+                344.9268988180712
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.7396447520957488,
+                -0.5020617372119256
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -1.1309018539207767,
+                0.3283638875198888
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -1.210836294428277
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                925.791256770138,
+                369.51309874930365
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                815.2319986311153,
+                280.3283586640393
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    },
+    {
+      "task": "install:层1板",
+      "title": "装入紫色层板",
+      "file": "step-09.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "d947ccdc95634c07e340a468d834b5615ac006d6c13a502d080ce9fcdc53cc11",
+      "bytes": 92733,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1"
+      ],
+      "members": [
+        "层1板-2",
+        "层1板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7227045412950673,
+                0.34745254954238325
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5269345259475717,
+                -0.4765402968941419
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6724194523484925
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                172.32261391632906,
+                289.18595975320153
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 180,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.26995991053406,
+                418.40053856961623
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 199,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 288,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                395.76967130973605,
+                395.82333651958675
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.554084667862378,
+                -0.37610584016347703
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8471842412714424,
+                0.24598483939612148
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.907064944533202
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                1034.2971052333194,
+                273.96518954404485
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 192,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                940.3212426897201,
+                262.33049727935105
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 405,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                919.4285851713078,
+                451.9548395158223
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 359,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                827.0228689227099,
+                375.6837683543987
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "install:层2板",
+      "title": "装入蓝色层板",
+      "file": "step-10.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "c4936a36205b6437ef8857b1fe45165c200c61dd589b8f3f77f23ebf104b22d3",
+      "bytes": 91571,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1"
+      ],
+      "members": [
+        "层2板-2",
+        "层2板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7227045412950673,
+                0.34745254954238325
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5269345259475717,
+                -0.4765402968941419
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6724194523484925
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 82,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 194,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                172.32261391632906,
+                289.18595975320153
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 180,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.26995991053406,
+                418.40053856961623
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.554084667862378,
+                -0.37610584016347703
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8471842412714424,
+                0.24598483939612148
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.907064944533202
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                988.5491562046615,
+                287.24837087143544
+              ]
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 192,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                894.573293661062,
+                275.6136786067416
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 315,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                919.4285851713078,
+                451.9548395158223
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 243,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                827.0228689227099,
+                375.6837683543987
+              ]
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "install:层3板",
+      "title": "装入肉色层板",
+      "file": "step-11.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "c956e33d8e23abe1e954b1e5c24398c03a55711acfa4597ee006aa9ea5de7c1b",
+      "bytes": 93714,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1",
+        "层3板-2",
+        "层3板-1"
+      ],
+      "members": [
+        "层3板-2",
+        "层3板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7227045412950673,
+                0.34745254954238325
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5269345259475717,
+                -0.4765402968941419
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6724194523484925
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 82,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 159,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                172.32261391632906,
+                289.18595975320153
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 180,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.26995991053406,
+                418.40053856961623
+              ]
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.554084667862378,
+                -0.37610584016347703
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8471842412714424,
+                0.24598483939612148
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.907064944533202
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 192,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                855.4163664515165,
+                249.3397758499742
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 299,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                915.754799233727,
+                458.82100975870367
+              ]
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 222,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                810.7979104227295,
+                386.83862910005564
+              ]
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "install:层4板",
+      "title": "装入黄色层板",
+      "file": "step-12.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "f66b572c7c4bf90c7bd54cbedcb914759815a71e66d98c649c28b5f2f574515f",
+      "bytes": 93296,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1",
+        "层3板-2",
+        "层3板-1",
+        "层4板-2",
+        "层4板-1"
+      ],
+      "members": [
+        "层4板-2",
+        "层4板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7227045412950673,
+                0.34745254954238325
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5269345259475717,
+                -0.4765402968941419
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6724194523484925
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 82,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 142,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                172.32261391632906,
+                289.18595975320153
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 180,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.26995991053406,
+                418.40053856961623
+              ]
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.554084667862378,
+                -0.37610584016347703
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8471842412714424,
+                0.24598483939612148
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.907064944533202
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                897.0532581473457,
+                313.8147335262165
+              ]
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 192,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                803.0773956037464,
+                302.1800412615227
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 274,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 185,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "install:层5板",
+      "title": "装入绿色层板",
+      "file": "step-13.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "d8ac58e1573a8740b2a9c7f9b01c699961b5fa667595ef5a71f4681a2d01582c",
+      "bytes": 96424,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1",
+        "层3板-2",
+        "层3板-1",
+        "层4板-2",
+        "层4板-1",
+        "层5板-2",
+        "层5板-1"
+      ],
+      "members": [
+        "层5板-2",
+        "层5板-1"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7164983268437715,
+                0.34446880596406654
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5224094835783039,
+                -0.47244801421398963
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6666450603472753
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 83,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 91,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                173.41904156184546,
+                289.3947562105735
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 180,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.3019915740762,
+                417.4997067618448
+              ]
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 51,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 134,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.5504514264893091,
+                -0.3736396407206977
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8416290887568021,
+                0.24437186876639874
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.9011171425533121
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 128,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                851.6246097162685,
+                327.0087506704071
+              ]
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": true,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 192,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                758.2649652556934,
+                315.4503493550046
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 155,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 43,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 49,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        }
+      ],
+      "faceRule": "layer_faces_unrestricted_notch_direction_preserved"
+    },
+    {
+      "task": "install:右侧板",
+      "title": "装入模型右侧框",
+      "file": "step-14.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "48a850db3cb2051857c7305ea4ba9dd53fd7ffd8248165b4aaf2831169f6b632",
+      "bytes": 104027,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1",
+        "层3板-2",
+        "层3板-1",
+        "层4板-2",
+        "层4板-1",
+        "层5板-2",
+        "层5板-1",
+        "右侧板-1",
+        "右侧板-2"
+      ],
+      "members": [
+        "右侧板-1",
+        "右侧板-2"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7155814029834415,
+                0.3440279791602983
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5217409408861448,
+                -0.47184340867512314
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.665791935169864
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                243.97754800512274,
+                196.96898417325434
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                394.82574391504204,
+                253.23154662682606
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 83,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 89,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 105,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                176.87141732297115,
+                342.57309922860463
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 163,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.30672402359414,
+                417.5996424733063
+              ]
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 97,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 16,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 106,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 16,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 106,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 3,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 98,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.5494996647399445,
+                -0.3729935965813404
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.840173864307771,
+                0.24394933593948614
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.8995590598838767
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                933.1306840557918,
+                255.22287174390112
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": true,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                813.7638796646443,
+                187.6332652432853
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 155,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 44,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 56,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 3,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 61,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 61,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 58,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 2,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 114,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                851.7082535109196,
+                327.30023894496225
+              ]
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 173,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                758.5100331729025,
+                315.76182276126514
+              ]
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    },
+    {
+      "task": "install:背板",
+      "title": "装入背板",
+      "file": "step-15.png",
+      "width": 1200,
+      "height": 640,
+      "sha256": "438b5af8f48e0f70129f0e3dba30a192ff5c43ab2ddcaa3aa5232d4bc100fc1a",
+      "bytes": 103957,
+      "parts": [
+        "左侧板-1",
+        "左侧板-2",
+        "层1板-2",
+        "层1板-1",
+        "层2板-2",
+        "层2板-1",
+        "层3板-2",
+        "层3板-1",
+        "层4板-2",
+        "层4板-1",
+        "层5板-2",
+        "层5板-1",
+        "右侧板-1",
+        "右侧板-2",
+        "背板-1",
+        "背板-2"
+      ],
+      "members": [
+        "背板-1",
+        "背板-2"
+      ],
+      "workPose": {
+        "normalAxis": 2,
+        "upSign": 1
+      },
+      "amount": 1,
+      "views": [
+        {
+          "yaw": 0.63,
+          "pitch": 0.72,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            8,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                0.7066585326343796,
+                0.3397381568679655
+              ],
+              "screenUnit": [
+                0.9012531826861493,
+                0.4332928578895415
+              ],
+              "depthPerModelUnit": 0.44292240431432406,
+              "screenDegreesClockwise": 25.676715427833237
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                0.5152351446875362,
+                -0.4659598047369629
+              ],
+              "screenUnit": [
+                0.7416828081099693,
+                -0.6707507824476318
+              ],
+              "depthPerModelUnit": -0.607479710052518,
+              "screenDegreesClockwise": -42.12503702519208
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.6574899095831128
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.6593846719714731,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "背板-1",
+              "shortName": "背板1",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 86,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "背板-2",
+              "shortName": "背板2",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "A",
+              "visibleFace": null,
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 0,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 72,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 90,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 89,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                178.40675680344157,
+                342.21057514122515
+              ]
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 163,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                296.35277695700375,
+                416.30158244924706
+              ]
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 97,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 16,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 106,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 16,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 106,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 3,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 98,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                244.6761143369233,
+                198.42205595730488
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                385.78599911767515,
+                246.99400946564066
+              ]
+            }
+          ]
+        },
+        {
+          "yaw": -2.15,
+          "pitch": 0.46,
+          "projection": "orthographic_CAD_reference_only",
+          "registeredToPhoto": false,
+          "viewportImagePx": [
+            608,
+            96,
+            584,
+            435
+          ],
+          "cadAxes": [
+            {
+              "cadAxis": "X",
+              "screenPerModelUnit": [
+                -0.5442545650735839,
+                -0.369433287604793
+              ],
+              "screenUnit": [
+                -0.8273926358894744,
+                -0.5616239187177372
+              ],
+              "depthPerModelUnit": -0.7499052516710859,
+              "screenDegreesClockwise": -145.83182290099472
+            },
+            {
+              "cadAxis": "Y",
+              "screenPerModelUnit": [
+                -0.8321542130902382,
+                0.2416207838717599
+              ],
+              "screenUnit": [
+                -0.9603376901427539,
+                0.27883959706483574
+              ],
+              "depthPerModelUnit": 0.49046120319333775,
+              "screenDegreesClockwise": 163.80903955322444
+            },
+            {
+              "cadAxis": "Z",
+              "screenPerModelUnit": [
+                0,
+                -0.8909725634260464
+              ],
+              "screenUnit": [
+                0,
+                -1
+              ],
+              "depthPerModelUnit": 0.4439481069655198,
+              "screenDegreesClockwise": -90
+            }
+          ],
+          "parts": [
+            {
+              "part": "背板-1",
+              "shortName": "背板1",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 200,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                1041.0528995096292,
+                290.00992125042626
+              ]
+            },
+            {
+              "part": "背板-2",
+              "shortName": "背板2",
+              "targetMember": true,
+              "normalAxis": "X",
+              "cameraFacingFace": "B",
+              "visibleFace": "B",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 248,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                914.482243698604,
+                445.4379879256703
+              ]
+            },
+            {
+              "part": "左侧板-1",
+              "shortName": "左框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 46,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "左侧板-2",
+              "shortName": "左框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 43,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-2",
+              "shortName": "紫半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": null,
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 0,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层1板-1",
+              "shortName": "紫半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 3,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-2",
+              "shortName": "蓝半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 5,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层2板-1",
+              "shortName": "蓝半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-2",
+              "shortName": "肉色半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 5,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层3板-1",
+              "shortName": "肉色半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 9,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-2",
+              "shortName": "黄半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 2,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层4板-1",
+              "shortName": "黄半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 2,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            },
+            {
+              "part": "层5板-2",
+              "shortName": "绿半2",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 78,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                832.6829365026815,
+                364.19232343689856
+              ]
+            },
+            {
+              "part": "层5板-1",
+              "shortName": "绿半1",
+              "targetMember": false,
+              "normalAxis": "Y",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 173,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                759.8605871867059,
+                315.74023314698195
+              ]
+            },
+            {
+              "part": "右侧板-1",
+              "shortName": "右框1",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": true,
+              "labelCenterImagePx": [
+                932.8144441178301,
+                255.77914022882766
+              ]
+            },
+            {
+              "part": "右侧板-2",
+              "shortName": "右框2",
+              "targetMember": false,
+              "normalAxis": "Z",
+              "cameraFacingFace": "A",
+              "visibleFace": "A",
+              "visibilityEvidence": "outer_face_triangle_probes_with_depth_occlusion",
+              "visibleProbeCount": 432,
+              "surfaceLabel": false,
+              "labelCenterImagePx": null
+            }
+          ]
+        }
+      ],
+      "faceRule": "frame_backboard_CAD_orientation_layer_faces_unrestricted"
+    }
+  ]
+}

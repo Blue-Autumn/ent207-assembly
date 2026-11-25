@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/launcher_terracotta" />
+    <foreground>
+        <!-- On the 108 dp adaptive canvas this maps all four brackets into the
+             central 66 dp safe circle. The opaque matching base fills every mask. -->
+        <inset android:inset="13%">
+            <bitmap android:src="@drawable/launcher_art" android:gravity="fill"
+                android:filter="true" android:antialias="true" />
+        </inset>
+    </foreground>
+</adaptive-icon>

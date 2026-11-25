@@ -1,0 +1,19 @@
+<resources>
+    <string name="library_shortcut_count">%1$s，%2$d 项</string>
+    <string name="library_saved">收藏</string>
+    <string name="library_liked">喜欢</string>
+    <string name="library_history">历史</string>
+    <string name="library_comments">评论</string>
+    <string name="library_empty_saved">点作品上的书签，就能在这里找到它。</string>
+    <string name="library_empty_liked">喜欢过的作品会出现在这里。</string>
+    <string name="library_empty_history">打开一件作品后，就可以在这里找回。</string>
+    <string name="library_empty_comments">你在作品下写的评论会出现在这里。</string>
+    <string name="auth_signin_sub">使用本机账号，继续你的装配与收藏。</string>
+    <string name="auth_register_sub">为你的作品、评论和装配进度留一个位置。</string>
+    <string name="auth_manage_sub">装配与收藏保存在这台手机上。</string>
+    <string name="auth_new">还没有账号？创建账号</string>
+    <string name="auth_existing">已有账号？登录</string>
+    <string name="auth_create">创建账号</string>
+    <string name="auth_min_password">新密码至少需要 8 个字符。</string>
+    <string name="auth_switch">账号</string>
+</resources>

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "board_id": "screen-charuco-8x5-50-35-v1",
+  "dictionary": "DICT_4X4_50",
+  "squares": [8, 5],
+  "square_mm": 50.0,
+  "marker_mm": 35.0,
+  "legacy_pattern": false,
+  "ruler_mm": 100.0,
+  "coordinate_space": "OpenCV Charuco board, top-left origin, X right, Y down, mm",
+  "image_space": "unrotated_crop_local_pixels"
+}

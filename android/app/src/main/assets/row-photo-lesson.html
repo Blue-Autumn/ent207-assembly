@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline'; style-src 'unsafe-inline'">
+<style>
+html,body,#cv{margin:0;width:100%;height:100%;overflow:hidden;background:#faf9f4}#cv{display:block}
+</style></head><body><canvas id="cv" aria-label="提起层板，平移到目标排，再向下插入"></canvas>
+<script src="shelf-phone/text-resources.js"></script><script src="shelf-phone/scene.js"></script><script src="shelf-phone/data.js"></script>
+<script src="shelf-phone/renderer.js"></script><script src="shelf-phone/row-lesson.js"></script>
+<script>
+'use strict';
+const canvas=document.getElementById('cv');canvas.setAttribute('aria-label',AssemblyText.phrase(canvas.getAttribute('aria-label')));
+let scheduled=0;
+function stopLesson(){
+    cancelAnimationFrame(scheduled);
+    scheduled=0;
+    window.RowLesson?.stop();
+}
+function playLesson(from,to,reduced){
+    stopLesson();
+    const task=window.WORKFLOW.tasks.find(item=>item.id==='install:层'+to+'板');
+    if(!task || !window.RowLesson?.start(task,from,to))return false;
+    const start=performance.now();
+    let lastPaint=-Infinity;
+    function draw(now){
+        if(now-lastPaint>=32){
+            RowLesson.draw((now-start)%RowLesson.duration,reduced);
+            lastPaint=now;
+        }
+        if(!reduced)scheduled=requestAnimationFrame(draw);
+    }
+    draw(start);
+    return true;
+}
+window.addEventListener('pagehide',stopLesson);
+</script></body></html>

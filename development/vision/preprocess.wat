@@ -1,0 +1,83 @@
+;; Exact radius-2 separable filter and threshold used by the current JS detector.
+;; Three non-overlapping byte planes: original grayscale, horizontal pass, output.
+(module
+  (memory (export "memory") 1)
+  (func $clamp (param $i i32) (param $end i32) (result i32)
+    (if (result i32) (i32.lt_s (local.get $i) (i32.const 0))
+      (then (i32.const 0))
+      (else (select (local.get $end) (local.get $i) (i32.gt_s (local.get $i) (local.get $end))))))
+  (func $box1 (param $a i32) (param $b i32) (param $c i32) (param $d i32) (param $e i32) (result i32)
+    (i32.shr_u (i32.mul (i32.const 205)
+      (i32.add (i32.load8_u (local.get $a)) (i32.add (i32.load8_u (local.get $b))
+        (i32.add (i32.load8_u (local.get $c)) (i32.add (i32.load8_u (local.get $d)) (i32.load8_u (local.get $e)))))))
+      (i32.const 10)))
+  (func $box8 (param $a i32) (param $b i32) (param $c i32) (param $d i32) (param $e i32) (result v128)
+    (local $sum v128) (local $out v128)
+    (local.set $sum (i16x8.add (v128.load8x8_u (local.get $a)) (i16x8.add (v128.load8x8_u (local.get $b))
+      (i16x8.add (v128.load8x8_u (local.get $c)) (i16x8.add (v128.load8x8_u (local.get $d)) (v128.load8x8_u (local.get $e)))))))
+    ;; floor(205*s/1024) = floor((205*(s>>4) + ((205*(s&15))>>4))/64).
+    ;; This factorization keeps both products inside unsigned 16-bit lanes.
+    (local.set $out (i16x8.shr_u
+      (i16x8.add (i16x8.mul (i16x8.shr_u (local.get $sum) (i32.const 4)) (i16x8.splat (i32.const 205)))
+        (i16x8.shr_u (i16x8.mul (v128.and (local.get $sum) (i16x8.splat (i32.const 15))) (i16x8.splat (i32.const 205))) (i32.const 4)))
+      (i32.const 6)))
+    (i8x16.narrow_i16x8_u (local.get $out) (local.get $out)))
+  (func (export "process") (param $gray i32) (param $tmp i32) (param $out i32)
+        (param $w i32) (param $h i32) (param $threshold i32)
+    (local $x i32) (local $y i32) (local $row i32) (local $ptr i32) (local $i i32)
+    (local $lastX i32) (local $lastY i32) (local $r0 i32) (local $r1 i32) (local $r2 i32) (local $r3 i32) (local $r4 i32)
+    (local $blur v128) (local $v i32)
+    (local.set $lastX (i32.sub (local.get $w) (i32.const 1)))
+    (local.set $lastY (i32.sub (local.get $h) (i32.const 1)))
+    (loop $rowsH
+      (local.set $row (i32.mul (local.get $y) (local.get $w)))
+      (local.set $ptr (i32.add (local.get $gray) (local.get $row)))
+      (local.set $x (i32.const 0))
+      (loop $colsH
+        (local.set $i (i32.add (local.get $ptr) (local.get $x)))
+        (if (i32.and (i32.ge_u (local.get $x) (i32.const 2)) (i32.le_u (i32.add (local.get $x) (i32.const 10)) (local.get $w)))
+          (then
+            (v128.store64_lane 0 (i32.add (local.get $tmp) (i32.add (local.get $row) (local.get $x)))
+              (call $box8 (i32.sub (local.get $i) (i32.const 2)) (i32.sub (local.get $i) (i32.const 1))
+                (local.get $i) (i32.add (local.get $i) (i32.const 1)) (i32.add (local.get $i) (i32.const 2))))
+            (local.set $x (i32.add (local.get $x) (i32.const 8))))
+          (else
+            (i32.store8 (i32.add (local.get $tmp) (i32.add (local.get $row) (local.get $x)))
+              (call $box1
+                (i32.add (local.get $ptr) (call $clamp (i32.sub (local.get $x) (i32.const 2)) (local.get $lastX)))
+                (i32.add (local.get $ptr) (call $clamp (i32.sub (local.get $x) (i32.const 1)) (local.get $lastX)))
+                (local.get $i)
+                (i32.add (local.get $ptr) (call $clamp (i32.add (local.get $x) (i32.const 1)) (local.get $lastX)))
+                (i32.add (local.get $ptr) (call $clamp (i32.add (local.get $x) (i32.const 2)) (local.get $lastX)))))
+            (local.set $x (i32.add (local.get $x) (i32.const 1)))))
+        (br_if $colsH (i32.lt_u (local.get $x) (local.get $w))))
+      (local.set $y (i32.add (local.get $y) (i32.const 1)))
+      (br_if $rowsH (i32.lt_u (local.get $y) (local.get $h))))
+    (local.set $y (i32.const 0))
+    (loop $rowsV
+      (local.set $row (i32.mul (local.get $y) (local.get $w)))
+      (local.set $r0 (i32.add (local.get $tmp) (i32.mul (local.get $w) (call $clamp (i32.sub (local.get $y) (i32.const 2)) (local.get $lastY)))))
+      (local.set $r1 (i32.add (local.get $tmp) (i32.mul (local.get $w) (call $clamp (i32.sub (local.get $y) (i32.const 1)) (local.get $lastY)))))
+      (local.set $r2 (i32.add (local.get $tmp) (local.get $row)))
+      (local.set $r3 (i32.add (local.get $tmp) (i32.mul (local.get $w) (call $clamp (i32.add (local.get $y) (i32.const 1)) (local.get $lastY)))))
+      (local.set $r4 (i32.add (local.get $tmp) (i32.mul (local.get $w) (call $clamp (i32.add (local.get $y) (i32.const 2)) (local.get $lastY)))))
+      (local.set $x (i32.const 0))
+      (loop $colsV
+        (local.set $i (i32.add (local.get $row) (local.get $x)))
+        (if (i32.le_u (i32.add (local.get $x) (i32.const 8)) (local.get $w))
+          (then
+            (local.set $blur (call $box8 (i32.add (local.get $r0) (local.get $x)) (i32.add (local.get $r1) (local.get $x))
+              (i32.add (local.get $r2) (local.get $x)) (i32.add (local.get $r3) (local.get $x)) (i32.add (local.get $r4) (local.get $x))))
+            (v128.store64_lane 0 (i32.add (local.get $out) (local.get $i))
+              (i8x16.ge_u (i8x16.sub_sat_u (local.get $blur) (v128.load64_zero (i32.add (local.get $gray) (local.get $i))))
+                (i8x16.splat (local.get $threshold))))
+            (local.set $x (i32.add (local.get $x) (i32.const 8))))
+          (else
+            (local.set $v (call $box1 (i32.add (local.get $r0) (local.get $x)) (i32.add (local.get $r1) (local.get $x))
+              (i32.add (local.get $r2) (local.get $x)) (i32.add (local.get $r3) (local.get $x)) (i32.add (local.get $r4) (local.get $x))))
+            (i32.store8 (i32.add (local.get $out) (local.get $i)) (select (i32.const 255) (i32.const 0)
+              (i32.ge_s (i32.sub (local.get $v) (i32.load8_u (i32.add (local.get $gray) (local.get $i)))) (local.get $threshold))))
+            (local.set $x (i32.add (local.get $x) (i32.const 1)))))
+        (br_if $colsV (i32.lt_u (local.get $x) (local.get $w))))
+      (local.set $y (i32.add (local.get $y) (i32.const 1)))
+      (br_if $rowsV (i32.lt_u (local.get $y) (local.get $h))))))
