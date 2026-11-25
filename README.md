@@ -1,6 +1,6 @@
 # Assembly Assistant
 
-[**Try Assembly Assistant in your browser**](https://blue-autumn.github.io/ent207-assembly/) · [Open the virtual workshop](https://blue-autumn.github.io/ent207-assembly/workshop/) · [Download the course APK](https://pan.quark.cn/s/fd6e4a6732be?pwd=tfWZ&entry=webother)
+[**Try Assembly Assistant in your browser**](https://blue-autumn.github.io/ent207-assembly/) · [Open the virtual workshop](https://blue-autumn.github.io/ent207-assembly/workshop/) · [**Download the Android APK**](https://github.com/Blue-Autumn/ent207-assembly/releases/download/v0.5.47/Assembly-Assistant-0.5.47.apk)
 
 Assembly Assistant helps a first-time builder put together a five-tier shelf. Rehearse a step on the 3D model, see which pieces to pick up, then use the camera to identify the tagged boards. The Android app is the full project. The browser edition lets visitors try the workflow without installing anything.
 
@@ -19,13 +19,15 @@ The map and board outlines match this particular kit. Lighting, focus, occlusion
 
 ## Install Android 0.5.47 (R91)
 
-The course download above uses extraction code **tfWZ**. Download the APK to an Android 8.0+ device and open it with the system package installer, or run `adb install Assembly-Assistant-0.5.47.apk`. Its SHA-256 is:
+Open the [GitHub Release](https://github.com/Blue-Autumn/ent207-assembly/releases/tag/v0.5.47) and choose **Assembly-Assistant-0.5.47.apk** under **Assets**. Download the APK to an Android 8.0+ device and open it with the system package installer, or run `adb install Assembly-Assistant-0.5.47.apk`. Its SHA-256 is:
 
 ```text
 2a0495e1e91ffce0b7a5703afd85a3f6d5464453b716924927c7396517a94e86
 ```
 
 The course APK and locally built debug APKs have different signatures. Use a separate device or emulator if you already have a differently signed installation with progress you want to keep. The original course release was smoke-tested on a fresh emulator. The same version was demonstrated with a development signature on a Huawei handset.
+
+If GitHub downloads are slow on your network, use the [backup course mirror](https://pan.quark.cn/s/fd6e4a6732be?pwd=tfWZ&entry=webother) (code **tfWZ**).
 
 ## Build from source
 
@@ -55,3 +57,4 @@ The virtual workshop and Android marker guidance work locally. Android photo rev
 Preview the website from the repository root with `python -m http.server 8000` and visit `http://localhost:8000/`. Use localhost or HTTPS for camera access. Mobile browser camera selection, focus and performance vary by device. Native AR Engine experiments also require compatible Huawei hardware and services.
 
 **Publishing.** GitHub Pages serves the static files at the repository root on main. Keep the current directory layout to preserve the course QR code and deep links. For updates, start from current main, commit only reviewed site changes and push normally. A website export must preserve android/, backend/, development/ and the root documentation. Keep signing files, local credentials, device data and build output outside Git.
+
